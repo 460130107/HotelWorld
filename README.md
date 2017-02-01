@@ -1,41 +1,48 @@
-# SpringMVCDemo
-
-## Introduction
-
-This is a tutorial project of my spring mvc study, using spring 4.2.6.
-
-To run this project, you should create a database called "springdemo", and import springdemo.sql into it.
-
-If you want to watch the whole tutorial, you can go to [Gaussic OSChina](http://my.oschina.net/gaussik/blog/385697) for more detail.
-
-Better use the newest version of IntelliJ IDEA, JDK 1.8_x, and Tomcat 8.x.
-
-
-If you've got any problems caused by this upgration, better look up the documents in [Spring Framework Reference](http://docs.spring.io/spring/docs/4.3.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/).
-
-If you have any questions or opinions, you can create issues here. Thanks :)
-
-There is also an old Spring 3.2.0 version of this tutorial here: [See the spring3.2 branch](https://github.com/gaussic/SpringMVCDemo/tree/spring3.2)
-
-Welcome to visit my personal blog: [Gaussic](http://gaussic.top)
-
----
-
 ### 介绍
 
-这是我个人在学习过程中整理的一个SpringMVCDemo项目。
-
-如果要运行这个项目，首先要创建一个"springdemo"数据库，注意选择utf-8格式，然后将springdemo.sql导入到数据库中。
-
-如果需要查看完整的教程，请访问[Gaussic OSChina](http://my.oschina.net/gaussik/blog/385697) 。
-
-最好使用最新版本的 IntelliJ IDEA, JDK 1.8.x，还有Tomcat8.x。
-
-任何由升级带来的问题，请查阅[Spring Framework Reference](http://docs.spring.io/spring/docs/4.3.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/)。
-
-如果你有什么问题，或者宝贵的意见，可以在Issues中提出，我会及时回应。谢谢关注 :)
-
-此外，还有一个旧的 spring 3.2.0 版本的项目：[See the spring3.2 branch](https://github.com/gaussic/SpringMVCDemo/tree/spring3.2)
-
-欢迎访问我的个人博客首页：[Gaussic](http://gaussic.top)
-
+框架：
+Springmvc+jsp+hibernate+Mysql
+功能：
+一个酒店管理系统
+- 会员
+    预订/取消预订
+        会员卡支付
+    修改卡信息
+    查看本人统计信息
+        预订/入住/消费等
+- 会员卡办理
+    注册
+        每位会员持有一张会员卡（7位识别码，系统自动分配）
+    会员资格激活
+        办卡后，一次交纳1000元以上激活；
+        会费通过银行卡支付（数据库中的银行卡账号）；
+    会员资格暂停/恢复/停止
+        有效期一年，到期后卡上费用不足将暂停其记录；一旦支付，则恢复，会员记录可用；暂停1年后未支付，会员记录停止 ；（系统自动完成）
+    会员资格取消
+        会员可通知系统取消资格（即停止）
+    会员卡级别
+        根据消费金额
+            设置不同级别，享受不同优惠
+            获取积分，积分可兑换为卡金额
+- 客栈
+  注册
+    每个店（7位识别码，系统自动分配）
+  开店申请/修改店信息
+    需Hostel World经理审批
+  发布计划（未来一个时间段）
+    时间，房间，价格等
+  入/离店登记
+      多人住宿
+      会员/非会员
+      会员卡/现金结账
+  查看本店统计信息
+    预订/入住/财务等
+- Hostel World经理
+  审批各店开店/修改信息的申请
+  结算
+    将会员卡支付结算给各店
+  查看Hostel World统计信息
+    各店入住情况
+    会员预订/消费情况
+    Hostel World财务情况
+    采用图表显示（可选）
