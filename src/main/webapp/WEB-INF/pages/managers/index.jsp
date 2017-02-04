@@ -40,8 +40,8 @@
             <td>鼓楼汉口路5号</td>
             <td>交通便捷，舒适宜人，无线网络</td>
             <td>
-                <button class="btn btn-sm btn-success">通过</button>、
-                <button class="btn btn-sm btn-warning">不通过</button>、
+                <button class="btn btn-sm btn-success">通过</button>
+                <button class="btn btn-sm btn-warning">不通过</button>
             </td>
         </tr>
         <tr>
@@ -62,8 +62,8 @@
             <td>鼓楼汉口路5号</td>
             <td>交通便捷，舒适宜人，无线网络</td>
             <td>
-                <button class="btn btn-sm btn-success">通过</button>、
-                <button class="btn btn-sm btn-warning">不通过</button>、
+                <button class="btn btn-sm btn-success">通过</button>
+                <button class="btn btn-sm btn-warning">不通过</button>
             </td>
         </tr>
         <tr>
@@ -73,8 +73,8 @@
             <td>鼓楼汉口路5号</td>
             <td>交通便捷，舒适宜人，无线网络</td>
             <td>
-                <button class="btn btn-sm btn-success">通过</button>、
-                <button class="btn btn-sm btn-warning">不通过</button>、
+                <button class="btn btn-sm btn-success">通过</button>
+                <button class="btn btn-sm btn-warning">不通过</button>
             </td>
         </tr>
 

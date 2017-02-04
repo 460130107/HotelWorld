@@ -81,7 +81,7 @@
         start.attr("min",moment().format());
     });
     $('button').click(function () {
-        alert($("#start").val());
+//        alert($("#start").val());
         booking();
     });
     function booking() {

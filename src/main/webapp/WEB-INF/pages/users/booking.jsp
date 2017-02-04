@@ -85,8 +85,22 @@
             </div>
 
             <div class="form-group">
+                <label class="col-sm-2 control-label">总价</label>
+                <div class="col-sm-8 col-xs-10">
+                    1200元
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">定金</label>
+                <div class="col-sm-8 col-xs-10">
+                    200元
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-danger">提交订单</button>
+                    <button type="submit" class="btn btn-danger">支付定金</button>
                 </div>
             </div>
         </form>

@@ -1,0 +1,147 @@
+数据库建表语句
+
+DROP TABLE IF EXISTS `plan`;
+CREATE TABLE `plan` (
+  `id` int(11) NOT NULL,
+  `hotelId` int(11) NOT NULL,
+  `roomTypeId` int(11) NOT NULL,
+  `startTime` date NOT NULL,
+  `endTime` date NOT NULL,
+  `price` int(11) NOT NULL DEFAULT '0',
+  FOREIGN KEY (`hotelId`) REFERENCES `hotel` (`id`),
+  FOREIGN KEY (`roomTypeId`) REFERENCES `roomType` (`id`),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+//approved是否审批，0未审批，1审批通过，2审批不通过
+DROP TABLE IF EXISTS `hotel`;
+CREATE TABLE `hotel` (
+  `id` int(7) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `city` varchar(45) NOT NULL,
+  `location` varchar(200) DEFAULT NULL,
+  `description` int(11) DEFAULT '200',
+  `psw` varchar(11) NOT NULL,
+  `approved` tinyint(2) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+DROP TABLE IF EXISTS `checkout`;
+CREATE TABLE `checkout` (
+  `id` int(11) NOT NULL,
+  `checkinId` int(11) NOT NULL,
+  `creatTime` datetime DEFAULT NULL,
+  `roomAsignId` int(11) NOT NULL,
+  FOREIGN KEY (`checkinId`) REFERENCES `checkin` (`id`),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+
+//跟下面的表一起决定了入住的信息
+null则为没有预订
+DROP TABLE IF EXISTS `checkin`;
+CREATE TABLE `checkin` (
+  `id` int(11) NOT NULL,
+  `userId` int(11) DEFAULT NULL,
+  `price` int(11) NOT NULL DEFAULT '0',
+  `payType` tinyint(1) NOT NULL DEFAULT '0',
+  `creatTime` datetime DEFAULT NULL,
+  `bookId` int(11) DEFAULT NULL,
+  FOREIGN KEY (`userId`) REFERENCES `user` (`id`),
+  FOREIGN KEY (`bookId`) REFERENCES `booking` (`id`),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+//state：0预订，1入住了
+idcard身份证，time日期
+checkinId关联到入住订单
+取消预订，删除房间分配，
+checkout时，不变
+DROP TABLE IF EXISTS `roomAsign`;
+CREATE TABLE `roomAsign` (
+  `id` int(11) NOT NULL,
+  `roomId` int(11) NOT NULL,
+  `user1` varchar(45) NOT NULL,
+  `idcard1` varchar(45) NOT NULL,
+  `user2` varchar(45) DEFAULT NULL,
+  `idcard2` varchar(45) DEFAULT NULL,
+  `inTime` date NOT NULL,
+  `outTime` date NOT NULL,
+  `checkinId` int(11) DEFAULT NULL,
+  `bookId` int(11) DEFAULT NULL,
+  `state` tinyint(1) NOT NULL DEFAULT '0',
+  FOREIGN KEY (`roomId`) REFERENCES `room` (`id`),
+  FOREIGN KEY (`checkinId`) REFERENCES `checkin` (`id`),
+  FOREIGN KEY (`bookId`) REFERENCES `booking` (`id`),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+DROP TABLE IF EXISTS `room`;
+CREATE TABLE `room` (
+  `id` int(11) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `roomTypeId` int(11) NOT NULL,
+  FOREIGN KEY (`roomTypeId`) REFERENCES `roomType` (`id`),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+DROP TABLE IF EXISTS `roomType`;
+CREATE TABLE `roomType` (
+  `id` int(11) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `hotelId` int(11) DEFAULT NULL,
+  FOREIGN KEY (`hotelId`) REFERENCES `hotel` (`id`),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+//cancled是否取消预订，0没有取消，1取消了
+userId预订的会员id
+nameinfo入住的住客姓名
+price定金
+DROP TABLE IF EXISTS `booking`;
+CREATE TABLE `booking` (
+  `id` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `inTime` date NOT NULL,
+  `outTime` date NOT NULL,
+  `hotelId` int(11) NOT NULL,
+  `roomTypeId` int(11) NOT NULL,
+  `roomNum` int(11) DEFAULT NULL,
+  `nameinfo` varchar(200) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  `price` int(11) DEFAULT '0',
+  `deposit` int(11) DEFAULT '0',
+  `cancled` tinyint(1) NOT NULL DEFAULT '0',
+  FOREIGN KEY (`userId`) REFERENCES `user` (`id`),
+  FOREIGN KEY (`hotelId`) REFERENCES `hotel` (`id`),
+  FOREIGN KEY (`roomTypeId`) REFERENCES `roomType` (`id`),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+
+DROP TABLE IF EXISTS `bankCard`;
+CREATE TABLE `bankCard` (
+  `number` varchar(20) NOT NULL,
+  `balance` int(11) DEFAULT '0',
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+
+//
+state，0表示没有激活,1表示正常，2表示暂停，3表示终止，4用户注销
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `id` int(7) NOT NULL,
+  `bank` varchar(11) DEFAULT NULL,
+  `psw` varchar(11) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `idcard` varchar(45) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `state` tinyint(2) NOT NULL DEFAULT '0',
+  `level` int(11) NOT NULL DEFAULT '0',
+  `points` int(11) NOT NULL DEFAULT '0',
+  FOREIGN KEY (`bank`) REFERENCES `bankCard` (`number`),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8

@@ -25,7 +25,7 @@
 <div class="container register">
     <h1>HotelWorld 会员注册</h1>
     <hr/>
-    <form:form action="/users/add" method="post" commandName="user" role="form">
+    <form:form action="/users/add" class="form-horizontal" method="post" commandName="user" role="form">
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">姓名:</label>
             <div class="col-sm-8 col-xs-8">
@@ -39,28 +39,26 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">性别:</label>
-            <div class="col-sm-8 col-xs-8">
-                <div class="radio radio-inline" style="padding-left: 0;">
-                    <label>
-                        <input type="radio" name="gender" id="optionsRadios1" value="female" checked>女
-                    </label>
-                </div>
-                <div class="radio radio-inline">
-                    <label>
-                        <input type="radio" name="gender" id="optionsRadios2" value="male">男
-                    </label>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
             <label for="password" class="col-sm-2 control-label">密码:</label>
             <div class="col-sm-8 col-xs-8">
             <input type="password" class="form-control" id="password" name="password" placeholder="密码">
             </div>
         </div>
         <div class="form-group">
+            <label for="password" class="col-sm-2 control-label">银行卡号:</label>
+            <div class="col-sm-8 col-xs-8">
+                <input type="text" class="form-control" id="bank" name="password" placeholder="银行卡号">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password" class="col-sm-2 control-label">电话号码:</label>
+            <div class="col-sm-8 col-xs-8">
+                <input type="password" class="form-control" id="tel" name="password" placeholder="密码">
+            </div>
+        </div>
+        <div class="form-group">
             <button type="submit" class="submit btn btn-sm btn-success">提交</button>
+            <a href="/" class="btn btn-sm btn-primary">取消</a>
         </div>
     </form:form>
 </div>
@@ -70,5 +68,6 @@
 
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+
 </body>
 </html>

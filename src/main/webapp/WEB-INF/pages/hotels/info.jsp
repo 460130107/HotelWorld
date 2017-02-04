@@ -28,8 +28,8 @@
     <hr/>
     <c:if test="${!empty userInfo}">
         <div id="info">
-            <p><strong>识别码:</strong>654321</p>
-            <p><strong>酒店名称:</strong>如家快捷酒店</p>
+            <p><strong>客栈编码:</strong>654321</p>
+            <p><strong>客栈名称:</strong>如家快捷酒店</p>
             <p><strong>城市:</strong>南京</p>
             <p><strong>地点:</strong>鼓楼区汉口路22号</p>
             <p><strong>描述:</strong>快捷酒店，舒适宜人</p>
@@ -37,11 +37,17 @@
         </div>
 
         <form:form action="/hotels/edit" method="post" hidden="hidden" commandName="user" role="form">
-            <p><strong>识别码:</strong>654321</p>
+            <p><strong>客栈编码:</strong>654321</p>
             <div class="form-group">
-                <label for="name" class="col-sm-2 control-label">酒店名称:</label>
+                <label for="name" class="col-sm-2 control-label">客栈名称:</label>
                 <div class="col-sm-8 col-xs-8">
                     <input type="text" class="form-control" id="name" name="name" placeholder="姓名"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="psw" class="col-sm-2 control-label">账号密码</label>
+                <div class="col-sm-8 col-xs-8">
+                    <input type="password" class="form-control" id="psw" name="psw" placeholder="账号密码"/>
                 </div>
             </div>
             <div class="form-group">

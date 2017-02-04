@@ -13,6 +13,7 @@
 
     <!--指明 controller 所在包，并扫描其中的注解-->
     <context:component-scan base-package="edu.nju.hotel"/>
+    <!--<context:component-scan base-package="edu.nju.hotel.logic"/>-->
 
     <!-- 静态资源(js、image等)的访问 -->
     <!--<mvc:default-servlet-handler/>-->
@@ -44,12 +45,12 @@
     </bean>
 
     <!-- 表示JPA Repository所在的包 -->
-    <jpa:repositories base-package="edu.nju.hotel.repository"/>
+    <jpa:repositories base-package="edu.nju.hotel.data.repository"/>
 
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="defaultPersistenceUnit"/>
-        <property name="packagesToScan" value="edu.nju.hotel.model" />
+        <property name="packagesToScan" value="edu.nju.hotel.data.model" />
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
         </property>

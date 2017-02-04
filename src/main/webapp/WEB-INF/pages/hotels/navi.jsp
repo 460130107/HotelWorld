@@ -12,7 +12,8 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/hotels/index">首页 <span class="sr-only">(current)</span></a></li>
+                    <li class="active"><a href="/hotels/index">办理入住 <span class="sr-only">(current)</span></a></li>
+                    <li><a href="/hotels/checkout">办理退房</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="${pageContext.request.contextPath}/hotels/account">酒店信息</a></li>

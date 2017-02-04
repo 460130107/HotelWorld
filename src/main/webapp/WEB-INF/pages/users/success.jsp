@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>酒店预订</title>
+    <title>预订成功</title>
 
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
@@ -25,6 +25,7 @@
 <%@ include file="navi.jsp"%>
 <div class="container success">
     预订成功
+    <a href="/users/bookHistory">查看我的订单</a>
 </div>
 
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->

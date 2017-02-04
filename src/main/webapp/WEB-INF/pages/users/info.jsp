@@ -33,7 +33,6 @@
             <p><strong>等级:</strong>6级</p>
             <p><strong>积分:</strong>120分</p>
             <p><strong>姓名:</strong>周小帆</p>
-            <p><strong>性别:</strong>女</p>
             <p><strong>银行账号:</strong>125435363</p>
             <p><strong>身份证号码:</strong>5456906479</p>
             <p><strong>联系电话:</strong>18234564321</p>

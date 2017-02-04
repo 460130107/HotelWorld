@@ -6,7 +6,7 @@ form label{
     margin-left: 200px;
 }
 form>div{
-    padding-top: 30px;
+    padding-top: 0;
 }
 .main-header .navbar {
     background-color: #3c8dbc;
@@ -18,7 +18,6 @@ form>div{
 
 .hotel .col-sm-3{
     padding-top: 30px;
-    position: ;
 }
 .navbar a{
     color: white;
@@ -46,4 +45,47 @@ form>div{
 
 .account button{
     font-size: 16px;
+}
+
+.login-pane{
+    border-radius: 5px;
+    position: relative;
+    margin: 0 auto;
+    top: 200px;
+    width: 350px;
+    background-color: rgba(238, 238, 238, 0.90);
+}
+
+.login-pane #myTabContent{
+    padding: 20px;
+}
+body.index{
+    background-image: url("../img/house.png");
+}
+
+body.index h1 {
+    text-align: center;
+    padding-top: 10px;
+    color: #337ab7;
+}
+.index .nav-tabs {
+    border-bottom: 1px solid #337ab7;
+}
+
+.right{
+    float: right;
+}
+.index .form-group{
+    padding-top: 0;
+}
+
+.pay div{
+    margin: 10px 0 10px 0;
+}
+.pay input{
+    margin: 0 0 0 20px;
+}
+
+.error-tips{
+    color: #c00;
 }

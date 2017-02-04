@@ -25,11 +25,17 @@
 <div class="container register">
     <h1>HotelWorld 酒店注册</h1>
     <hr/>
-    <form:form action="/hotels/add" method="post" commandName="user" role="form">
+    <form:form action="/hotels/add" cssClass="form-horizontal" method="post" commandName="user" role="form">
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">酒店名称:</label>
             <div class="col-sm-8 col-xs-8">
-            <input type="text" class="form-control" id="name" name="name" placeholder="姓名"/>
+            <input type="text" class="form-control" id="name" name="name" placeholder="酒店名称"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="psw" class="col-sm-2 control-label">账号密码</label>
+            <div class="col-sm-8 col-xs-8">
+                <input type="password" class="form-control" id="psw" name="psw" placeholder="账号密码"/>
             </div>
         </div>
         <div class="form-group">
@@ -58,6 +64,7 @@
         </div>
         <div class="form-group">
             <button type="submit" class="submit btn btn-sm btn-success">提交</button>
+            <a href="/" class="btn btn-sm btn-primary">取消</a>
         </div>
     </form:form>
 </div>

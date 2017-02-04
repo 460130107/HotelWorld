@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>查看酒店信息</title>
+    <title>首页</title>
 
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
@@ -23,93 +23,43 @@
 </head>
 <body>
 <%@ include file="navi.jsp"%>
-<div class="container account">
-    <h1>HotelWorld 订单记录</h1>
+<div class="container index">
     <div class="panel panel-info">
         <div class="panel-heading">
-            <h3 class="panel-title">HotelWorld 入住记录</h3>
+            <h3 class="panel-title">HotelWorld 预订信息</h3>
         </div>
         <div class="panel-body">
             <table class="table table-bordered table-striped">
                 <tr>
-                    <th>入住日期</th>
-                    <th>退房日期</th>
                     <th>房间类型</th>
-                    <th>房间号</th>
-                    <th>住客信息1</th>
-                    <th>住客信息2</th>
+                    <th>住客姓名</th>
+                    <th><a href="/hotels/checkin" class="btn btn-sm btn-danger">办理入住</a></th>
                 </tr>
                 <tr>
-                    <td>2017-01-01</td>
-                    <td>无</td>
                     <td>单人间</td>
-                    <td>302</td>
                     <td>张三</td>
-                    <td></td>
+                    <td><button class="btn btn-sm btn-primary">办理入住</button></td>
                 </tr>
                 <tr>
-                    <td>2017-01-01</td>
-                    <td>2017-01-03</td>
                     <td>单人间</td>
-                    <td>302</td>
                     <td>张三</td>
-                    <td>张三</td>
+                    <td><button class="btn btn-sm btn-primary">办理入住</button></td>
                 </tr>
                 <tr>
-                    <td>2017-01-01</td>
-                    <td>2017-01-03</td>
                     <td>单人间</td>
-                    <td>302</td>
                     <td>张三</td>
+                    <td><button class="btn btn-sm btn-primary">办理入住</button></td>
+                </tr>
+                <tr>
+                    <td>单人间</td>
                     <td>张三</td>
+                    <td><button class="btn btn-sm btn-primary">办理入住</button></td>
                 </tr>
             </table>
         </div>
     </div>
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <h3 class="panel-title">HotelWorld 预订记录</h3>
-        </div>
-        <div class="panel-body">
-            <table class="table table-bordered table-striped">
-                <tr>
-                    <th>入住日期</th>
-                    <th>退房日期</th>
-                    <th>房间类型</th>
-                    <th>房间数量</th>
-                    <th>住客信息</th>
-                </tr>
-                <tr>
-                    <td>2017-01-01</td>
-                    <td>2017-01-03</td>
-                    <td>单人间</td>
-                    <td>3</td>
-                    <td>张三</td>
-                </tr>
-                <tr>
-                    <td>2017-01-01</td>
-                    <td>2017-01-03</td>
-                    <td>单人间</td>
-                    <td>3</td>
-                    <td>张三</td>
-                </tr>
-                <tr>
-                    <td>2017-01-01</td>
-                    <td>2017-01-03</td>
-                    <td>单人间</td>
-                    <td>3</td>
-                    <td>张三</td>
-                </tr>
-                <tr>
-                    <td>2017-01-01</td>
-                    <td>2017-01-03</td>
-                    <td>单人间</td>
-                    <td>3</td>
-                    <td>张三</td>
-                </tr>
-            </table>
-        </div>
-    </div>
+
+
 </div>
 
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
