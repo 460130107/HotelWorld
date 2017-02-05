@@ -1,7 +1,11 @@
 package edu.nju.hotel.data.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Created by zhouxiaofan on 2017/2/4.
@@ -16,6 +20,7 @@ public class User {
     private String phone;
     private int state;
     private int level;
+    private Timestamp creatTime = new Timestamp( new Date().getTime());
     private int points;
     private Collection<Booking> bookingsById;
     private Collection<Checkin> checkinsById;
@@ -49,6 +54,16 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Basic
+    @Column(name = "creatTime", nullable = true)
+    public Timestamp getCreatTime() {
+        return creatTime;
+    }
+
+    public void setCreatTime(Timestamp creatTime) {
+        this.creatTime = creatTime;
     }
 
     @Basic
@@ -112,6 +127,7 @@ public class User {
         if (state != user.state) return false;
         if (level != user.level) return false;
         if (points != user.points) return false;
+        if (creatTime != null ? !creatTime.equals(user.creatTime) : user.creatTime != null) return false;
         if (psw != null ? !psw.equals(user.psw) : user.psw != null) return false;
         if (name != null ? !name.equals(user.name) : user.name != null) return false;
         if (idcard != null ? !idcard.equals(user.idcard) : user.idcard != null) return false;
@@ -127,6 +143,7 @@ public class User {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (idcard != null ? idcard.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        result = 31 * result + (creatTime != null ? creatTime.hashCode() : 0);
         result = 31 * result + state;
         result = 31 * result + level;
         result = 31 * result + points;
@@ -160,4 +177,5 @@ public class User {
     public void setBankCardByBank(BankCard bankCardByBank) {
         this.bankCardByBank = bankCardByBank;
     }
+
 }

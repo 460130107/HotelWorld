@@ -1,6 +1,8 @@
 package edu.nju.hotel.logic.service;
 
+import edu.nju.hotel.data.model.User;
 import edu.nju.hotel.data.util.VerifyResult;
+import edu.nju.hotel.logic.vo.UserVO;
 
 /**
  * Created by zhouxiaofan on 2017/2/4.
@@ -13,6 +15,8 @@ public interface UserService {
      * @return  返回查找状态 {@link VerifyResult}
      */
     VerifyResult verifyLogin(int id, String password);
+
+    UserVO addUser(User user);
 
 
 }

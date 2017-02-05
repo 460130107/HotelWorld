@@ -27,53 +27,66 @@
     <div class="login-pane">
         <h1>登陆</h1>
         <ul id="myTab" class="nav nav-tabs">
-            <li class="active">
+            <li<c:if test="${!empty user}"> class="active"</c:if>>
                 <a href="#user" data-toggle="tab">会员</a>
             </li>
-            <li><a href="#hotel" data-toggle="tab">客栈</a></li>
-            <li><a href="#manager" data-toggle="tab">经理</a></li>
+            <li<c:if test="${!empty hotel}"> class="active"</c:if>>
+                <a href="#hotel" data-toggle="tab">客栈</a>
+            </li>
+            <li<c:if test="${!empty manager}"> class="active"</c:if>>
+                <a href="#manager" data-toggle="tab">经理</a>
+            </li>
 
         </ul>
         <div id="myTabContent" class="tab-content">
-            <div class="tab-pane fade in active" id="user">
+            <div class="tab-pane fade <c:if test="${!empty user}">in active</c:if>" id="user">
                 <c:if test="${!empty user.error}">
                    <div class="error-tips">${user.error}</div>
                 </c:if>
-                <form:form action="/users/login" method="post" commandName="user" role="form">
+                <form:form action="/login" method="post" commandName="user" role="form">
                     <div class="form-group">
-                        <input type="number" id="id" class="form-control" name="id" placeholder="会员卡号">
+                        <input type="number" id="id" <c:if test="${user.id>0}">value="${user.id}"</c:if> class="form-control" name="id" placeholder="会员卡号">
                     </div>
                     <div class="form-group">
-                        <input type="password" id="psw" class="form-control" name="psw" placeholder="密码">
+                        <input type="password" id="psw" value="${user.psw}" class="form-control" name="psw" placeholder="密码">
                     </div>
+                    <input style="display: none" name="type" value="user"/>
                     <div class="form-group">
                         <button type="submit" class="btn btn-sm btn-primary">登陆</button>
-                        <a href="/users/add" class="right">注册会员</a>
+                        <a href="/addUser" class="right">注册会员</a>
                     </div>
                 </form:form>
             </div>
-            <div class="tab-pane fade" id="hotel">
-                <form:form action="/hotels/login" method="post" commandName="hotel" role="form">
+            <div class="tab-pane fade <c:if test="${!empty hotel}">in active</c:if>" id="hotel">
+                <c:if test="${!empty hotel.error}">
+                    <div class="error-tips">${hotel.error}</div>
+                </c:if>
+                <form:form action="/login" method="post" commandName="hotel" role="form">
                     <div class="form-group">
-                        <input type="password" class="form-control" name="password" placeholder="客栈编号">
+                        <input type="password" class="form-control" name="id" placeholder="客栈编号">
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" name="password" placeholder="密码">
+                        <input type="password" class="form-control" name="psw" placeholder="密码">
                     </div>
+                    <input style="display: none" name="type" value="hotel"/>
                     <div class="form-group">
                         <button type="submit" class="btn btn-sm btn-primary">登陆</button>
-                        <a href="/hotels/add" class="right">注册客栈</a>
+                        <a href="/addHotel" class="right">注册客栈</a>
                     </div>
                 </form:form>
             </div>
-            <div class="tab-pane fade" id="manager">
-                <form:form action="/managers/login" method="post" commandName="man" role="form">
+            <div class="tab-pane fade <c:if test="${!empty manager}">in active</c:if>" id="manager">
+                <c:if test="${!empty manager.error}">
+                    <div class="error-tips">${manager.error}</div>
+                </c:if>
+                <form:form action="/login" method="post" commandName="manager" role="form">
                     <div class="form-group">
-                        <input type="password" class="form-control" name="password" placeholder="经理姓名">
+                        <input type="password" class="form-control" name="id" placeholder="经理编号">
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" name="password" placeholder="密码">
+                        <input type="password" class="form-control" name="psw" placeholder="密码">
                     </div>
+                    <input style="display: none" name="type" value="manager"/>
                     <div class="form-group">
                         <button type="submit" class="btn btn-sm btn-primary">登陆</button>
                     </div>

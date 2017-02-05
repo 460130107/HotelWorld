@@ -1,4 +1,4 @@
-package edu.nju.hotel.logic.vo.user;
+package edu.nju.hotel.logic.vo;
 
 import javax.lang.model.element.Name;
 
@@ -9,6 +9,8 @@ public class LoginInfo {
     private int id;
     private String psw;
     private String error;
+    private String type;
+
 
 
     public String getPsw() {
@@ -34,5 +36,13 @@ public class LoginInfo {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

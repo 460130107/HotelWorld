@@ -1,6 +1,8 @@
 package edu.nju.hotel.data.model;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by zhouxiaofan on 2017/2/4.
@@ -9,7 +11,7 @@ import javax.persistence.*;
 @Table(name = "checkout")
 public class Checkout {
     private int id;
-    private String creatTime;
+    private Timestamp creatTime = new Timestamp( new Date().getTime());
     private int roomAsignId;
     private Checkin checkinByCheckinId;
 
@@ -25,11 +27,11 @@ public class Checkout {
 
     @Basic
     @Column(name = "creatTime", nullable = true)
-    public String getCreatTime() {
+    public Timestamp getCreatTime() {
         return creatTime;
     }
 
-    public void setCreatTime(String creatTime) {
+    public void setCreatTime(Timestamp creatTime) {
         this.creatTime = creatTime;
     }
 

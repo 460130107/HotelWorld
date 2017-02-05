@@ -14,6 +14,8 @@ public interface UserDao {
 
     void add(User user);
 
+    List<Integer> getIdList();
+
     User getUserById(int id);
 
     List<User> findAll();

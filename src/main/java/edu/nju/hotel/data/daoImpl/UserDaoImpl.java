@@ -31,7 +31,15 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void add(User user) {
-        baseDao.insert(user);
+        em.persist(user);
+        em.flush();
+    }
+
+    @Override
+    public List<Integer> getIdList() {
+        Query q=em.createQuery("select u.id from User u");
+        List<Integer> list=q.getResultList();
+        return list;
     }
 
     @Override
@@ -52,11 +60,12 @@ public class UserDaoImpl implements UserDao {
     public VerifyResult verifyUser(int id, String password) {
         Query query = em.createQuery( "select psw from User where id = ?1" );
         query.setParameter(1,id);
-        String psw = (String) query.getSingleResult();
-        if( psw==null ){
+        List<String> pswList =  query.getResultList();
+
+        if( pswList.size()==0 ){
             return VerifyResult.NOTEXIST;
         }
-        else if(password.equals(psw)){
+        else if(password.equals(pswList.get(0))){
             return VerifyResult.SUCCESS;
         }
         return VerifyResult.INCORRECT;

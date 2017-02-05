@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <header class="main-header">
     <nav class="navbar navbar-static-top">
         <div class="container-fluid">
@@ -16,6 +17,7 @@
                     <%--<li><a href="/uses/index">预订酒店</a></li>--%>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <c:if test="${!empty sessionScope.user}">
                     <li><a href="/users/account">个人信息</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">订单信息 <span class="caret"></span></a>
@@ -25,13 +27,14 @@
                             <li><a href="/users/summary">消费统计</a></li>
                         </ul>
                     </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">周小帆 <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">退出</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="/users/logout">退出</a></li>
+                    </c:if>
+                    <c:if test="${empty sessionScope.user}">
+                        <li><a href="/">登陆</a></li>
+                        ${sessionScope.user}
+                    </c:if>
                 </ul>
+
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>

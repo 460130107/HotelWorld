@@ -25,7 +25,7 @@
 <div class="container register">
     <h1>HotelWorld 会员注册</h1>
     <hr/>
-    <form:form action="/users/add" class="form-horizontal" method="post" commandName="user" role="form">
+    <form:form action="/addUser" class="form-horizontal" method="post" commandName="user" role="form">
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">姓名:</label>
             <div class="col-sm-8 col-xs-8">
@@ -39,21 +39,21 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="password" class="col-sm-2 control-label">密码:</label>
+            <label for="psw" class="col-sm-2 control-label">密码:</label>
             <div class="col-sm-8 col-xs-8">
-            <input type="password" class="form-control" id="password" name="password" placeholder="密码">
+            <input type="password" class="form-control" id="psw" name="psw" placeholder="密码">
             </div>
         </div>
         <div class="form-group">
-            <label for="password" class="col-sm-2 control-label">银行卡号:</label>
+            <label for="bankCardByBank.number" class="col-sm-2 control-label">银行卡号:</label>
             <div class="col-sm-8 col-xs-8">
-                <input type="text" class="form-control" id="bank" name="password" placeholder="银行卡号">
+                <input type="text" class="form-control" id="bankCardByBank.number" name="bankCardByBank.number" placeholder="银行卡号">
             </div>
         </div>
         <div class="form-group">
-            <label for="password" class="col-sm-2 control-label">电话号码:</label>
+            <label for="phone" class="col-sm-2 control-label">电话号码:</label>
             <div class="col-sm-8 col-xs-8">
-                <input type="password" class="form-control" id="tel" name="password" placeholder="密码">
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="电话号码">
             </div>
         </div>
         <div class="form-group">

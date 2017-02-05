@@ -4,9 +4,7 @@ import edu.nju.hotel.data.dao.UserDao;
 import edu.nju.hotel.data.model.BankCard;
 import edu.nju.hotel.data.model.User;
 import edu.nju.hotel.data.repository.UserRepository;
-import edu.nju.hotel.data.util.VerifyResult;
 import edu.nju.hotel.logic.service.UserService;
-import edu.nju.hotel.logic.vo.user.LoginInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,38 +33,10 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping("/login")
-    public String userLogin(@ModelAttribute LoginInfo loginInfo,Model model, HttpSession session){
-
-        VerifyResult result = userService.verifyLogin(loginInfo.getId(),loginInfo.getPsw());
-//        LoginInfo login=new LoginInfo();
-
-//        session.setAttribute("user",id);
-//        System.out.println((int)session.getAttribute("user"));
-//        model.addAttribute("userid",id);
-
-
-        if(result==VerifyResult.SUCCESS)
-            return "redirect:/users/index";
-        if(result==VerifyResult.INCORRECT){
-            loginInfo.setError("密码错误");
-        }
-        else{
-            loginInfo.setError("用户不存在");
-        }
-        model.addAttribute("user",loginInfo);
-        return "/main/index";
-
-    }
-
-    @RequestMapping("/add")
-    public String addUser() {
-        return "users/register";
-    }
-
-    @PostMapping("/add")
-    public String handleAdd() {
-        return "redirect:/users/hotelList";
+    @RequestMapping("/logout")
+    public String logout(HttpSession session){
+        session.removeAttribute("user");
+        return "redirect:/";
     }
 
     @RequestMapping("/activate")

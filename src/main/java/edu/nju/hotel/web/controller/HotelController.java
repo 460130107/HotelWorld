@@ -16,16 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/hotels")
 public class HotelController {
-    @PostMapping("/login")
-    public String hotelLogin(){
-        return "redirect:/hotels/index";
-    }
-
-    @RequestMapping("/add")
-    public String addHotel() {
-        return "hotels/register";
-    }
-
     @PostMapping("/edit")
     public String edit(){
         return "redirect:/hotels/account";
