@@ -11,8 +11,6 @@ public class LoginInfo {
     private String error;
     private String type;
 
-
-
     public String getPsw() {
         return psw;
     }

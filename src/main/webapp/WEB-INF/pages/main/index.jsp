@@ -53,9 +53,10 @@
                     <input style="display: none" name="type" value="user"/>
                     <div class="form-group">
                         <button type="submit" class="btn btn-sm btn-primary">登陆</button>
-                        <a href="/addUser" class="right">注册会员</a>
+
                     </div>
                 </form:form>
+                <a href="/addUser" class="right">注册会员</a>
             </div>
             <div class="tab-pane fade <c:if test="${!empty hotel}">in active</c:if>" id="hotel">
                 <c:if test="${!empty hotel.error}">
@@ -71,9 +72,10 @@
                     <input style="display: none" name="type" value="hotel"/>
                     <div class="form-group">
                         <button type="submit" class="btn btn-sm btn-primary">登陆</button>
-                        <a href="/addHotel" class="right">注册客栈</a>
+
                     </div>
                 </form:form>
+                <a href="/addHotel" class="right">注册客栈</a>
             </div>
             <div class="tab-pane fade <c:if test="${!empty manager}">in active</c:if>" id="manager">
                 <c:if test="${!empty manager.error}">

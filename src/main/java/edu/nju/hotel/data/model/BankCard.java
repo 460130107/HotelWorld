@@ -65,13 +65,4 @@ public class BankCard {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
-
-    @OneToMany(mappedBy = "bankCardByBank")
-    public Collection<User> getUsersByNumber() {
-        return usersByNumber;
-    }
-
-    public void setUsersByNumber(Collection<User> usersByNumber) {
-        this.usersByNumber = usersByNumber;
-    }
 }

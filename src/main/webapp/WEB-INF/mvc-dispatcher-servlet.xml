@@ -27,6 +27,14 @@
             <mvc:mapping path="/users/**"/>
             <bean class="edu.nju.hotel.web.interceptor.UserInterceptor"/>
         </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/managers/**"/>
+            <bean class="edu.nju.hotel.web.interceptor.ManagerInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/hotels/**"/>
+            <bean class="edu.nju.hotel.web.interceptor.HotelInterceptor"/>
+        </mvc:interceptor>
     </mvc:interceptors>
     <!-- 开启注解 -->
     <mvc:annotation-driven>

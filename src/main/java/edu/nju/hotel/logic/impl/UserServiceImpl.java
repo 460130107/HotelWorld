@@ -1,13 +1,20 @@
 package edu.nju.hotel.logic.impl;
 
 import edu.nju.hotel.data.dao.UserDao;
+import edu.nju.hotel.data.model.BankCard;
 import edu.nju.hotel.data.model.User;
+import edu.nju.hotel.data.repository.BankRepository;
+import edu.nju.hotel.data.repository.UserRepository;
+import edu.nju.hotel.data.util.ChargeResult;
 import edu.nju.hotel.data.util.VerifyResult;
+import edu.nju.hotel.logic.service.TransferService;
 import edu.nju.hotel.logic.service.UserService;
+import edu.nju.hotel.logic.vo.UserUpdate;
 import edu.nju.hotel.logic.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Query;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -27,6 +34,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserDao userDao;
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    private BankRepository bankRepository;
+
+
+    @Autowired
+    TransferService transferService;
+
     @Override
     public VerifyResult verifyLogin(int id, String password) {
         return userDao.verifyUser(id,password);
@@ -36,11 +53,56 @@ public class UserServiceImpl implements UserService {
     public UserVO addUser(User user) {
         user.setId(getRandomUserId());
         userDao.add(user);
-        UserVO vo=new UserVO();
-        vo.setId(user.getId());
-        return vo;
+        return transferService.transferUser(user);
     }
 
+    @Override
+    public UserVO getUserById(int id) {
+        User user=userDao.getUserById(id);
+        return transferService.transferUser(user);
+    }
+
+    @Override
+    public String updateUser(UserVO user) {
+        userRepository.updateUser(user.getIdcard(),user.getBank(),user.getPhone(),user.getPsw(),user.getId());
+
+        return "";
+    }
+
+    @Override
+    public String chargeCard(int id,int money) {
+        BankCard bank=userDao.getBankCardByUser(id) ;
+        if(bank==null){
+            return ChargeResult.WRONGCARD.toString();
+        }
+        else if(bank.getBalance()<money) {
+            return ChargeResult.NOTENOUGH.toString();
+        }
+        else {
+
+            int balance=bank.getBalance()-money;
+            User user=userDao.getUserById(id);
+            if(money>=1000&&user.getState()==0){
+                userRepository.updateUserState(1,user.getId());
+            }
+            int userBls=user.getBalance()+money;
+            userRepository.updateUserBalance(userBls,id);
+            bankRepository.updateBankCard(bank.getNumber(),balance);
+            return ChargeResult.SUCCESS.toString();
+        }
+    }
+
+    @Override
+    public String logOff(int id) {
+        userRepository.updateUserState(4,id);
+        return "success";
+    }
+
+    /**
+     * 自动生成用户id
+     *
+     * @return 返回查找状态 {@link int}
+     */
     private int getRandomUserId(){
         List<Integer> idList= userDao.getIdList();
         Random random=new Random();

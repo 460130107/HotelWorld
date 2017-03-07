@@ -1,10 +1,11 @@
 package edu.nju.hotel.web.controller;
 
 import edu.nju.hotel.data.dao.UserDao;
-import edu.nju.hotel.data.model.BankCard;
 import edu.nju.hotel.data.model.User;
 import edu.nju.hotel.data.repository.UserRepository;
+import edu.nju.hotel.data.util.ChargeResult;
 import edu.nju.hotel.logic.service.UserService;
+import edu.nju.hotel.logic.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,8 +16,6 @@ import javax.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.Integer.parseInt;
 
 /**
  * Created by zhouxiaofan on 2017/1/26.
@@ -37,11 +36,6 @@ public class UserController {
     public String logout(HttpSession session){
         session.removeAttribute("user");
         return "redirect:/";
-    }
-
-    @RequestMapping("/activate")
-    public String activate() {
-        return "users/activate";
     }
 
     @RequestMapping("/index")
@@ -80,17 +74,14 @@ public class UserController {
         return "users/checkinHistory";
     }
 
-    @PostMapping("/edit")
-    public String edit(){
-        return "redirect:/users/account";
-    }
 
-    @RequestMapping("/account")
-    public String show(Model model) {
-        User u=new User();
-        u.setId(12);
-        model.addAttribute("userInfo",u);
-        return "users/info";
+
+    @GetMapping("/account")
+    public String account(Model model,HttpSession session) {
+        int uid= (int) session.getAttribute("user");
+        UserVO user=userService.getUserById(uid);
+        model.addAttribute("userInfo",user);
+        return "users/account";
     }
 
     @RequestMapping("/json")
@@ -103,13 +94,6 @@ public class UserController {
         modelMap.addAttribute("score","ss");
         modelMap.addAttribute("list",list);
 //        modelMap.addAttribute("l2",l2);
-        User u2=l2.get(0);
-        BankCard b=u2.getBankCardByBank();
-        System.out.println(u2.getId());
-        System.out.println(u2.getIdcard());
-        System.out.println(u2.getLevel());
-        System.out.println(b.getBalance());
-        System.out.println(b.getName());
         return modelMap;
     }
 }

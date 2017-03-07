@@ -2,8 +2,11 @@ package edu.nju.hotel.data.daoImpl;
 
 import edu.nju.hotel.data.dao.BaseDao;
 import edu.nju.hotel.data.dao.UserDao;
+import edu.nju.hotel.data.model.BankCard;
 import edu.nju.hotel.data.model.User;
+import edu.nju.hotel.data.repository.BankRepository;
 import edu.nju.hotel.data.repository.UserRepository;
+import edu.nju.hotel.data.util.ChargeResult;
 import edu.nju.hotel.data.util.VerifyResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -28,6 +31,9 @@ public class UserDaoImpl implements UserDao {
 
     @Autowired
     private UserRepository up;
+
+    @Autowired
+    private BankRepository bp;
 
     @Override
     public void add(User user) {
@@ -58,14 +64,15 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public VerifyResult verifyUser(int id, String password) {
-        Query query = em.createQuery( "select psw from User where id = ?1" );
-        query.setParameter(1,id);
-        List<String> pswList =  query.getResultList();
+        User user=getUserById(id);
 
-        if( pswList.size()==0 ){
+        if( user==null ){
             return VerifyResult.NOTEXIST;
         }
-        else if(password.equals(pswList.get(0))){
+        else if( user.getState()==4 ){
+            return VerifyResult.LOGOFF;
+        }
+        else if(password.equals(user.getPsw())){
             return VerifyResult.SUCCESS;
         }
         return VerifyResult.INCORRECT;
@@ -94,5 +101,26 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void update(User userEntity) {
         em.merge(userEntity);
+    }
+
+
+
+    @Override
+    public String charge(int id,int money) {
+        return "";
+
+    }
+
+    @Override
+    public BankCard getBankCardByUser(int id) {
+        User user=getUserById(id);
+        Query q=em.createQuery("select bankCard from BankCard bankCard where bankCard.number =?1");
+        q.setParameter(1,user.getBank());
+        List<BankCard> list=q.getResultList();
+        if (list.size()==0){
+            return null;
+        }else {
+            return list.get(0);
+        }
     }
 }

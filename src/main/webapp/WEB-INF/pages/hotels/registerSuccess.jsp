@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>会员注册</title>
+    <title>注册成功</title>
 
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
@@ -23,44 +23,10 @@
 </head>
 <body>
 <div class="container register">
-    <h1>HotelWorld 会员注册</h1>
+    <h1>您已经注册成功，账号为${id}</h1>
+    <a href="/users/account">进入主页，激活账户</a>
     <hr/>
-    <form:form action="/addUser" class="form-horizontal" method="post" commandName="user" role="form">
-        <div class="form-group">
-            <label for="name" class="col-sm-2 control-label">姓名:</label>
-            <div class="col-sm-8 col-xs-8">
-            <input type="text" class="form-control" id="name" name="name" placeholder="姓名"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="idcard" class="col-sm-2 control-label">身份证:</label>
-            <div class="col-sm-8 col-xs-8">
-            <input type="text" class="form-control" id="idcard" name="idcard" placeholder="身份证"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="psw" class="col-sm-2 control-label">密码:</label>
-            <div class="col-sm-8 col-xs-8">
-            <input type="password" class="form-control" id="psw" name="psw" placeholder="密码">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="bank" class="col-sm-2 control-label">银行卡号:</label>
-            <div class="col-sm-8 col-xs-8">
-                <input type="text" class="form-control" id="bank" name="bank" placeholder="银行卡号">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="phone" class="col-sm-2 control-label">电话号码:</label>
-            <div class="col-sm-8 col-xs-8">
-                <input type="tel" class="form-control" id="phone" name="phone" placeholder="电话号码">
-            </div>
-        </div>
-        <div class="form-group">
-            <button type="submit" class="submit btn btn-sm btn-success">提交</button>
-            <a href="/" class="btn btn-sm btn-primary">取消</a>
-        </div>
-    </form:form>
+
 </div>
 
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->

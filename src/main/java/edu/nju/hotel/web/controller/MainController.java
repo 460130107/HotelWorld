@@ -1,5 +1,6 @@
 package edu.nju.hotel.web.controller;
 
+import com.sun.deploy.net.HttpResponse;
 import edu.nju.hotel.data.model.Hotel;
 import edu.nju.hotel.data.model.User;
 import edu.nju.hotel.data.util.VerifyResult;
@@ -9,8 +10,11 @@ import edu.nju.hotel.logic.vo.LoginInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -31,7 +35,7 @@ public class MainController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute LoginInfo loginInfo, Model model, HttpSession session){
+    public String login(@ModelAttribute LoginInfo loginInfo, Model model, HttpSession session, HttpServletResponse response){
         VerifyResult result = VerifyResult.NOTEXIST;
         String type=loginInfo.getType();
         switch (type){
@@ -41,10 +45,16 @@ public class MainController {
         }
         System.out.println(result);
         if(result==VerifyResult.SUCCESS){
+            Cookie cookie = new Cookie("user",loginInfo.getId()+"" );
+            cookie.setMaxAge(1000);
+            response.addCookie(cookie);
             session.setAttribute(type,loginInfo.getId());
             return "redirect:/"+type+"s/index";
         }
-        if(result==VerifyResult.INCORRECT){
+        else if(result==VerifyResult.LOGOFF){
+            loginInfo.setError("账户已注销");
+        }
+        else if(result==VerifyResult.INCORRECT){
             loginInfo.setError("密码错误");
         }
         else{
@@ -55,21 +65,9 @@ public class MainController {
 
     }
 
-    @RequestMapping("/addHotel")
+    @GetMapping("/addHotel")
     public String addHotel() {
         return "hotels/register";
-    }
-
-    @RequestMapping("/addUser")
-    public String addUser() {
-        return "users/register";
-    }
-
-    @PostMapping("/addUser")
-    public String addUser(@ModelAttribute User user,HttpSession session) {
-        UserVO userVO=userService.addUser(user);
-        session.setAttribute("user",userVO.getId());
-        return "redirect:/users/index";
     }
 
     @PostMapping("/addHotel")
@@ -78,6 +76,24 @@ public class MainController {
 //        session.setAttribute("user",userVO.getId());
         return "redirect:/users/index";
     }
+
+    @GetMapping("/addUser")
+    public String addUser() {
+        return "users/register";
+    }
+
+    @PostMapping("/addUser")
+    public String addUser(@ModelAttribute User user,HttpSession session,Model model) {
+        UserVO userVO=null;
+        if(user.getName()!=null){
+            userVO=userService.addUser(user);
+            session.setAttribute("user",userVO.getId());
+        }
+        model.addAttribute("id",userVO.getId());
+        return "users/registerSuccess";
+    }
+
+
 
     @PostMapping("/add")
     public String handleAdd() {

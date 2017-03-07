@@ -22,9 +22,10 @@ public class User {
     private int level;
     private Timestamp creatTime = new Timestamp( new Date().getTime());
     private int points;
+    private int balance;
     private Collection<Booking> bookingsById;
     private Collection<Checkin> checkinsById;
-    private BankCard bankCardByBank;
+    private String bank;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -107,6 +108,16 @@ public class User {
     }
 
     @Basic
+    @Column(name = "balance", nullable = true)
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
+    @Basic
     @Column(name = "points", nullable = false)
     public int getPoints() {
         return points;
@@ -114,6 +125,16 @@ public class User {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    @Basic
+    @Column(name = "bank", nullable = false)
+    public String getBank() {
+        return bank;
+    }
+
+    public void setBank(String bank) {
+        this.bank = bank;
     }
 
     @Override
@@ -127,11 +148,13 @@ public class User {
         if (state != user.state) return false;
         if (level != user.level) return false;
         if (points != user.points) return false;
+        if (balance != user.balance) return false;
         if (creatTime != null ? !creatTime.equals(user.creatTime) : user.creatTime != null) return false;
         if (psw != null ? !psw.equals(user.psw) : user.psw != null) return false;
         if (name != null ? !name.equals(user.name) : user.name != null) return false;
         if (idcard != null ? !idcard.equals(user.idcard) : user.idcard != null) return false;
         if (phone != null ? !phone.equals(user.phone) : user.phone != null) return false;
+        if (bank != null ? !bank.equals(user.bank) : user.bank != null) return false;
 
         return true;
     }
@@ -141,12 +164,14 @@ public class User {
         int result = id;
         result = 31 * result + (psw != null ? psw.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (bank != null ? bank.hashCode() : 0);
         result = 31 * result + (idcard != null ? idcard.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (creatTime != null ? creatTime.hashCode() : 0);
         result = 31 * result + state;
         result = 31 * result + level;
         result = 31 * result + points;
+        result = 31 * result + balance;
         return result;
     }
 
@@ -166,16 +191,6 @@ public class User {
 
     public void setCheckinsById(Collection<Checkin> checkinsById) {
         this.checkinsById = checkinsById;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "bank", referencedColumnName = "number")
-    public BankCard getBankCardByBank() {
-        return bankCardByBank;
-    }
-
-    public void setBankCardByBank(BankCard bankCardByBank) {
-        this.bankCardByBank = bankCardByBank;
     }
 
 }

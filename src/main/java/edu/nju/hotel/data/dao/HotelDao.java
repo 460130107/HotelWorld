@@ -14,6 +14,8 @@ public interface HotelDao {
 
     void add(Hotel user);
 
+    List<Integer> getIdList();
+
     Hotel getHotelById(int id);
 
     List<Hotel> findAll();

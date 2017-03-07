@@ -1,5 +1,6 @@
 package edu.nju.hotel.data.dao;
 
+import edu.nju.hotel.data.model.BankCard;
 import edu.nju.hotel.data.model.User;
 import edu.nju.hotel.data.util.VerifyResult;
 
@@ -27,4 +28,8 @@ public interface UserDao {
     void changeState(int id);
 
     void update(User user);
+
+    String charge(int id,int money);
+
+    BankCard getBankCardByUser(int id);
 }

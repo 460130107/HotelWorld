@@ -13,7 +13,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/uses/index">首页 <span class="sr-only">(current)</span></a></li>
+                    <li class="active"><a href="/users/index">首页 <span class="sr-only">(current)</span></a></li>
                     <%--<li><a href="/uses/index">预订酒店</a></li>--%>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
