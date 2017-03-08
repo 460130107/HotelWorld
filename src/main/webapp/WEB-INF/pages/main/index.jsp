@@ -64,7 +64,7 @@
                 </c:if>
                 <form:form action="/login" method="post" commandName="hotel" role="form">
                     <div class="form-group">
-                        <input type="password" class="form-control" name="id" placeholder="客栈编号">
+                        <input type="text" class="form-control" name="id" placeholder="客栈编号">
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" name="psw" placeholder="密码">
@@ -77,18 +77,18 @@
                 </form:form>
                 <a href="/addHotel" class="right">注册客栈</a>
             </div>
-            <div class="tab-pane fade <c:if test="${!empty manager}">in active</c:if>" id="manager">
-                <c:if test="${!empty manager.error}">
-                    <div class="error-tips">${manager.error}</div>
+            <div class="tab-pane fade <c:if test="${!empty managers}">in active</c:if>" id="manager">
+                <c:if test="${!empty managers.error}">
+                    <div class="error-tips">${managers.error}</div>
                 </c:if>
-                <form:form action="/login" method="post" commandName="manager" role="form">
+                <form:form action="/login" method="post" commandName="managers" role="form">
                     <div class="form-group">
-                        <input type="password" class="form-control" name="id" placeholder="经理编号">
+                        <input type="text" class="form-control" name="name" placeholder="经理编号">
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" name="psw" placeholder="密码">
                     </div>
-                    <input style="display: none" name="type" value="manager"/>
+                    <input style="display: none" name="type" value="managers"/>
                     <div class="form-group">
                         <button type="submit" class="btn btn-sm btn-primary">登陆</button>
                     </div>

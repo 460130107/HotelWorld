@@ -64,7 +64,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public VerifyResult verifyUser(int id, String password) {
-        User user=getUserById(id);
+//        User user=getUserById(id);
+        User user=up.findOne(id);
 
         if( user==null ){
             return VerifyResult.NOTEXIST;

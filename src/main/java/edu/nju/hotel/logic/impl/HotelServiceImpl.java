@@ -5,8 +5,10 @@ import edu.nju.hotel.data.model.Hotel;
 import edu.nju.hotel.data.repository.HotelRepository;
 import edu.nju.hotel.data.util.VerifyResult;
 import edu.nju.hotel.logic.service.HotelService;
+import edu.nju.hotel.logic.service.TransferService;
 import edu.nju.hotel.logic.vo.HotelVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
@@ -14,9 +16,13 @@ import java.util.Random;
 /**
  * Created by zhouxiaofan on 2017/3/7.
  */
+@Service
 public class HotelServiceImpl implements HotelService {
     @Autowired
     private HotelRepository hotelRepository;
+
+    @Autowired
+    private TransferService transferService;
 
     @Autowired
     private HotelDao hotelDao;
@@ -40,7 +46,7 @@ public class HotelServiceImpl implements HotelService {
 
         hotel.setId(hotelId);
         hotelRepository.saveAndFlush(hotel);
-        return null;
+        return transferService.transferHotel(hotel);
     }
 
     private int getRandomHotelId(){

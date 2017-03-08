@@ -25,7 +25,7 @@
 <div class="container register">
     <h1>HotelWorld 酒店注册</h1>
     <hr/>
-    <form:form action="/hotels/add" cssClass="form-horizontal" method="post" commandName="user" role="form">
+    <form:form action="/addHotel" cssClass="form-horizontal" method="post" commandName="managers" role="form">
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">酒店名称:</label>
             <div class="col-sm-8 col-xs-8">

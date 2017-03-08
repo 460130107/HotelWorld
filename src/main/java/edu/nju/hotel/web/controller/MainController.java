@@ -1,10 +1,14 @@
 package edu.nju.hotel.web.controller;
 
 import com.sun.deploy.net.HttpResponse;
+import edu.nju.hotel.data.model.Booking;
 import edu.nju.hotel.data.model.Hotel;
 import edu.nju.hotel.data.model.User;
 import edu.nju.hotel.data.util.VerifyResult;
+import edu.nju.hotel.logic.service.HotelService;
+import edu.nju.hotel.logic.service.ManagerService;
 import edu.nju.hotel.logic.service.UserService;
+import edu.nju.hotel.logic.vo.HotelVO;
 import edu.nju.hotel.logic.vo.UserVO;
 import edu.nju.hotel.logic.vo.LoginInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +31,13 @@ public class MainController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @Autowired
+    ManagerService managerService;
+
+    @Autowired
+    HotelService hotelService;
+
+    @GetMapping(value = "/")
     public String index(Model model) {
         LoginInfo loginInfo=new LoginInfo();
         model.addAttribute("user",loginInfo);
@@ -38,17 +48,20 @@ public class MainController {
     public String login(@ModelAttribute LoginInfo loginInfo, Model model, HttpSession session, HttpServletResponse response){
         VerifyResult result = VerifyResult.NOTEXIST;
         String type=loginInfo.getType();
+        Cookie cookie=null;
         switch (type){
-            case "user":result=userService.verifyLogin(loginInfo.getId(),loginInfo.getPsw());
-            case "hotel":result=userService.verifyLogin(loginInfo.getId(),loginInfo.getPsw());
-            case "manager":result=userService.verifyLogin(loginInfo.getId(),loginInfo.getPsw());
+            case "user":result=userService.verifyLogin(loginInfo.getId(),loginInfo.getPsw());break;
+            case "hotel":result=hotelService.verifyLogin(loginInfo.getId(),loginInfo.getPsw());break;
+            case "managers":result=managerService.verifyLogin(loginInfo.getName(),loginInfo.getPsw());break;
         }
         System.out.println(result);
         if(result==VerifyResult.SUCCESS){
-            Cookie cookie = new Cookie("user",loginInfo.getId()+"" );
+            cookie = new Cookie("user",loginInfo.getId()+"" );
             cookie.setMaxAge(1000);
             response.addCookie(cookie);
             session.setAttribute(type,loginInfo.getId());
+            if (type.equals("managers"))
+                return "redirect:managers/index";
             return "redirect:/"+type+"s/index";
         }
         else if(result==VerifyResult.LOGOFF){
@@ -72,9 +85,20 @@ public class MainController {
 
     @PostMapping("/addHotel")
     public String addHotel(@ModelAttribute Hotel hotel, HttpSession session) {
-//        UserVO userVO=userService.addUser(hotel);
-//        session.setAttribute("user",userVO.getId());
-        return "redirect:/users/index";
+        if(testHotel(hotel)){
+            HotelVO hotelVO=hotelService.addHotel(hotel);
+            session.setAttribute("user",hotelVO.getId());
+        }
+
+        return "redirect:/hotels/index";
+    }
+
+    private boolean testHotel(Hotel hotel){
+        if(hotel.getName()==null)
+            return false;
+        if (hotel.getPsw()==null)
+            return false;
+        return true;
     }
 
     @GetMapping("/addUser")
@@ -93,12 +117,6 @@ public class MainController {
         return "users/registerSuccess";
     }
 
-
-
-    @PostMapping("/add")
-    public String handleAdd() {
-        return "redirect:/users/hotelList";
-    }
 
 
 }

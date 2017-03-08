@@ -24,7 +24,7 @@
 <body>
 <div class="container register">
     <h1>您已经注册成功，账号为${id}</h1>
-    <a href="/users/account">进入主页，激活账户</a>
+    <a href="/hotels/account">进入主页，激活账户</a>
     <hr/>
 
 </div>
