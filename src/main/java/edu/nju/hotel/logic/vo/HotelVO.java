@@ -9,7 +9,7 @@ public class HotelVO {
     private String name;
     private String city;
     private String location;
-    private Integer description;
+    private String description;
     private String psw;
     private Integer approved;
 
@@ -45,11 +45,11 @@ public class HotelVO {
         this.location = location;
     }
 
-    public Integer getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(Integer description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

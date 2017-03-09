@@ -23,7 +23,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">如家快捷酒店 <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">退出</a></li>
+                            <li><a href="/hotels/logout">退出</a></li>
                         </ul>
                     </li>
                 </ul>

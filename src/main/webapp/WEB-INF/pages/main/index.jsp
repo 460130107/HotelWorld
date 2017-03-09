@@ -27,22 +27,22 @@
     <div class="login-pane">
         <h1>登陆</h1>
         <ul id="myTab" class="nav nav-tabs">
-            <li<c:if test="${!empty user}"> class="active"</c:if>>
+            <li class='${!empty requestScope["user"]?"active":""}'>
                 <a href="#user" data-toggle="tab">会员</a>
             </li>
-            <li<c:if test="${!empty hotel}"> class="active"</c:if>>
+
+            <li class='${!empty requestScope["hotel"]?"active":""}'>
                 <a href="#hotel" data-toggle="tab">客栈</a>
             </li>
-            <li<c:if test="${!empty manager}"> class="active"</c:if>>
+            <li class='${!empty requestScope["manager"]?"active":""}'>
                 <a href="#manager" data-toggle="tab">经理</a>
             </li>
 
         </ul>
+
         <div id="myTabContent" class="tab-content">
-            <div class="tab-pane fade <c:if test="${!empty user}">in active</c:if>" id="user">
-                <c:if test="${!empty user.error}">
-                   <div class="error-tips">${user.error}</div>
-                </c:if>
+            <div class="tab-pane fade ${!empty requestScope["user"]?"in active ":""}" id="user">
+                <div class="error-tips">${!empty requestScope["user"]?"":user.errorMsg}</div>
                 <form:form action="/login" method="post" commandName="user" role="form">
                     <div class="form-group">
                         <input type="number" id="id" <c:if test="${user.id>0}">value="${user.id}"</c:if> class="form-control" name="id" placeholder="会员卡号">
@@ -58,10 +58,9 @@
                 </form:form>
                 <a href="/addUser" class="right">注册会员</a>
             </div>
-            <div class="tab-pane fade <c:if test="${!empty hotel}">in active</c:if>" id="hotel">
-                <c:if test="${!empty hotel.error}">
-                    <div class="error-tips">${hotel.error}</div>
-                </c:if>
+
+            <div class="tab-pane fade ${!empty requestScope["hotel"]?"in active ":""}" id="hotel">
+                <div class="error-tips">${!empty requestScope["hotel"]?"":hotel.errorMsg}</div>
                 <form:form action="/login" method="post" commandName="hotel" role="form">
                     <div class="form-group">
                         <input type="text" class="form-control" name="id" placeholder="客栈编号">
@@ -77,10 +76,9 @@
                 </form:form>
                 <a href="/addHotel" class="right">注册客栈</a>
             </div>
-            <div class="tab-pane fade <c:if test="${!empty managers}">in active</c:if>" id="manager">
-                <c:if test="${!empty managers.error}">
-                    <div class="error-tips">${managers.error}</div>
-                </c:if>
+            <div class="tab-pane fade ${!empty requestScope["manager"]?"in active ":""}" id="manager">
+                <div class="error-tips">${!empty requestScope["manager"]?"":manager.errorMsg}</div>
+
                 <form:form action="/login" method="post" commandName="managers" role="form">
                     <div class="form-group">
                         <input type="text" class="form-control" name="name" placeholder="经理编号">
@@ -88,7 +86,7 @@
                     <div class="form-group">
                         <input type="password" class="form-control" name="psw" placeholder="密码">
                     </div>
-                    <input style="display: none" name="type" value="managers"/>
+                    <input style="display: none" name="type" value="manager"/>
                     <div class="form-group">
                         <button type="submit" class="btn btn-sm btn-primary">登陆</button>
                     </div>

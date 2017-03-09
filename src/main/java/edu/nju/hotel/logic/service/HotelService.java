@@ -19,4 +19,9 @@ public interface HotelService {
 
     HotelVO addHotel(Hotel user);
 
+    HotelVO getHotelById(int id);
+
+    String updateHotel(HotelVO hotel);
+
+    int getRandomHotelId();
 }

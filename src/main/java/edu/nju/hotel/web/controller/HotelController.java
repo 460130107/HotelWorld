@@ -1,6 +1,9 @@
 package edu.nju.hotel.web.controller;
 
 import edu.nju.hotel.data.model.Hotel;
+import edu.nju.hotel.logic.service.HotelService;
+import edu.nju.hotel.logic.vo.HotelVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by zhouxiaofan on 2017/1/26.
@@ -16,16 +20,20 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/hotels")
 public class HotelController {
-    @PostMapping("/edit")
-    public String edit(){
-        return "redirect:/hotels/account";
+    @Autowired
+    HotelService hotelService;
+    @RequestMapping("/logout")
+    public String logout(HttpSession session){
+        session.removeAttribute("hotel");
+        return "redirect:/";
     }
 
-    @RequestMapping("/account")
-    public String show(Model model) {
-        Hotel u=new Hotel();
-        model.addAttribute("hotelInfo",u);
-        return "hotels/info";
+    @GetMapping("/account")
+    public String account(Model model,HttpSession session) {
+        int id= (int) session.getAttribute("hotel");
+        HotelVO h=hotelService.getHotelById(id);
+        model.addAttribute("hotelInfo",h);
+        return "hotels/account";
     }
 
     @RequestMapping("/index")

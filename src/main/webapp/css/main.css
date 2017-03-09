@@ -42,7 +42,6 @@ form>div{
 
 .account p{
     font-size: 16px;
-    border-bottom: solid 1px #eee;
     margin-bottom: 25px;
 }
 .account strong{
@@ -124,4 +123,38 @@ body.index h1 {
 }
 .modal-money button{
     margin:0 10px;
+}
+
+.hotel .form-group:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+.hotel .form-group{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.hotel .info{
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+}
+
+.hotel .form-group>div{
+    margin: 0 10px;
+    flex: 0 0 75%;
+}
+
+.hotel .form-group>label{
+    flex: 0 0 6%;
+}
+
+.form-group button{
+    margin: 10px;
+}
+
+.alarm{
+    color: red;
 }

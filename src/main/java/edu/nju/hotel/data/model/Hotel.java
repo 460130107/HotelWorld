@@ -13,7 +13,7 @@ public class Hotel {
     private String name;
     private String city;
     private String location;
-    private Integer description;
+    private String description;
     private String psw;
     private Integer approved;
     private Collection<Booking> bookingsById;
@@ -62,11 +62,11 @@ public class Hotel {
 
     @Basic
     @Column(name = "description", nullable = true)
-    public Integer getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(Integer description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

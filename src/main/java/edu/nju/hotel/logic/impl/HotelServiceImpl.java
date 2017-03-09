@@ -43,22 +43,37 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public HotelVO addHotel(Hotel hotel) {
         int hotelId=getRandomHotelId();
+        hotel.setApproved(0);
 
         hotel.setId(hotelId);
         hotelRepository.saveAndFlush(hotel);
         return transferService.transferHotel(hotel);
     }
 
-    private int getRandomHotelId(){
-        List<Integer> idList= hotelRepository.getIdList();
+    @Override
+    public HotelVO getHotelById(int id) {
+        Hotel h=hotelRepository.findOne(id);
+        return transferService.transferHotel(h);
+    }
+
+    @Override
+    public String updateHotel(HotelVO hotel) {
+        hotelRepository.updateHotel(hotel.getName(),hotel.getPsw(),hotel.getDescription(),hotel.getCity(),hotel.getLocation(),hotel.getId());
+        return "";
+    }
+
+    @Override
+    public int getRandomHotelId(){
+        Hotel hotel;
         Random random=new Random();
         int id=0;
         for (int i=0;i<1000000;i++){
             id=random.nextInt(1000000);
-            if (!idList.contains(id)){
-                return id;
+            hotel= hotelRepository.findOne(id);
+            if (hotel==null){
+                return id+1000000;
             }
         }
-        return id;
+        return id+1000000;
     }
 }

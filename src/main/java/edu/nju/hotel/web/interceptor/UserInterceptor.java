@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UserInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-        if (request.getSession().getAttribute("user") != null) {
+        if (request.getSession().getAttribute("userid") != null) {
             return true;
         }
         response.sendRedirect("/");

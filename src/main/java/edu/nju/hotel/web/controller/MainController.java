@@ -44,6 +44,13 @@ public class MainController {
         return "main/index";
     }
 
+    @GetMapping(value = "/login")
+    public String login(Model model) {
+        LoginInfo loginInfo=new LoginInfo();
+        model.addAttribute("user",loginInfo);
+        return "main/index";
+    }
+
     @PostMapping("/login")
     public String login(@ModelAttribute LoginInfo loginInfo, Model model, HttpSession session, HttpServletResponse response){
         VerifyResult result = VerifyResult.NOTEXIST;
@@ -52,26 +59,24 @@ public class MainController {
         switch (type){
             case "user":result=userService.verifyLogin(loginInfo.getId(),loginInfo.getPsw());break;
             case "hotel":result=hotelService.verifyLogin(loginInfo.getId(),loginInfo.getPsw());break;
-            case "managers":result=managerService.verifyLogin(loginInfo.getName(),loginInfo.getPsw());break;
+            case "manager":result=managerService.verifyLogin(loginInfo.getName(),loginInfo.getPsw());break;
         }
         System.out.println(result);
         if(result==VerifyResult.SUCCESS){
             cookie = new Cookie("user",loginInfo.getId()+"" );
             cookie.setMaxAge(1000);
             response.addCookie(cookie);
-            session.setAttribute(type,loginInfo.getId());
-            if (type.equals("managers"))
-                return "redirect:managers/index";
+            session.setAttribute(type+"id",loginInfo.getId());
             return "redirect:/"+type+"s/index";
         }
         else if(result==VerifyResult.LOGOFF){
-            loginInfo.setError("账户已注销");
+            loginInfo.setErrorMsg("账户已注销");
         }
         else if(result==VerifyResult.INCORRECT){
-            loginInfo.setError("密码错误");
+            loginInfo.setErrorMsg("密码错误");
         }
         else{
-            loginInfo.setError("账号不存在");
+            loginInfo.setErrorMsg("账号不存在");
         }
         model.addAttribute(type,loginInfo);
         return "/main/index";
@@ -87,10 +92,10 @@ public class MainController {
     public String addHotel(@ModelAttribute Hotel hotel, HttpSession session) {
         if(testHotel(hotel)){
             HotelVO hotelVO=hotelService.addHotel(hotel);
-            session.setAttribute("user",hotelVO.getId());
+            session.setAttribute("hotelid",hotelVO.getId());
         }
 
-        return "redirect:/hotels/index";
+        return "/hotels/registerSuccess";
     }
 
     private boolean testHotel(Hotel hotel){
@@ -111,7 +116,7 @@ public class MainController {
         UserVO userVO=null;
         if(user.getName()!=null){
             userVO=userService.addUser(user);
-            session.setAttribute("user",userVO.getId());
+            session.setAttribute("userid",userVO.getId());
         }
         model.addAttribute("id",userVO.getId());
         return "users/registerSuccess";

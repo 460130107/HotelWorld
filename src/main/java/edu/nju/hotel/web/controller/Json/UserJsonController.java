@@ -16,7 +16,6 @@ import static java.lang.Integer.parseInt;
  * Created by zhouxiaofan on 2017/3/7.
  */
 @Controller
-@RequestMapping("/users/json")
 public class UserJsonController {
     @Autowired
     UserService userService;
@@ -28,7 +27,6 @@ public class UserJsonController {
         String result=userService.chargeCard(id,parseInt(money));
         ModelMap modelMap=new ModelMap();
         modelMap.addAttribute("result",result);
-
         return modelMap;
     }
 

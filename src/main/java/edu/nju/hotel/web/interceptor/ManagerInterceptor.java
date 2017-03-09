@@ -14,7 +14,7 @@ public class ManagerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (request.getSession().getAttribute("managers") != null) {
+        if (request.getSession().getAttribute("managerid") != null) {
             return true;
         }
         response.sendRedirect("/");

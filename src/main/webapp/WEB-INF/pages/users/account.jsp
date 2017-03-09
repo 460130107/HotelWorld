@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -27,7 +28,6 @@
     <h1>HotelWorld 会员信息</h1>
     <hr/>
     <c:if test="${!empty userInfo}">
-        <form:form action="/users/edit" method="post" commandName="user" role="form">
             <c:if test="${userInfo.state==0}"><p class="alarm">还未激活，请一次充值不少于1000元激活账户</p>
             </c:if>
             <c:if test="${userInfo.state==2}"><p class="alarm">会员到期一年，当前余额少于100，已暂停会员卡记录，请及时消费重新激活账户</p>
@@ -64,7 +64,6 @@
                 <button id="logOff" class="btn btn-danger">注销会员</button>
             </div>
 
-        </form:form>
     </c:if>
 
 </div>
@@ -88,7 +87,7 @@
         function enableEdit (e) {
             e.preventDefault();
             var data={};
-            $("form input").each(function (index,item) {
+            $("input").each(function (index,item) {
                 item.disabled=!item.disabled;
                 data[item.name]=item.value;
             });
@@ -210,13 +209,8 @@
                         console.log("error");
                     }
                 });
-
             }
         }
-
-
-
-
     });
 </script>
 </body>

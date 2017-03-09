@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 public class HotelInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (request.getSession().getAttribute("hotel") != null) {
+        if (request.getSession().getAttribute("hotelid") != null) {
             return true;
         }
         response.sendRedirect("/");

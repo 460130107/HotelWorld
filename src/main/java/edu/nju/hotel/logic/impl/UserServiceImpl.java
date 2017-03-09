@@ -100,15 +100,15 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 自动生成用户id
-     *
-     * @return 返回查找状态 {@link int}
+     * 2000000之后的都是用户id
+     * @return 返回用户id {@link int}
      */
     private int getRandomUserId(){
         List<Integer> idList= userDao.getIdList();
         Random random=new Random();
         int id=0;
-        for (int i=0;i<9000000;i++){
-            id=random.nextInt(9000000)+1000000;
+        for (int i=0;i<8000000;i++){
+            id=random.nextInt(8000000)+2000000;
             if (!idList.contains(id)){
                 return id;
             }

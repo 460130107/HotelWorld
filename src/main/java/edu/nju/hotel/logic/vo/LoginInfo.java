@@ -8,7 +8,7 @@ import javax.lang.model.element.Name;
 public class LoginInfo {
     private int id;
     private String psw;
-    private String error;
+    private String errorMsg="";
     private String type;
     private String name;
 
@@ -19,15 +19,6 @@ public class LoginInfo {
     public void setPsw(String psw) {
         this.psw = psw;
     }
-
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
-
 
     public int getId() {
         return id;
@@ -51,5 +42,13 @@ public class LoginInfo {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
     }
 }

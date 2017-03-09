@@ -20,8 +20,8 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
     @Transactional  // 说明该方法是事务性操作
     // 定义查询
     // @Param注解用于提取参数
-    @Query("update Hotel ht set ht.name=:aName, ht.psw=:psw where ht.id=:aId")
-    void updateHotel(@Param("aName") String aName, @Param("psw") String psw, @Param("aId") Integer aId);
+    @Query("update Hotel ht set ht.name=?1, ht.psw=?2,ht.description=?3,ht.city=?4,ht.location=?5 where ht.id=?6 ")
+    void updateHotel(String aName, String psw, String description,String city,String location,int id);
 
     @Query("select h.id from Hotel h")
     List<Integer> getIdList();

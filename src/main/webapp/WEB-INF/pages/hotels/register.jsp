@@ -50,7 +50,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="location" class="col-sm-2 control-label">地点</label>
+            <label for="location" class="col-sm-2 control-label">地址</label>
             <div class="col-sm-8 col-xs-8">
                 <input type="text" class="form-control" id="location" name="location" placeholder="地点"/>
             </div>
