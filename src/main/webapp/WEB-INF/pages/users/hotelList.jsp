@@ -23,7 +23,7 @@
 </head>
 <body>
 <%@ include file="navi.jsp"%>
-<div class="container hotel">
+<div class="container">
     <h1>HotelWorld 酒店预订</h1>
     <div class="row">
         <div class="col-sm-6">

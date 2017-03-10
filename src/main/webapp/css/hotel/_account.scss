@@ -1,0 +1,15 @@
+@mixin accountStyle{
+	.info{
+		margin: 0 40px;
+	}
+	.form-group{
+		display: flex;
+		label {
+			margin-top: 5px;
+		    flex: 0 0 8%;
+		}
+		div{
+			flex: 1 1 auto;
+		}
+	}
+}

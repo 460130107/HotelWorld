@@ -10,7 +10,7 @@
     <title>首页</title>
 
     <!-- 新 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style-hotel.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
 
 
@@ -21,44 +21,47 @@
     <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body>
-<%@ include file="navi.jsp"%>
-<div class="container index">
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <h3 class="panel-title">HotelWorld 预订信息</h3>
-        </div>
-        <div class="panel-body">
-            <table class="table table-bordered table-striped">
-                <tr>
-                    <th>房间类型</th>
-                    <th>住客姓名</th>
-                    <th><a href="/hotels/checkin" class="btn btn-sm btn-danger">办理入住</a></th>
-                </tr>
-                <tr>
-                    <td>单人间</td>
-                    <td>张三</td>
-                    <td><button class="btn btn-sm btn-primary">办理入住</button></td>
-                </tr>
-                <tr>
-                    <td>单人间</td>
-                    <td>张三</td>
-                    <td><button class="btn btn-sm btn-primary">办理入住</button></td>
-                </tr>
-                <tr>
-                    <td>单人间</td>
-                    <td>张三</td>
-                    <td><button class="btn btn-sm btn-primary">办理入住</button></td>
-                </tr>
-                <tr>
-                    <td>单人间</td>
-                    <td>张三</td>
-                    <td><button class="btn btn-sm btn-primary">办理入住</button></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-
+<body class="bookList">
+<%@ include file="asides.jsp"%>
+<div class="container">
+    <%@ include file="header.jsp"%>
+    <main class="panel-group">
+            
+            <div class="panel-body">
+                <div><h4>预订记录</h4></div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>房间类型</th>
+                            <th>住客姓名</th>
+                            <th><a href="/hotels/checkin" class="btn btn-sm btn-danger">办理入住</a></th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>单人间</td>
+                        <td>张三</td>
+                        <td><button class="btn btn-sm btn-primary">办理入住</button></td>
+                    </tr>
+                    <tbody>
+                        <tr>
+                            <td>单人间</td>
+                            <td>张三</td>
+                            <td><button class="btn btn-sm btn-primary">办理入住</button></td>
+                        </tr>
+                        <tr>
+                            <td>单人间</td>
+                            <td>张三</td>
+                            <td><button class="btn btn-sm btn-primary">办理入住</button></td>
+                        </tr>
+                        <tr>
+                            <td>单人间</td>
+                            <td>张三</td>
+                            <td><button class="btn btn-sm btn-primary">办理入住</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    </main>
 
 </div>
 

@@ -23,7 +23,7 @@ public class UserJsonController {
     @PostMapping("/charge")
     public @ResponseBody
     Object charge(@RequestParam("money")String money,HttpSession session) {
-        int id= (int) session.getAttribute("user");
+        int id= (int) session.getAttribute("userid");
         String result=userService.chargeCard(id,parseInt(money));
         ModelMap modelMap=new ModelMap();
         modelMap.addAttribute("result",result);
@@ -33,7 +33,7 @@ public class UserJsonController {
     @GetMapping("/logOff")
     public @ResponseBody
     Object logOff(HttpServletRequest request,HttpSession session) {
-        int id= (int) session.getAttribute("user");
+        int id= (int) session.getAttribute("userid");
         String result=userService.logOff(id);
         ModelMap modelMap=new ModelMap();
         modelMap.addAttribute("result",result);
@@ -43,7 +43,7 @@ public class UserJsonController {
 
     @PostMapping("/update")
     public @ResponseBody Object edit(@RequestBody UserVO user, HttpSession session){
-        user.setId((Integer) session.getAttribute("user"));
+        user.setId((Integer) session.getAttribute("userid"));
         String result = userService.updateUser(user);
         ModelMap modelMap=new ModelMap();
         modelMap.addAttribute("result",user);

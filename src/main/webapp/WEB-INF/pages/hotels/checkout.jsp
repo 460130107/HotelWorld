@@ -7,13 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>首页</title>
-
+    <title>退房</title>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style-hotel.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
-
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -21,15 +19,18 @@
     <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body>
-<%@ include file="navi.jsp"%>
-<div class="container index">
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <h3 class="panel-title">HotelWorld 入住信息</h3>
-        </div>
-        <div class="panel-body">
-            <table class="table table-bordered table-striped">
+
+<body class="checkout">
+<%@ include file="asides.jsp"%>
+<div class="container">
+<%@ include file="header.jsp"%>
+<main class="panel-group">
+    <div class="panel-heading">
+        <h3 class="panel-title">HotelWorld 入住信息</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped">
+            <thead>
                 <tr>
                     <th>入住日期</th>
                     <th>退房日期</th>
@@ -37,6 +38,8 @@
                     <th>住客姓名</th>
                     <th></th>
                 </tr>
+            </thead>
+            <tbody>
                 <tr>
                     <td>2017-01-01</td>
                     <td>2017-01-03</td>
@@ -65,9 +68,11 @@
                     <td>张三</td>
                     <td><button class="btn btn-sm btn-primary">退房</button></td>
                 </tr>
-            </table>
-        </div>
+            </tbody>
+        </table>
     </div>
+</main>
+    
 
 </div>
 

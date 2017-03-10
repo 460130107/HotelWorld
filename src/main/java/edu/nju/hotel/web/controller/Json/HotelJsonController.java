@@ -22,7 +22,7 @@ public class HotelJsonController {
 
     @PostMapping("/update")
     public @ResponseBody Object edit(@RequestBody HotelVO hotel, HttpSession session){
-        hotel.setId((Integer) session.getAttribute("hotel"));
+        hotel.setId((Integer) session.getAttribute("hotelid"));
         String result = hotelService.updateHotel(hotel);
         ModelMap modelMap=new ModelMap();
         modelMap.addAttribute("result",hotel);

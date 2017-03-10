@@ -1,0 +1,343 @@
+@charset "UTF-8";
+/* 通用 */
+.alarm {
+  color: red; }
+
+form label {
+  text-align: right; }
+
+body, h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, .btn-simple, .alert, a, .td-name, td, button.close {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-family: "Roboto","Helvetica Neue",Arial,sans-serif;
+  font-weight: 400; }
+
+a:hover {
+  text-decoration: none; }
+
+a {
+  cursor: pointer; }
+
+/* 计划 */
+body {
+  display: flex; }
+
+.aside {
+  width: 260px; }
+  .aside aside {
+    max-height: 100vh;
+    min-height: 100%;
+    overflow: auto;
+    width: 260px;
+    background-size: cover;
+    background-image: url("../img/sidebar.jpg");
+    background-position: center center;
+    overflow: auto;
+    position: fixed; }
+    .aside aside a {
+      color: #FFFFFF !important; }
+    .aside aside .nav {
+      width: 100%;
+      margin: 20px 0; }
+      .aside aside .nav li {
+        width: 100%; }
+        .aside aside .nav li a:focus {
+          background-color: transparent; }
+      .aside aside .nav li:hover > a, .aside aside .nav li.active > a, .aside aside .nav li > a:focus, .aside aside .nav li > a:hover {
+        color: #FFFFFF;
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.23);
+        border-radius: 10px; }
+      .aside aside .nav a {
+        margin: 5px 15px;
+        opacity: .86;
+        transition: all 150ms ease-in; }
+    .aside aside::before {
+      content: "";
+      display: block;
+      opacity: .33;
+      background: #000000;
+      position: absolute;
+      width: 260px;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0; }
+    .aside aside .log {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
+  .aside .fix {
+    z-index: 4;
+    position: fixed; }
+
+main {
+  background: rgba(203, 203, 210, 0.15);
+  padding: 20px;
+  min-height: calc(100vh - 51px); }
+  main.panel-group {
+    margin-bottom: 0 !important; }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 !important;
+  padding: 0 !important; }
+  .container header nav {
+    background-color: rgba(255, 255, 255, 0.96) !important;
+    margin-bottom: 0 !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+    .container header nav a {
+      color: #9A9A9A; }
+
+body.plan main .panel-default > .panel-heading {
+  background-color: white;
+  cursor: pointer; }
+body.plan main .panel label {
+  color: #9A9A9A;
+  font-weight: 400; }
+body.plan main main .panel-heading {
+  cursor: pointer; }
+  body.plan main main .panel-heading:hover a, body.plan main main .panel-heading:hover i {
+    color: #337ab7; }
+  body.plan main main .panel-heading a {
+    text-decoration: none; }
+  body.plan main main .panel-heading i {
+    color: rgba(0, 0, 0, 0.4); }
+body.plan main main .panel.panel-default {
+  margin: 20px 20px;
+  padding: 10px;
+  border-radius: 4px;
+  border: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(63, 63, 68, 0.1); }
+  body.plan main main .panel.panel-default ul {
+    list-style-type: none;
+    padding-left: 0; }
+body.plan main main .panel-collapse > .panel-body {
+  border-top: none !important;
+  display: flex;
+  flex-direction: column; }
+  body.plan main main .panel-collapse > .panel-body ul {
+    display: flex; }
+  body.plan main main .panel-collapse > .panel-body li {
+    padding: 5px 11px;
+    margin: 0 15px 5px 0;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px; }
+  body.plan main main .panel-collapse > .panel-body .roomDetail {
+    display: flex; }
+    body.plan main main .panel-collapse > .panel-body .roomDetail h5 {
+      margin-top: 7px;
+      width: 60px;
+      font-size: 16px;
+      color: #9A9A9A; }
+  body.plan main main .panel-collapse > .panel-body select {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    height: 30px;
+    line-height: 30px;
+    width: 80px;
+    margin-right: 10px; }
+  body.plan main main .panel-collapse > .panel-body select, body.plan main main .panel-collapse > .panel-body input {
+    width: 155px;
+    margin-right: 10px; }
+body.plan main main a {
+  color: rgba(0, 0, 0, 0.3); }
+  body.plan main main a.fa {
+    padding: 0.8rem;
+    font-size: 1.8rem; }
+  body.plan main main a:hover {
+    color: #337ab7; }
+body.plan main input {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 5px;
+  border-radius: 5px; }
+
+body.account main .info {
+  margin: 0 40px; }
+body.account main .form-group {
+  display: flex; }
+  body.account main .form-group label {
+    margin-top: 5px;
+    flex: 0 0 8%; }
+  body.account main .form-group div {
+    flex: 1 1 auto; }
+
+body.bookList main .panel-body {
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(63, 63, 68, 0.1);
+  background-color: #FFFFFF;
+  padding: 0; }
+  body.bookList main .panel-body > div {
+    margin: 0 10px; }
+body.bookList main th, body.bookList main td {
+  padding-left: 20px; }
+
+body.checkin main .panel-body, body.checkin main .panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(63, 63, 68, 0.1);
+  background-color: #FFFFFF;
+  padding: 10px;
+  margin: 20px; }
+body.checkin main .list-panel {
+  flex-direction: column;
+  align-items: flex-start; }
+  body.checkin main .list-panel > div {
+    margin: 10px; }
+    body.checkin main .list-panel > div button {
+      font-size: 12px; }
+  body.checkin main .list-panel span {
+    margin: 0 20px 0 0;
+    font-size: 20px;
+    font-weight: 600; }
+body.checkin main .add-panel {
+  align-items: flex-start;
+  flex-direction: column; }
+  body.checkin main .add-panel > div {
+    margin: 5px; }
+body.checkin main input, body.checkin main select {
+  padding: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  width: 150px;
+  height: 30px; }
+body.checkin main .fa {
+  font-size: 1.5em;
+  margin: 0 10px;
+  color: rgba(0, 0, 0, 0.3); }
+body.checkin main .fa:hover {
+  color: #337ab7; }
+
+body.checkout main .panel-body, body.checkout main .panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(63, 63, 68, 0.1);
+  background-color: #FFFFFF;
+  padding: 10px;
+  margin: 20px; }
+
+.index #myTabContent a {
+  margin-top: -40px; }
+
+/* 注册 */
+.register .submit {
+  width: 80px;
+  margin-left: 200px; }
+
+form > div {
+  padding-top: 0; }
+
+.hotel img {
+  width: 100%; }
+
+.time {
+  margin-bottom: 20px; }
+
+.booking .name {
+  margin-right: 20px;
+  margin-top: 5px; }
+
+.account strong {
+  margin-right: 10px; }
+
+.account button {
+  font-size: 16px; }
+
+.login-pane {
+  border-radius: 5px;
+  position: relative;
+  margin: 0 auto;
+  top: 200px;
+  width: 350px;
+  background-color: rgba(238, 238, 238, 0.9); }
+
+.login-pane #myTabContent {
+  padding: 20px; }
+
+body.index {
+  background-image: url("../img/house.png");
+  background-size: cover; }
+
+body.index h1 {
+  text-align: center;
+  padding-top: 10px;
+  color: #337ab7; }
+
+.index .nav-tabs {
+  border-bottom: 1px solid #337ab7; }
+
+.right {
+  float: right; }
+
+.index .form-group {
+  padding-top: 0; }
+
+.pay div {
+  margin: 10px 0 10px 0; }
+
+.pay input {
+  margin: 0 0 0 20px; }
+
+.error-tips {
+  color: #c00; }
+
+.modal-money {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.68); }
+
+.money-dialog {
+  position: absolute;
+  width: 40%;
+  height: 200px;
+  top: 40%;
+  left: 20%;
+  background-color: white;
+  border-radius: 10px;
+  padding: 5px 20px;
+  transition: transform .5s; }
+
+.modal-money.fadein {
+  transform: translate(0, 20px); }
+
+.modal-money button {
+  margin: 0 10px; }
+
+.hotel .form-group:after {
+  content: "";
+  display: block;
+  clear: both; }
+
+.hotel .form-group {
+  display: flex;
+  justify-content: left;
+  align-items: center; }
+
+.hotel .info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; }
+
+.hotel .form-group > div {
+  margin: 0 10px;
+  flex: 0 0 75%; }
+
+.hotel .form-group > label {
+  flex: 0 0 6%; }
+
+.form-group button {
+  margin: 10px; }
+
+/*# sourceMappingURL=style-hotel.css.map */

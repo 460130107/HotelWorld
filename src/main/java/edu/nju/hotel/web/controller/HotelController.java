@@ -30,7 +30,7 @@ public class HotelController {
 
     @GetMapping("/account")
     public String account(Model model,HttpSession session) {
-        int id= (int) session.getAttribute("hotel");
+        int id= (int) session.getAttribute("hotelid");
         HotelVO h=hotelService.getHotelById(id);
         model.addAttribute("hotelInfo",h);
         return "hotels/account";

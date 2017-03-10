@@ -1,10 +1,10 @@
-form label{
-    text-align: right;
-}
+/* 首页 */ 
 
 .index #myTabContent a{
     margin-top: -40px;
 }
+
+/* 注册 */
 
 .register .submit{
     width: 80px;
@@ -17,7 +17,118 @@ form>div{
 .main-header .navbar {
     background-color: #3c8dbc;
 }
+/* hotel */ 
 
+.hotel{
+    display: flex;
+}
+.hotel .container{
+    display: flex;
+    flex-direction: column;
+    margin: 0!important;
+    padding: 0!important;
+}
+.hotel .aside{
+    width: 260px;
+}
+.hotel main{
+    background: rgba(203, 203, 210, 0.15);
+    padding:20px;
+    min-height: calc(100vh - 51px);
+}
+.hotel aside {
+    max-height: 100vh;
+    min-height: 100%;
+    overflow: auto;
+    width: 260px;
+    background-size: cover;
+    background-image: url('../img/sidebar.jpg');
+    background-position: center center;
+    overflow: auto;
+    position: fixed;
+}
+.hotel .fix{
+    z-index: 4;
+    position: fixed;
+}
+.hotel aside ul{
+    width: 100%;
+    margin: 20px 0;
+}
+.hotel aside a{
+    color: #FFFFFF!important;
+    margin: 5px 15px;
+    opacity: .86;
+    transition: all 150ms ease-in;
+}
+.hotel aside .nav li:hover > a ,.hotel aside .nav li.active > a ,aside li>a:focus, aside li>a:hover {
+    color: #FFFFFF;
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.23);
+    border-radius: 10px;
+}
+.hotel aside .nav li {
+    width: 100%;
+}
+.hotel aside::before {
+    content: "";
+    display:block;
+    opacity: .33;
+    background: #000000;
+    position: absolute;
+    width: 260px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+
+}
+.hotel .nav>li>a:focus {
+    background-color: transparent;
+}
+.hotel .navbar a {
+    color: #9A9A9A;
+}
+
+.hotel .log{
+    display: flex;
+    justify-content: center;
+    padding: 10px 15px;
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hotel nav{
+    background-color: rgba(255, 255, 255, 0.96)!important;
+    margin-bottom: 0!important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.hotel .panel-default>.panel-heading {
+    background-color: white;
+    cursor: pointer;
+}
+
+.hotel main panel-heading a{
+    text-decoration: none;
+}
+.panel-group {
+     margin-bottom: 0!important; 
+}
+.hotel .panel.panel-default{
+    margin: 20px 20px;
+    padding: 10px;
+    border-radius: 4px;
+    border: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(63, 63, 68, 0.1);
+}
+.hotel .panel label{
+    color: #9A9A9A;
+    font-weight: 400;
+}
+.hotel .panel-collapse>.panel-body {
+    border-top-color: none;
+}
 .hotel .row{
     border-top: solid 1px #eee;
 }
@@ -155,6 +266,11 @@ body.index h1 {
     margin: 10px;
 }
 
+/*通用*/
+
 .alarm{
     color: red;
+}
+form label{
+    text-align: right;
 }

@@ -11,7 +11,7 @@
     <title>查看酒店信息</title>
 
     <!-- 新 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style-hotel.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
 
 
@@ -22,71 +22,70 @@
     <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body class="hotel">
-<%@ include file="navi.jsp"%>
-<div class="container account">
-    <h1>HotelWorld 酒店信息</h1>
-    <hr/>
+<body class="account">
+<%@ include file="asides.jsp"%>
+<div class="container">
+    <%@ include file="header.jsp"%>
+    <main class="panel-group">
+        <c:if test="${!empty hotelInfo}">
+            <div class="info">
+                <c:if test="${hotelInfo.approved==0}">
+                    <p class="alarm">未审批，请耐心等待</p>
+                </c:if>
+                <c:if test="${hotelInfo.approved==2}">
+                    <p class="alarm">审批未通过</p>
+                </c:if>
+                <div class="form-group">
+                    <label for="name" class="control-label">客栈编码:</label>
+                    <div>
+                        ${hotelInfo.id}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="name" class="control-label">客栈名称:</label>
+                    <div>
+                        <input type="text" value="${hotelInfo.name}" disabled class="form-control" id="name" name="name" placeholder="姓名"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="psw" class="control-label">账号密码</label>
+                    <div>
+                        <input type="password" value="${hotelInfo.psw}" disabled class="form-control" id="psw" name="psw" placeholder="账号密码"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="city" class="control-label">城市</label>
+                    <div>
+                        <select name="city" id="city" disabled class="form-control">
+                            <option value="北京" ${hotelInfo.city=='北京'?'selected':''}>北京</option>
+                            <option value="上海" ${hotelInfo.city=='上海'?'selected':''}>上海</option>
+                            <option value="南京" ${hotelInfo.city=='南京'?'selected':''}>南京</option>
+                            <option value="杭州" ${hotelInfo.city=='杭州'?'selected':''}>杭州</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="location" class="control-label">地址</label>
+                    <div>
+                        <input type="text" value="${hotelInfo.location}" disabled class="form-control" id="location" name="location" placeholder="地点"/>
+                    </div>
+                </div>
 
-    <c:if test="${!empty hotelInfo}">
-        <c:if test="${hotelInfo.approved==0}">
-            <p class="alarm">未审批，请耐心等待</p>
+                <div class="form-group">
+                    <label for="description" class="control-label">简介:</label>
+                    <div>
+                        <textarea disabled class="form-control" id="description" name="description" placeholder="简介">${hotelInfo.description}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="modify" class="submit btn btn-sm btn-success">修改</button>
+                    <button type="submit" id="submit" class="submit btn btn-sm btn-success" style="display: none;">提交</button>
+                    <button type="button" id="cancel" class="submit btn btn-sm btn-danger" style="display: none;">取消</button>
+                </div>
+            </div>
         </c:if>
-        <c:if test="${hotelInfo.approved==2}">
-            <p class="alarm">审批未通过</p>
-        </c:if>
-        <div class="info">
-            <div class="form-group">
-                <label for="name" class="control-label">客栈编码:</label>
-                <div>
-                    ${hotelInfo.id}
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="name" class="control-label">客栈名称:</label>
-                <div>
-                    <input type="text" value="${hotelInfo.name}" disabled class="form-control" id="name" name="name" placeholder="姓名"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="psw" class="control-label">账号密码</label>
-                <div>
-                    <input type="password" value="${hotelInfo.psw}" disabled class="form-control" id="psw" name="psw" placeholder="账号密码"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="city" class="control-label">城市</label>
-                <div>
-                    <select name="city" id="city" disabled class="form-control">
-                        <option value="北京" ${hotelInfo.city=='北京'?'selected':''}>北京</option>
-                        <option value="上海" ${hotelInfo.city=='上海'?'selected':''}>上海</option>
-                        <option value="南京" ${hotelInfo.city=='南京'?'selected':''}>南京</option>
-                        <option value="杭州" ${hotelInfo.city=='杭州'?'selected':''}>杭州</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="location" class="control-label">地址</label>
-                <div>
-                    <input type="text" value="${hotelInfo.location}" disabled class="form-control" id="location" name="location" placeholder="地点"/>
-                </div>
-            </div>
 
-            <div class="form-group">
-                <label for="description" class="control-label">简介:</label>
-                <div>
-                    <textarea disabled class="form-control" id="description" name="description" placeholder="简介">${hotelInfo.description}</textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <button type="button" id="modify" class="submit btn btn-sm btn-success">修改</button>
-                <button type="submit" id="submit" class="submit btn btn-sm btn-success" style="display: none;">提交</button>
-                <button type="button" id="cancel" class="submit btn btn-sm btn-danger" style="display: none;">取消</button>
-            </div>
-        </div>
-    </c:if>
-
-
+    </main>
 </div>
 
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->

@@ -34,7 +34,7 @@ public class UserController {
 
     @RequestMapping("/logout")
     public String logout(HttpSession session){
-        session.removeAttribute("user");
+        session.removeAttribute("userid");
         return "redirect:/";
     }
 
@@ -78,7 +78,7 @@ public class UserController {
 
     @GetMapping("/account")
     public String account(Model model,HttpSession session) {
-        int uid= (int) session.getAttribute("user");
+        int uid= (int) session.getAttribute("userid");
         UserVO user=userService.getUserById(uid);
         model.addAttribute("userInfo",user);
         return "users/account";

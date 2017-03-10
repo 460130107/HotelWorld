@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>酒店管理</title>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style-hotel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"> -->
+</head>
+<body class="checkin">
+
+<div class="aside">
+    <aside class="fix">
+        <div class="log">
+            <a href="#" class="navbar-brand"><b>Hotel</b>World</a>
+        </div>
+        <ul class="nav">
+            <li class="active">
+                <a href="#/dashboard">
+                    <p>办理入住</p>
+                </a>
+            </li>
+            <li>
+                <a href="#/user">
+                    <p>办理退房</p>
+                </a>
+            </li>
+            <li>
+                <a href="#/typography">
+                    <p>账号信息</p>
+                </a>
+            </li>
+            <li>
+                <a href="#/icons">
+                    <p>酒店管理</p>
+                </a>
+            </li>
+            <li>
+                <a href="#/maps">
+                    <p>订单列表</p>
+                </a>
+            </li>
+            <li>
+                <a href="#/notifications">
+                    <p>统计信息</p>
+                </a>
+            </li>
+            <li>
+                <a href="#/upgrade">
+                    <p>统计图表</p>
+                </a>
+            </li>
+        </ul>
+    </aside>
+</div>
+
+<div class="container account">
+    <header class="main-header">
+        <nav class="navbar navbar-static-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a href="#" class="navbar-brand"><b>如家快捷酒店</b></a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                    
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/hotels/logout">退出</a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    </header>
+    <main class="panel-group">
+        <div class="panel-heading" data-toggle="collapse" data-target="#room-type">
+            <h4 class="panel-title">
+                <a>
+                    用户入住
+                </a>
+            </h4>
+            <div>
+                <span>会员登录</span>
+                <input type="text" name="userId" placeholder="会员卡号">
+                <a id="checkUser" class="fa fa-check"></a>
+            </div>
+        </div>
+
+        <div class="panel-body add-panel">
+            <div>
+                <input type="date" name="start" id="start"/>
+                <input type="date" name="end" id="end"/>
+                <select name="roomType" id="roomType">
+                    <option value="单人房">单人房</option>
+                    <option value="双人房">双人房</option>
+                    <option value="大床房">大床房</option>
+                </select>
+                <select name="nums" id="nums">
+                    <option value="1">301</option>
+                    <option value="2">302</option>
+                    <option value="3">303</option>
+                    <option value="4">304</option>
+                    <option value="5">305</option>
+                </select>
+            </div>
+            <div>
+                <input type="text" name="name1" id="name1" placeholder="姓名">
+                <input type="text" name="idcard1" id="idcard1" placeholder="身份证号">
+                <input type="text" name="name2" id="name2" placeholder="姓名">
+                    <input type="text" name="idcard2" id="idcard2" placeholder="身份证号">
+                <a id="addRoomBook" class="fa fa-check"></a>
+                <a id="cancelRoomBook" class="fa fa-close"></a>
+            </div>
+        </div>
+
+        <div class="panel-body list-panel">
+            <div>
+                <span>总价：1000元</span>
+                <button class="btn btn-sm btn-primary" id="cashPay">现金付款
+                </button>
+                <button class="btn btn-sm btn-primary" id="cardPay">会员卡付款</button>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                    <th>入住日期</th>
+                    <th>离店日期</th>
+                    <th>房间类型</th>
+                    <th>房间号</th>
+                    <th>住客姓名1</th>
+                    <th>住客身份证1</th>
+                    <th>住客姓名2</th>
+                    <th>住客身份证2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+</div>
+
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="../js/jquery.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="../js/bootstrap.min.js"></script>
+<script>
+$(function () { 
+    // $('.panel-collapse').collapse('hide');
+});
+</script>
+</body>
+</html>
+

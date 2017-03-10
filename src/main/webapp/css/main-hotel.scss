@@ -1,0 +1,194 @@
+@import "_common";
+@import "hotel/_common";
+@import "hotel/_plan";
+@import "hotel/_account";
+@import "hotel/_bookList";
+@import "hotel/_checkin";
+@import "hotel/_checkout";
+
+/* 计划 */ 
+
+body{
+    display: flex;
+}
+
+.aside{
+    @include asideStyle;
+}
+
+main{
+    background: rgba(203, 203, 210, 0.15);
+    padding: 20px;
+    min-height: calc(100vh - 51px);
+    &.panel-group {
+         margin-bottom: 0!important; 
+    }
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    margin: 0!important;
+    padding: 0!important;
+    header{
+        @include headerStyle;
+    }
+}
+
+body.plan main{
+    @include planStyle;
+}
+
+body.account main{
+    @include accountStyle;
+}
+
+body.bookList main{
+    @include bookListStyle;
+}
+
+body.checkin main{
+    @include checkinStyle;
+}
+
+body.checkout main{
+    @include checkoutStyle;
+}
+
+.index #myTabContent a{
+    margin-top: -40px;
+}
+
+/* 注册 */
+
+.register .submit{
+    width: 80px;
+    margin-left: 200px;
+}
+
+form>div{
+    padding-top: 0;
+}
+
+.hotel img{
+    width: 100%;
+}
+.time{
+    margin-bottom: 20px;
+}
+.booking .name{
+    margin-right: 20px;
+    margin-top: 5px;
+}
+
+.account strong{
+    margin-right: 10px;
+}
+
+.account button{
+    font-size: 16px;
+}
+
+.login-pane{
+    border-radius: 5px;
+    position: relative;
+    margin: 0 auto;
+    top: 200px;
+    width: 350px;
+    background-color: rgba(238, 238, 238, 0.90);
+}
+
+.login-pane #myTabContent{
+    padding: 20px;
+}
+body.index{
+    background-image: url("../img/house.png");
+    background-size: cover;
+}
+
+body.index h1 {
+    text-align: center;
+    padding-top: 10px;
+    color: #337ab7;
+}
+.index .nav-tabs {
+    border-bottom: 1px solid #337ab7;
+}
+
+.right{
+    float: right;
+}
+.index .form-group{
+    padding-top: 0;
+}
+
+.pay div{
+    margin: 10px 0 10px 0;
+}
+.pay input{
+    margin: 0 0 0 20px;
+}
+
+.error-tips{
+    color: #c00;
+}
+.modal-money{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top:0;
+    left: 0;
+    right:0;
+    bottom: 0;
+    overflow: hidden;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.68);
+}
+.money-dialog{
+    position: absolute;
+    width: 40%;
+    height: 200px;
+    top: 40%;
+    left: 20%;
+    background-color: white;
+    border-radius: 10px;
+    padding: 5px 20px;
+    transition: transform .5s;
+}
+.modal-money.fadein{
+    transform: translate(0,20px);
+}
+.modal-money button{
+    margin:0 10px;
+}
+
+.hotel .form-group:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+.hotel .form-group{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.hotel .info{
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+}
+
+.hotel .form-group>div{
+    margin: 0 10px;
+    flex: 0 0 75%;
+}
+
+.hotel .form-group>label{
+    flex: 0 0 6%;
+}
+
+.form-group button{
+    margin: 10px;
+}
+

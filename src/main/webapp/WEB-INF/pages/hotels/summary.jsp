@@ -12,6 +12,7 @@
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -21,11 +22,16 @@
     <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body>
-<%@ include file="navi.jsp"%>
-<div class="container account">
-    <h1>HotelWorld 酒店信息</h1>
-    <hr/>
+<body class="checkout">
+<%@ include file="asides.jsp"%>
+<div class="container">
+<%@ include file="header.jsp"%>
+<main class="panel-group">
+    <div class="panel-body">
+        <h1>HotelWorld 酒店信息</h1>
+        <hr/>
+    </div>
+</main>
 </div>
 
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
