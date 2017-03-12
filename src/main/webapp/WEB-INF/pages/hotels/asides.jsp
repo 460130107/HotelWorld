@@ -7,43 +7,38 @@
         </div>
         <ul class="nav">
             <li class="active">
-                <a href="hotels/index">
+                <a href="index">
                     <p>预订列表</p>
                 </a>
             </li>
             <li>
-                <a href="/hotels/checkin">
+                <a href="checkin">
                     <p>办理入住</p>
                 </a>
             </li>
             <li>
-                <a href="/hotels/checkout">
+                <a href="checkout">
                     <p>办理退房</p>
                 </a>
             </li>
             <li>
-                <a href="/hotels/account">
+                <a href="account">
                     <p>账号信息</p>
                 </a>
             </li>
             <li>
-                <a href="/hotels/plan">
+                <a href="plan">
                     <p>酒店管理</p>
                 </a>
             </li>
             <li>
-                <a href="/hotels/history">
+                <a href="history">
                     <p>历史订单</p>
                 </a>
             </li>
             <li>
-                <a href="/hotels/summary">
+                <a href="summary">
                     <p>统计信息</p>
-                </a>
-            </li>
-            <li>
-                <a href="/hotels/charts">
-                    <p>统计图表</p>
                 </a>
             </li>
         </ul>

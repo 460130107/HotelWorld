@@ -48,11 +48,12 @@ body.bookList main{
 }
 
 body.checkin main{
+    @include panelStyle;
     @include checkinStyle;
 }
 
 body.checkout main{
-    @include checkoutStyle;
+    @include panelStyle;
 }
 
 .index #myTabContent a{

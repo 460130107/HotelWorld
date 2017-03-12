@@ -97,56 +97,59 @@ body.plan main .panel-default > .panel-heading {
 body.plan main .panel label {
   color: #9A9A9A;
   font-weight: 400; }
-body.plan main main .panel-heading {
+body.plan main .panel-heading {
   cursor: pointer; }
-  body.plan main main .panel-heading:hover a, body.plan main main .panel-heading:hover i {
+  body.plan main .panel-heading:hover a, body.plan main .panel-heading:hover i {
     color: #337ab7; }
-  body.plan main main .panel-heading a {
+  body.plan main .panel-heading a {
     text-decoration: none; }
-  body.plan main main .panel-heading i {
+  body.plan main .panel-heading i {
     color: rgba(0, 0, 0, 0.4); }
-body.plan main main .panel.panel-default {
+body.plan main .panel.panel-default {
   margin: 20px 20px;
   padding: 10px;
   border-radius: 4px;
   border: none;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(63, 63, 68, 0.1); }
-  body.plan main main .panel.panel-default ul {
+  body.plan main .panel.panel-default ul {
     list-style-type: none;
     padding-left: 0; }
-body.plan main main .panel-collapse > .panel-body {
+body.plan main .panel-collapse > .panel-body {
   border-top: none !important;
   display: flex;
   flex-direction: column; }
-  body.plan main main .panel-collapse > .panel-body ul {
+  body.plan main .panel-collapse > .panel-body ul {
     display: flex; }
-  body.plan main main .panel-collapse > .panel-body li {
+  body.plan main .panel-collapse > .panel-body li {
     padding: 5px 11px;
     margin: 0 15px 5px 0;
     background: rgba(0, 0, 0, 0.1);
     border-radius: 10px; }
-  body.plan main main .panel-collapse > .panel-body .roomDetail {
-    display: flex; }
-    body.plan main main .panel-collapse > .panel-body .roomDetail h5 {
+  .roomDetail {
+    display: flex;
+    flex-direction: column; }
+    .roomDetail h5 {
       margin-top: 7px;
       width: 60px;
       font-size: 16px;
       color: #9A9A9A; }
-  body.plan main main .panel-collapse > .panel-body select {
+    .roomDetail > div {
+      display: flex; }
+  body.plan main .panel-collapse > .panel-body select {
     border: 1px solid rgba(0, 0, 0, 0.1);
     height: 30px;
     line-height: 30px;
     width: 80px;
     margin-right: 10px; }
-  body.plan main main .panel-collapse > .panel-body select, body.plan main main .panel-collapse > .panel-body input {
+  body.plan main .panel-collapse > .panel-body select, body.plan main .panel-collapse > .panel-body input {
     width: 155px;
     margin-right: 10px; }
-body.plan main main a {
+body.plan main a {
   color: rgba(0, 0, 0, 0.3); }
-  body.plan main main a.fa {
+  body.plan main a.fa {
     padding: 0.8rem;
     font-size: 1.8rem; }
-  body.plan main main a:hover {
+  body.plan main a:hover {
     color: #337ab7; }
 body.plan main input {
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -209,7 +212,8 @@ body.checkin main .fa {
   margin: 0 10px;
   color: rgba(0, 0, 0, 0.3); }
 body.checkin main .fa:hover {
-  color: #337ab7; }
+  color: #337ab7;
+  text-decoration: none; }
 
 body.checkout main .panel-body, body.checkout main .panel-heading {
   display: flex;

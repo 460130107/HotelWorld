@@ -2,15 +2,27 @@ package edu.nju.hotel.logic.impl;
 
 import edu.nju.hotel.data.dao.HotelDao;
 import edu.nju.hotel.data.model.Hotel;
+import edu.nju.hotel.data.model.Plan;
+import edu.nju.hotel.data.model.Room;
+import edu.nju.hotel.data.model.RoomType;
 import edu.nju.hotel.data.repository.HotelRepository;
+import edu.nju.hotel.data.repository.PlanRepository;
+import edu.nju.hotel.data.repository.RoomRepository;
+import edu.nju.hotel.data.repository.RoomTypeRepository;
 import edu.nju.hotel.data.util.VerifyResult;
 import edu.nju.hotel.logic.service.HotelService;
 import edu.nju.hotel.logic.service.TransferService;
 import edu.nju.hotel.logic.vo.HotelVO;
+import edu.nju.hotel.logic.vo.PlanVO;
+import edu.nju.hotel.logic.vo.RoomTypeVO;
+import edu.nju.hotel.logic.vo.RoomVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -20,6 +32,15 @@ import java.util.Random;
 public class HotelServiceImpl implements HotelService {
     @Autowired
     private HotelRepository hotelRepository;
+
+    @Autowired
+    private RoomTypeRepository roomTypeRepository;
+
+    @Autowired
+    private RoomRepository roomRepository;
+
+    @Autowired
+    private PlanRepository planRepository;
 
     @Autowired
     private TransferService transferService;
@@ -62,7 +83,54 @@ public class HotelServiceImpl implements HotelService {
         return "";
     }
 
+
     @Override
+    public void addRoomType(String roomtype, int id) {
+        RoomType roomType=new RoomType();
+        roomType.setName(roomtype);
+        roomType.setHotelByHotelId(hotelRepository.findOne(id));
+        roomTypeRepository.saveAndFlush(roomType);
+    }
+
+    @Override
+    public List<RoomTypeVO> getRoomType(int hotelid) {
+        List<RoomType> roomTypeList=roomTypeRepository.getRoomTypeListById(hotelid);
+        List<RoomTypeVO> roomVOS=transferService.transferRoomTypeVOs(roomTypeList);
+        return roomVOS;
+    }
+
+    @Override
+    public void addRoom(Room room) {
+        roomRepository.saveAndFlush(room);
+    }
+
+    @Override
+    public ModelMap getRoom(int hotelid) {
+        List<RoomType> roomTypeList=roomTypeRepository.getRoomTypeListById(hotelid);
+        ModelMap map=new ModelMap();
+        for (RoomType roomType:roomTypeList){
+            List<Room> list=roomRepository.getRoomList(hotelid,roomType.getId());
+
+            if(list.size()!=0){
+                List<RoomVO> roomVOS=transferService.transferRoomVOs(list);
+                map.addAttribute(roomType.getName(),roomVOS);
+            }
+        }
+        return map;
+    }
+
+    @Override
+    public void addPlan(Plan plan) {
+        planRepository.saveAndFlush(plan);
+    }
+
+    @Override
+    public List<PlanVO> getPlan(int hotelid) {
+        List<Plan> list=planRepository.getPlanList(hotelid);
+        List<PlanVO> planVOS=transferService.transferPlanVOs(list);
+        return planVOS;
+    }
+
     public int getRandomHotelId(){
         Hotel hotel;
         Random random=new Random();

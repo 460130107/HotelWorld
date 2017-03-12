@@ -25,4 +25,5 @@ public interface HotelDao {
     void changeState(int id);
 
     void update(Hotel Hotel);
+
 }

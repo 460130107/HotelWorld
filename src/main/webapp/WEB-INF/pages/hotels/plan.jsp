@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -35,8 +36,9 @@
             <div id="room-type" class="panel-collapse collapse in">
                 <div class="panel-body">
                     <ul>
-                        <li>单人间</li>
-                        <li>双人间</li>
+                        <c:forEach items="${roomTypes}" var="roomType">
+                            <li>${roomType.roomType}</li>
+                        </c:forEach>
                     </ul>
                     <div>
                         <input type="text" name="roomType" id="roomType" placeholder="添加类型"/>
@@ -56,24 +58,16 @@
                     </a>
                 </h4>
             </div>
-            <div id="room" class="panel-collapse collapse">
+            <div id="room" class="panel-collapse collapse in">
                 <div class="panel-body">
                     <div class="roomDetail">
-                        <h5>单人间</h5>
-                        <ul>
-                            <li>305</li>
-                            <li>306</li>
-                            <li>307</li>
-                            <li>308</li>
-                            <li>309</li>
-                            <li>310</li>
-                            <li>311</li>
-                        </ul>
+
                     </div>
-                    <div>
+                    <div class="addRoomForm">
                         <select>
-                            <option>单人间</option>
-                            <option>双人间</option>
+                            <c:forEach items="${roomTypes}" var="roomType">
+                                <option value="${roomType.id}">${roomType.roomType}</option>
+                            </c:forEach>
                         </select>
                         <input type="text" name="name" id="name" placeholder="添加房间"/>
                         <a id="addRoom" class="fa fa-check"></a>
@@ -92,7 +86,7 @@
                     </a>
                 </h4>
             </div>
-            <div id="new-plan" class="panel-collapse collapse">
+            <div id="new-plan" class="panel-collapse collapse in">
                 <div class="panel-body">
                     <div class="form-group">
                         <label for="start" class="control-label">开始日期</label>
@@ -104,8 +98,9 @@
                     <div class="form-group">
                         <label class="control-label">房间类型</label>
                         <select>
-                            <option>单人间</option>
-                            <option>双人间</option>
+                            <c:forEach items="${roomTypes}" var="roomType">
+                                <option value="${roomType.id}" data-name="${roomType.roomType}">${roomType.roomType}</option>
+                            </c:forEach>
                         </select>
 
                         <label for="price" class="control-label">房间价格</label>
@@ -121,44 +116,30 @@
                  data-target="#hotel-plan">
                 <h4 class="panel-title">
                     <a>
-                        酒店计划 <i class="fa fa-plus"></i>
+                        客栈计划 <i class="fa fa-plus"></i>
                     </a>
                 </h4>
             </div>
-            <div id="hotel-plan" class="panel-collapse collapse">
+            <div id="hotel-plan" class="panel-collapse collapse in">
                 <div class="panel-body">
                     <table class="table table-striped">
                         <thead>
                         <tr>
                             <th>房间类型</th>
-                            <th>开始日期</th>
-                            <th>结束日期</th>
+                            <th>入住日期</th>
+                            <th>离店日期</th>
                             <th>房间价格</th>
-                            <th>房间数量</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>单人间</td>
-                            <td>2017-01-03</td>
-                            <td>2017-01-05</td>
-                            <td>220¥</td>
-                            <td>30</td>
-                        </tr>
-                        <tr>
-                            <td>单人间</td>
-                            <td>2017-01-03</td>
-                            <td>2017-01-05</td>
-                            <td>220¥</td>
-                            <td>30</td>
-                        </tr>
-                        <tr>
-                            <td>单人间</td>
-                            <td>2017-01-03</td>
-                            <td>2017-01-05</td>
-                            <td>220¥</td>
-                            <td>30</td>
-                        </tr>
+                        <c:forEach items="${planList}" var="plan">
+                            <tr>
+                                <td>${plan.roomType}</td>
+                                <td>${plan.startTime.toString().substring(0,10)}</td>
+                                <td>${plan.endTime.toString().substring(0,10)}</td>
+                                <td>${plan.price}</td>
+                            </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -176,7 +157,148 @@
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 <script>
     $(function () {
-        // $('.panel-collapse').collapse('hide');
+         var $roomDetail=$(".roomDetail");
+         var $addRoom=$('#addRoom');
+         var $addRoomType=$('#addRoomType');
+         var $cancelRoom=$('#cancelRoom');
+         var $cancelRoomType=$('#cancelRoomType');
+         var $addPlan=$('#addPlan');
+
+         $addRoom.click(addRoom);
+         $addRoomType.click(addRoomType);
+         $cancelRoom.click(cancelRoom);
+         $cancelRoomType.click(cancelRoomType);
+         $addPlan.click(addPlan);
+         getRooms();
+         function getRooms() {
+             $.ajax({
+                 type:"GET",
+                 url:"getRoom",
+                 success:function (mes) {
+                     var data=JSON.parse(mes);
+                     console.log(data);
+                     mountRooms(data);
+                 },
+                 error:function () {
+                     alert("error");
+                 },
+                 complete:function () {
+                 }
+
+             });
+         }
+
+         function mountRooms(msg) {
+             for (var roomtype in msg){
+                 var $div=$('<div/>');
+                 var $head=$('<h5>');
+                 $head.text(roomtype);
+                 var $ul=$('<ul/>');
+                 var rooms=msg[roomtype];
+                 rooms.forEach(function (item) {
+                     var $li=$('<li/>');
+                     $li.text(item.name);
+                     $ul.append($li);
+                 });
+
+                 $div.append($head);
+                 $div.append($ul);
+                 $roomDetail.append($div);
+             }
+         }
+
+         function cancelRoom(e) {
+             e.preventDefault();
+             $('.addRoomForm input').val("");
+         }
+
+        function cancelRoomType(e) {
+            e.preventDefault();
+            $('#roomType').val("");
+        }
+
+        function addRoomType(e) {
+            e.preventDefault();
+            var $roomType=$('#roomType');
+            var data={};
+            data.roomType=$roomType.val();
+            mountRoomType(data);
+//            $.ajax({
+//                type:"POST",
+//                url:"addRoomType",
+//                data:data,
+//                success:function (msg) {
+//                    $roomType.val("");
+//                    mountRoomType(data);
+//                }
+//            });
+        }
+
+        function mountRoomType(data) {
+            var $roomtype=$('#room-type ul');
+            var $li=$('<li/>');
+            $li.text(data.roomType);
+            $roomtype.append($li);
+        }
+         
+         function addRoom(e) {
+             e.preventDefault();
+             var $addRoomForm=$('.addRoomForm');
+             var data={};
+             data.roomTypeId=$('.addRoomForm select').val();
+             data.name=$('.addRoomForm input').val();
+             $.ajax({
+                 type:"POST",
+                 url:"addRoom",
+                 data:data,
+                 success:function (msg) {
+                     $roomDetail.empty();
+                     getRooms();
+                 }
+             });
+         }
+
+         function addPlan(e) {
+             e.preventDefault();var data={};
+             $form=$('#new-plan input');
+             $form.each(function (index,item) {
+                 data[item.name]=item.value;
+             });
+             $select=$('#new-plan select');
+             data[roomTypeId]=$select.val();
+             data[roomType]=$select.dataset.name;
+             $.ajax({
+                 type:"POST",
+                 url:"addPlan",
+                 data:data,
+                 success:function (msg) {
+
+                     mountPlan(data);
+                 }
+             });
+         }
+
+         function mountPlan(data) {
+             var $tbody=$('#hotel-plan tbody');
+             var $tr=$('<tr/>');
+             var $tdRoomType=$('<td/>');
+             var $tdStart=$('<td/>');
+             var $tdEnd=$('<td/>');
+             var $tdPrice=$('<td/>');
+             $tdRoomType.text(data.roomType);
+             $tdStart.text(data.start);
+             $tdEnd.text(data.end);
+             $tdPrice.text(data.price);
+             $tr.append($tdRoomType);
+             $tr.append($tdStart);
+             $tr.append($tdEnd);
+             $tr.append($tdPrice);
+             $tbody.append($tr);
+
+         }
+
+
+
     });
 </script>
 </body>

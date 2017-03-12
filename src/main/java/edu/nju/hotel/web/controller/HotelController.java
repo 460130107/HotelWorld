@@ -3,9 +3,13 @@ package edu.nju.hotel.web.controller;
 import edu.nju.hotel.data.model.Hotel;
 import edu.nju.hotel.logic.service.HotelService;
 import edu.nju.hotel.logic.vo.HotelVO;
+import edu.nju.hotel.logic.vo.PlanVO;
+import edu.nju.hotel.logic.vo.RoomTypeVO;
+import edu.nju.hotel.logic.vo.RoomVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zhouxiaofan on 2017/1/26.
@@ -61,15 +67,32 @@ public class HotelController {
         return "success";
     }
 
-    @RequestMapping("/plan")
-    public String plan(Model model) {
-        //所有计划
+    @GetMapping("/plan")
+    public String plan(Model model,HttpSession session) {
+        int hotelid=(Integer) session.getAttribute("hotelid");
+        List<RoomTypeVO> roomTypeList=hotelService.getRoomType(hotelid);
+        List<PlanVO> planList=hotelService.getPlan(hotelid);
+        model.addAttribute("roomTypes",roomTypeList);
+        model.addAttribute("planList",planList);
+
+        ModelMap roomList=hotelService.getRoom(hotelid);
+        model.addAttribute("roomList",roomList);
+
         return "hotels/plan";
     }
 
-    @PostMapping("/addPlan")
-    public void addPlan(Model model) {
-        //数据库中添加计划
+    @GetMapping("/getRoom")
+    public @ResponseBody Object getRoom(HttpSession session) {
+        //所有计划
+        ModelMap model=new ModelMap();
+        int hotelid=(Integer) session.getAttribute("hotelid");
+
+        ModelMap roomList=hotelService.getRoom(hotelid);
+
+        model.addAttribute("roomList",roomList);
+
+        return roomList;
+
     }
 
 

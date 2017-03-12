@@ -1,9 +1,15 @@
 package edu.nju.hotel.logic.service;
 
-import edu.nju.hotel.data.model.Hotel;
-import edu.nju.hotel.data.model.User;
+import edu.nju.hotel.data.model.*;
 import edu.nju.hotel.data.util.VerifyResult;
 import edu.nju.hotel.logic.vo.HotelVO;
+import edu.nju.hotel.logic.vo.PlanVO;
+import edu.nju.hotel.logic.vo.RoomTypeVO;
+import edu.nju.hotel.logic.vo.RoomVO;
+import org.springframework.ui.ModelMap;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zhouxiaofan on 2017/2/4.
@@ -17,11 +23,22 @@ public interface HotelService {
      */
     VerifyResult verifyLogin(int id, String password);
 
-    HotelVO addHotel(Hotel user);
+    HotelVO addHotel(Hotel hotel);
 
     HotelVO getHotelById(int id);
 
     String updateHotel(HotelVO hotel);
 
-    int getRandomHotelId();
+    void addRoomType(String roomtype,int id);
+
+    List<RoomTypeVO> getRoomType(int hotelid);
+
+    void addRoom(Room room);
+
+    ModelMap getRoom(int hotelid);
+
+    void addPlan(Plan plan);
+
+    List<PlanVO> getPlan(int hotelid);
+
 }

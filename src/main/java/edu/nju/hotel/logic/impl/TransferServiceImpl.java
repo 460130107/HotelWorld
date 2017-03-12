@@ -1,13 +1,12 @@
 package edu.nju.hotel.logic.impl;
 
-import edu.nju.hotel.data.model.Admin;
-import edu.nju.hotel.data.model.Hotel;
-import edu.nju.hotel.data.model.User;
+import edu.nju.hotel.data.model.*;
 import edu.nju.hotel.logic.service.TransferService;
-import edu.nju.hotel.logic.vo.HotelVO;
-import edu.nju.hotel.logic.vo.ManagerVO;
-import edu.nju.hotel.logic.vo.UserVO;
+import edu.nju.hotel.logic.vo.*;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zhouxiaofan on 2017/3/3.
@@ -50,6 +49,64 @@ public class TransferServiceImpl implements TransferService {
         vo.setCity(hotel.getCity());
         vo.setLocation(hotel.getLocation());
         vo.setDescription(hotel.getDescription());
+        return vo;
+    }
+
+    @Override
+    public List<RoomVO> transferRoomVOs(List<Room> list) {
+        List<RoomVO> roomVOS=new ArrayList<RoomVO>();
+        for (int i=0;i<list.size();i++){
+            RoomVO vo=transferRoomVO(list.get(i));
+            roomVOS.add(vo);
+        }
+        return roomVOS;
+    }
+
+    @Override
+    public RoomVO transferRoomVO(Room room) {
+        RoomVO roomVO=new RoomVO();
+        roomVO.setName(room.getName());
+        roomVO.setRoomType(room.getRoomTypeByRoomTypeId().getName());
+        return roomVO;
+    }
+
+    @Override
+    public List<PlanVO> transferPlanVOs(List<Plan> list) {
+        List<PlanVO> planVOS=new ArrayList<PlanVO>();
+        for (int i=0;i<list.size();i++){
+            PlanVO vo=transferPlanVO(list.get(i));
+            planVOS.add(vo);
+        }
+        return planVOS;
+    }
+
+    @Override
+    public List<RoomTypeVO> transferRoomTypeVOs(List<RoomType> list) {
+        List<RoomTypeVO> roomTypeVOS=new ArrayList<RoomTypeVO>();
+        for (RoomType roomType:list){
+            RoomTypeVO vo=transferRoomTypeVO(roomType);
+            roomTypeVOS.add(vo);
+        }
+        return roomTypeVOS;
+    }
+
+    private RoomTypeVO transferRoomTypeVO(RoomType roomType) {
+        RoomTypeVO vo=new RoomTypeVO();
+        vo.setRoomType(roomType.getName());
+        vo.setHotelId(roomType.getHotelByHotelId().getId());
+        vo.setId(roomType.getId());
+        return vo;
+    }
+
+
+    public PlanVO transferPlanVO(Plan plan) {
+        PlanVO vo=new PlanVO();
+        vo.setRoomType(plan.getRoomTypeByRoomTypeId().getName());
+        vo.setId(plan.getId());
+        vo.setEndTime(plan.getEndTime());
+        vo.setStartTime(plan.getStartTime());
+        vo.setHotelName(plan.getHotelByHotelId().getName());
+        vo.setPrice(plan.getPrice());
         return vo;
     }
 }
