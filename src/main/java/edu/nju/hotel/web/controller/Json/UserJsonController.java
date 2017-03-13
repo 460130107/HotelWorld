@@ -1,5 +1,6 @@
 package edu.nju.hotel.web.controller.Json;
 
+import edu.nju.hotel.logic.service.HotelService;
 import edu.nju.hotel.logic.service.UserService;
 import edu.nju.hotel.logic.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,13 @@ import static java.lang.Integer.parseInt;
  * Created by zhouxiaofan on 2017/3/7.
  */
 @Controller
+@RequestMapping("/users/json")
 public class UserJsonController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    HotelService hotelService;
 
     @PostMapping("/charge")
     public @ResponseBody
@@ -48,5 +53,27 @@ public class UserJsonController {
         ModelMap modelMap=new ModelMap();
         modelMap.addAttribute("result",user);
         return modelMap;
+    }
+
+    @GetMapping("/hotel/getDetail")
+    public @ResponseBody Object getDetail(@RequestParam("id") int id){
+
+        ModelMap rooms=hotelService.getRoom(id);
+        ModelMap model=new ModelMap();
+
+        model.addAttribute("rooms",rooms);
+        return model;
+    }
+
+    @GetMapping("/hotel/getSpareRoom")
+    public @ResponseBody Object getSpareRoom(@RequestParam("id") int id,
+                                             @RequestParam("start") String start,
+                                             @RequestParam("end") String end){
+
+        ModelMap rooms=hotelService.getSpareRoom(id,start,end);
+        ModelMap model=new ModelMap();
+
+        model.addAttribute("rooms",rooms);
+        return model;
     }
 }

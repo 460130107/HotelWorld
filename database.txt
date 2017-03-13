@@ -97,7 +97,7 @@ CREATE TABLE `roomType` (
 //cancled是否取消预订，0没有取消，1取消了
 userId预订的会员id
 nameinfo入住的住客姓名
-price定金
+deposit 定金
 DROP TABLE IF EXISTS `booking`;
 CREATE TABLE `booking` (
   `id` int(11) NOT NULL,

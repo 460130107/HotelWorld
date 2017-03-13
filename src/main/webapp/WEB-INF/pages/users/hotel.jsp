@@ -10,9 +10,8 @@
     <title>酒店预订</title>
 
     <!-- 新 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -24,7 +23,7 @@
 <body>
 <%@ include file="navi.jsp"%>
 <div class="container hotel">
-    <h1>七天连锁酒店</h1>
+    <h1>${hotel.name}</h1>
     <div class="col-sm-6">
         <img src="${pageContext.request.contextPath}/img/hotel1.jpg"/>
     </div>
@@ -42,23 +41,10 @@
             <tr>
                 <th>房型</th>
                 <th>房价</th>
+                <th>房间数量</th>
                 <th></th>
             </tr>
-            <tr>
-                <td>大床房</td>
-                <td>¥313</td>
-                <td><button class="btn btn-primary btn-sm">预订</button></td>
-            </tr>
-            <tr>
-                <td>双人间</td>
-                <td>¥373</td>
-                <td><button class="btn btn-primary btn-sm disabled">预订</button></td>
-            </tr>
-            <tr>
-                <td>单人间</td>
-                <td>¥412</td>
-                <td><button class="btn btn-primary btn-sm">预订</button></td>
-            </tr>
+
         </table>
 
     </div>
@@ -79,19 +65,77 @@
         var start = $("#start");
         start.val(moment().format('YYYY-MM-DD'));
         start.attr("min",moment().format());
-    });
-    $('button').click(function () {
+
+        var $table=$('table');
+
+        getRooms();
+
+        $('button').click(function () {
 //        alert($("#start").val());
-        booking();
-    });
-    function booking() {
-        $.stdPost("${pageContext.request.contextPath}/users/booking",
-            {
+            booking();
+        });
+        function booking() {
+            $.stdPost("${pageContext.request.contextPath}/users/booking",
+                {
+                    start:$("#start").val(),
+                    end:$("#end").val(),
+                    hotelId:document.URL.split("/").pop()
+                });
+        }
+
+        function getRooms() {
+            var id=window.location.pathname.split("/").pop();
+            var data={
+                id: id,
                 start:$("#start").val(),
-                end:$("#end").val(),
-                hotelId:document.URL.split("/").pop()
+                end:$("#end").val()
+            };
+            $.ajax({
+                type: "GET",
+                url: "/users/json/hotel/getSpareRoom",
+                data: data,
+                success: mountRoom,
+                error: handleError
             });
-    }
+        }
+        function mountRoom(msg) {
+            msg=JSON.parse(msg);
+            var roomList=msg.rooms;
+            for (var roomtype in roomList){
+                var rooms=roomList[roomtype];
+                var $tr=$('<tr/>');
+                var $tdName=$('<td/>');
+                var $tdPrice=$('<td/>');
+                var $tdNum=$('<td/>');
+                var $tdBut=$('<td></td>');
+                var $but=$('<button class="btn btn-primary btn-sm">预订</button>');
+                $tdName.text(roomtype);
+                $tdNum.text(rooms.list.length);
+
+                if(rooms.price<0){
+                    $tdPrice.text("暂时无价格");
+                    $but.addClass("disabled");
+                }
+                else {
+                    $tdPrice.text(rooms.price);
+                }
+                $tdBut.append($but);
+
+                $tr.append($tdName);
+                $tr.append($tdPrice);
+                $tr.append($tdNum);
+                $tr.append($tdBut);
+                $table.append($tr);
+
+            }
+        }
+        
+        function handleError() {
+            console.log("error");
+        }
+
+    });
+
 
 </script>
 </body>

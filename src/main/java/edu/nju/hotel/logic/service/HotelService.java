@@ -8,6 +8,7 @@ import edu.nju.hotel.logic.vo.RoomTypeVO;
 import edu.nju.hotel.logic.vo.RoomVO;
 import org.springframework.ui.ModelMap;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,12 +34,15 @@ public interface HotelService {
 
     List<RoomTypeVO> getRoomType(int hotelid);
 
-    void addRoom(Room room);
+    void addRoom(int typeid,String roomName);
 
     ModelMap getRoom(int hotelid);
 
-    void addPlan(Plan plan);
+    void addPlan(int hotelid,String start,String end,int typeid,int price);
 
     List<PlanVO> getPlan(int hotelid);
 
+    List<HotelVO> getHotelList();
+
+    ModelMap getSpareRoom(int id, String start, String end);
 }

@@ -26,4 +26,5 @@ public class RoomVO {
     public void setRoomType(String roomType) {
         this.roomType = roomType;
     }
+
 }

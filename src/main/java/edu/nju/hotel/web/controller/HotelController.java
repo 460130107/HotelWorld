@@ -75,15 +75,11 @@ public class HotelController {
         model.addAttribute("roomTypes",roomTypeList);
         model.addAttribute("planList",planList);
 
-        ModelMap roomList=hotelService.getRoom(hotelid);
-        model.addAttribute("roomList",roomList);
-
         return "hotels/plan";
     }
 
     @GetMapping("/getRoom")
     public @ResponseBody Object getRoom(HttpSession session) {
-        //所有计划
         ModelMap model=new ModelMap();
         int hotelid=(Integer) session.getAttribute("hotelid");
 

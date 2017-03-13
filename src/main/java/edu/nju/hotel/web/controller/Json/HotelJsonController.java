@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
+import java.util.Date;
+
 import static java.lang.Integer.parseInt;
 
 /**
@@ -34,7 +36,7 @@ public class HotelJsonController {
     }
 
     @PostMapping("/addRoomType")
-    public @ResponseBody Object addRoomType(@RequestBody String roomTypeName, HttpSession session){
+    public @ResponseBody Object addRoomType(@RequestParam("roomType") String roomTypeName, HttpSession session){
         int hotelid=(Integer) session.getAttribute("hotelid");
         hotelService.addRoomType(roomTypeName,hotelid);
         ModelMap modelMap=new ModelMap();
@@ -43,16 +45,22 @@ public class HotelJsonController {
     }
 
     @PostMapping("/addRoom")
-    public @ResponseBody Object addRoom(@ModelAttribute Room room, HttpSession session){
-        hotelService.addRoom(room);
+    public @ResponseBody Object addRoom(@RequestParam("roomTypeId") int typeid,@RequestParam("name") String roomName, HttpSession session){
+
+        hotelService.addRoom(typeid,roomName);
         ModelMap modelMap=new ModelMap();
         modelMap.addAttribute("result","success");
         return modelMap;
     }
 
     @PostMapping("/addPlan")
-    public @ResponseBody Object addRoom(@ModelAttribute Plan plan, HttpSession session){
-        hotelService.addPlan(plan);
+    public @ResponseBody Object addRoom(@RequestParam("start") String start,
+                                        @RequestParam("end") String end,
+                                        @RequestParam("roomTypeId") int typeid,
+                                        @RequestParam("price") int price,
+                                        HttpSession session){
+        int hotelid=(Integer) session.getAttribute("hotelid");
+        hotelService.addPlan(hotelid,start,end,typeid,price);
         ModelMap modelMap=new ModelMap();
         modelMap.addAttribute("result","success");
         return modelMap;

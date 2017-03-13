@@ -99,7 +99,7 @@
                         <label class="control-label">房间类型</label>
                         <select>
                             <c:forEach items="${roomTypes}" var="roomType">
-                                <option value="${roomType.id}" data-name="${roomType.roomType}">${roomType.roomType}</option>
+                                <option value="${roomType.id}">${roomType.roomType}</option>
                             </c:forEach>
                         </select>
 
@@ -222,16 +222,16 @@
             var $roomType=$('#roomType');
             var data={};
             data.roomType=$roomType.val();
-            mountRoomType(data);
-//            $.ajax({
-//                type:"POST",
-//                url:"addRoomType",
-//                data:data,
-//                success:function (msg) {
-//                    $roomType.val("");
-//                    mountRoomType(data);
-//                }
-//            });
+            $.ajax({
+                type:"POST",
+                url:"json/addRoomType",
+                data:data,
+                success:function (msg) {
+                    $roomType.val("");
+                    mountRoomType(data);
+                    getRooms();
+                }
+            });
         }
 
         function mountRoomType(data) {
@@ -249,7 +249,7 @@
              data.name=$('.addRoomForm input').val();
              $.ajax({
                  type:"POST",
-                 url:"addRoom",
+                 url:"json/addRoom",
                  data:data,
                  success:function (msg) {
                      $roomDetail.empty();
@@ -265,11 +265,12 @@
                  data[item.name]=item.value;
              });
              $select=$('#new-plan select');
-             data[roomTypeId]=$select.val();
-             data[roomType]=$select.dataset.name;
+             data.roomTypeId=$select.val();
+             data.roomType=$select.find("option:selected").text();
+
              $.ajax({
                  type:"POST",
-                 url:"addPlan",
+                 url:"json/addPlan",
                  data:data,
                  success:function (msg) {
 

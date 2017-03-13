@@ -53,17 +53,17 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public List<RoomVO> transferRoomVOs(List<Room> list) {
+    public List<RoomVO> transferRooms(List<Room> list) {
         List<RoomVO> roomVOS=new ArrayList<RoomVO>();
         for (int i=0;i<list.size();i++){
-            RoomVO vo=transferRoomVO(list.get(i));
+            RoomVO vo=transferRoom(list.get(i));
             roomVOS.add(vo);
         }
         return roomVOS;
     }
 
     @Override
-    public RoomVO transferRoomVO(Room room) {
+    public RoomVO transferRoom(Room room) {
         RoomVO roomVO=new RoomVO();
         roomVO.setName(room.getName());
         roomVO.setRoomType(room.getRoomTypeByRoomTypeId().getName());
@@ -71,26 +71,36 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public List<PlanVO> transferPlanVOs(List<Plan> list) {
+    public List<PlanVO> transferPlans(List<Plan> list) {
         List<PlanVO> planVOS=new ArrayList<PlanVO>();
         for (int i=0;i<list.size();i++){
-            PlanVO vo=transferPlanVO(list.get(i));
+            PlanVO vo=transferPlan(list.get(i));
             planVOS.add(vo);
         }
         return planVOS;
     }
 
     @Override
-    public List<RoomTypeVO> transferRoomTypeVOs(List<RoomType> list) {
+    public List<RoomTypeVO> transferRoomTypes(List<RoomType> list) {
         List<RoomTypeVO> roomTypeVOS=new ArrayList<RoomTypeVO>();
         for (RoomType roomType:list){
-            RoomTypeVO vo=transferRoomTypeVO(roomType);
+            RoomTypeVO vo=transferRoomType(roomType);
             roomTypeVOS.add(vo);
         }
         return roomTypeVOS;
     }
 
-    private RoomTypeVO transferRoomTypeVO(RoomType roomType) {
+    @Override
+    public List<HotelVO> transferHotels(List<Hotel> hotelList) {
+        List<HotelVO> hotelVOS=new ArrayList<HotelVO>();
+        for (Hotel hotel:hotelList){
+            HotelVO vo=transferHotel(hotel);
+            hotelVOS.add(vo);
+        }
+        return hotelVOS;
+    }
+
+    private RoomTypeVO transferRoomType(RoomType roomType) {
         RoomTypeVO vo=new RoomTypeVO();
         vo.setRoomType(roomType.getName());
         vo.setHotelId(roomType.getHotelByHotelId().getId());
@@ -99,7 +109,7 @@ public class TransferServiceImpl implements TransferService {
     }
 
 
-    public PlanVO transferPlanVO(Plan plan) {
+    public PlanVO transferPlan(Plan plan) {
         PlanVO vo=new PlanVO();
         vo.setRoomType(plan.getRoomTypeByRoomTypeId().getName());
         vo.setId(plan.getId());

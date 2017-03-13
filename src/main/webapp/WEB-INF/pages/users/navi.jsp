@@ -17,7 +17,7 @@
                     <%--<li><a href="/uses/index">预订酒店</a></li>--%>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <c:if test="${!empty sessionScope.user}">
+                    <c:if test="${!empty sessionScope.userid}">
                     <li><a href="/users/account">个人信息</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">订单信息 <span class="caret"></span></a>
@@ -29,7 +29,7 @@
                     </li>
                     <li><a href="/users/logout">退出</a></li>
                     </c:if>
-                    <c:if test="${empty sessionScope.user}">
+                    <c:if test="${empty sessionScope.userid}">
                         <li><a href="/">登陆</a></li>
                         ${sessionScope.user}
                     </c:if>

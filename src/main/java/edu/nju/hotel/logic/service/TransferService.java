@@ -13,10 +13,12 @@ public interface TransferService {
     ManagerVO transferAdmin(Admin admin);
     HotelVO transferHotel(Hotel hotel);
 
-    List<RoomVO> transferRoomVOs(List<Room> list);
-    RoomVO transferRoomVO(Room room);
+    List<RoomVO> transferRooms(List<Room> list);
+    RoomVO transferRoom(Room room);
 
-    List<PlanVO> transferPlanVOs(List<Plan> list);
+    List<PlanVO> transferPlans(List<Plan> list);
 
-    List<RoomTypeVO> transferRoomTypeVOs(List<RoomType> list);
+    List<RoomTypeVO> transferRoomTypes(List<RoomType> list);
+
+    List<HotelVO> transferHotels(List<Hotel> hotelList);
 }

@@ -12,6 +12,7 @@ public class PlanVO {
     private int id;
     private Date startTime;
     private Date endTime;
+    private Date creatTime;
     private int price;
     private int hotelId;
     private String hotelName;
@@ -74,5 +75,11 @@ public class PlanVO {
     }
 
 
+    public Date getCreatTime() {
+        return creatTime;
+    }
 
+    public void setCreatTime(Date creatTime) {
+        this.creatTime = creatTime;
+    }
 }

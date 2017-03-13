@@ -1,6 +1,7 @@
 package edu.nju.hotel.data.model;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 
@@ -20,6 +21,7 @@ public class Booking {
     private Integer price;
     private int cancled;
     private int deposit;
+    private Timestamp creatTime = new Timestamp( new Date().getTime());
     private User userByUserId;
     private Hotel hotelByHotelId;
     private RoomType roomTypeByRoomTypeId;
@@ -126,6 +128,16 @@ public class Booking {
         this.deposit = deposit;
     }
 
+    @Basic
+    @Column(name = "creatTime", nullable = true)
+    public Timestamp getCreatTime() {
+        return creatTime;
+    }
+
+    public void setCreatTime(Timestamp creatTime) {
+        this.creatTime = creatTime;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -143,6 +155,7 @@ public class Booking {
         if (phone != null ? !phone.equals(booking.phone) : booking.phone != null) return false;
         if (email != null ? !email.equals(booking.email) : booking.email != null) return false;
         if (price != null ? !price.equals(booking.price) : booking.price != null) return false;
+        if (creatTime != null ? !creatTime.equals(booking.creatTime) : booking.creatTime != null) return false;
 
         return true;
     }
@@ -157,6 +170,7 @@ public class Booking {
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);
+        result = 31 * result + (creatTime != null ? creatTime.hashCode() : 0);
         result = 31 * result + cancled;
         result = 31 * result + deposit;
         return result;
@@ -209,4 +223,6 @@ public class Booking {
     public void setRoomAsignsById(Collection<RoomAsign> roomAsignsById) {
         this.roomAsignsById = roomAsignsById;
     }
+
+
 }

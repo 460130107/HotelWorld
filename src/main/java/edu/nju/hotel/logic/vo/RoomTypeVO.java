@@ -10,6 +10,8 @@ public class RoomTypeVO {
 
     private String roomType;
 
+    private int price=0;
+
     public int getHotelId() {
         return hotelId;
     }
@@ -33,5 +35,13 @@ public class RoomTypeVO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

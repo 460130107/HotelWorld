@@ -1,10 +1,16 @@
 package edu.nju.hotel.web.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import edu.nju.hotel.data.dao.UserDao;
+import edu.nju.hotel.data.model.Hotel;
+import edu.nju.hotel.data.model.Room;
+import edu.nju.hotel.data.model.RoomType;
 import edu.nju.hotel.data.model.User;
 import edu.nju.hotel.data.repository.UserRepository;
 import edu.nju.hotel.data.util.ChargeResult;
+import edu.nju.hotel.logic.service.HotelService;
 import edu.nju.hotel.logic.service.UserService;
+import edu.nju.hotel.logic.vo.HotelVO;
 import edu.nju.hotel.logic.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,11 +29,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/users")
 public class UserController {
-    @Autowired
-    UserRepository userRepository;
 
     @Autowired
-    UserDao userDao;
+    HotelService hotelService;
 
     @Autowired
     UserService userService;
@@ -39,14 +43,20 @@ public class UserController {
     }
 
     @RequestMapping("/index")
-    public String hotelList(){
+    public String hotelList(Model model){
+        List<HotelVO> hotelList=hotelService.getHotelList();
+        model.addAttribute("hotelList",hotelList);
         return "users/hotelList";
     }
 
-    @RequestMapping("/hotel/{id}")
-    public String hotel(@PathVariable int id){
+    @GetMapping("/hotel/{id}")
+    public String hotel(@PathVariable int id,Model model){
+        HotelVO hotel=hotelService.getHotelById(id);
+        model.addAttribute("hotel",hotel);
         return "users/hotel";
     }
+
+
 
     @PostMapping("/booking")
     public String booking(HttpServletRequest request){
@@ -89,7 +99,7 @@ public class UserController {
         List<User> list = new ArrayList<User>();
         User u=new User();
         list.add(u);
-        List<User> l2=userDao.findAll();
+//        List<User> l2=userDao.findAll();
         ModelMap modelMap=new ModelMap();
         modelMap.addAttribute("score","ss");
         modelMap.addAttribute("list",list);
