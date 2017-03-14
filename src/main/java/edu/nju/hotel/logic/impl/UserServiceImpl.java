@@ -2,6 +2,7 @@ package edu.nju.hotel.logic.impl;
 
 import edu.nju.hotel.data.dao.UserDao;
 import edu.nju.hotel.data.model.BankCard;
+import edu.nju.hotel.data.model.Booking;
 import edu.nju.hotel.data.model.User;
 import edu.nju.hotel.data.repository.BankRepository;
 import edu.nju.hotel.data.repository.UserRepository;
@@ -9,6 +10,7 @@ import edu.nju.hotel.data.util.ChargeResult;
 import edu.nju.hotel.data.util.VerifyResult;
 import edu.nju.hotel.logic.service.TransferService;
 import edu.nju.hotel.logic.service.UserService;
+import edu.nju.hotel.logic.vo.BookingVO;
 import edu.nju.hotel.logic.vo.UserUpdate;
 import edu.nju.hotel.logic.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ import javax.persistence.Query;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import static java.lang.Integer.parseInt;
 
 /**
  * Created by zhouxiaofan on 2017/2/4.
@@ -97,6 +101,10 @@ public class UserServiceImpl implements UserService {
         userRepository.updateUserState(4,id);
         return "success";
     }
+
+
+
+
 
     /**
      * 自动生成用户id

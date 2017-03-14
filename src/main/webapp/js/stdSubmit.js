@@ -1,14 +1,12 @@
 $.extend({
     stdPost : function(url, args) {
         submitStdForm(url,args,'post');
-    }
-});
-
-$.extend({
+    },
     stdGet : function(url, args) {
         submitStdForm(url,args,'get');
     }
 });
+
 
 function submitStdForm(url, args, type) {
     var form = $("<form method='"+type+"'></form>"), input;
@@ -23,5 +21,7 @@ function submitStdForm(url, args, type) {
         input.val(value);
         form.append(input);
     });
+    $(document.body).append(form);
     form.submit();
+
 }

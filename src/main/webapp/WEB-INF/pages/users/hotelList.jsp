@@ -33,22 +33,6 @@
             </a>
         </div>
     </c:forEach>
-    <div class="row">
-        <div class="col-sm-6">
-            <h2>希尔顿酒店</h2>
-            <p>地点：南京市鼓楼区汉口路222号</p>
-        </div>
-        <div class="col-sm-3 roomSelect">
-            <select>
-                <option value="标间">标间</option>
-                <option value="双人房">双人房</option>
-            </select>
-            价格：100／晚
-        </div>
-        <div class="col-sm-3">
-            <a href="/users/hotel/4" class="btn btn-primary btn-sm">查看详情</a>
-        </div>
-    </div>
 </div>
 
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->

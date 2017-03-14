@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Repository
 public interface RoomAsignRepository extends JpaRepository<RoomAsign, Integer> {
-    @Query("select r.roomByRoomId.id from RoomAsign r where r.roomByRoomId.roomTypeByRoomTypeId.id=?1 and ((r.inTime>?2 and r.inTime<?3) or (r.outTime>?2 and r.outTime<?3))")
+    @Query("select r.roomByRoomId.id from RoomAsign r where r.roomByRoomId.roomTypeByRoomTypeId.id=?1 and r.id not in (select r2.id from RoomAsign r2 where r2.inTime>=?3 or r2.outTime<=?2)")
     List<Integer> getAssignRoomBetween(int id, Date start, Date end);
 
 }

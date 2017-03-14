@@ -2,6 +2,7 @@ package edu.nju.hotel.logic.service;
 
 import edu.nju.hotel.data.model.User;
 import edu.nju.hotel.data.util.VerifyResult;
+import edu.nju.hotel.logic.vo.BookingVO;
 import edu.nju.hotel.logic.vo.UserUpdate;
 import edu.nju.hotel.logic.vo.UserVO;
 
@@ -27,4 +28,6 @@ public interface UserService {
     String chargeCard(int id,int money);
 
     String logOff(int id);
+
+
 }

@@ -73,3 +73,5 @@
       ${paper.pNum}和${paper.pSize}不能找到
       而${paper.totalSize}和${paper.totalPaper}却找的到
 - url不能用manager
+-  sass --watch main-hotel.scss:style-hotel.css
+- 获取自增的主键，加注解，数据库建表

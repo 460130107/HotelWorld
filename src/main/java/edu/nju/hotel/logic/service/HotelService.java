@@ -2,10 +2,7 @@ package edu.nju.hotel.logic.service;
 
 import edu.nju.hotel.data.model.*;
 import edu.nju.hotel.data.util.VerifyResult;
-import edu.nju.hotel.logic.vo.HotelVO;
-import edu.nju.hotel.logic.vo.PlanVO;
-import edu.nju.hotel.logic.vo.RoomTypeVO;
-import edu.nju.hotel.logic.vo.RoomVO;
+import edu.nju.hotel.logic.vo.*;
 import org.springframework.ui.ModelMap;
 
 import java.util.ArrayList;
@@ -45,4 +42,6 @@ public interface HotelService {
     List<HotelVO> getHotelList();
 
     ModelMap getSpareRoom(int id, String start, String end);
+
+    void bookHotel(BookingVO bookingVO);
 }

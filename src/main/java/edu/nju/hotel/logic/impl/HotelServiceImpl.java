@@ -6,14 +6,12 @@ import edu.nju.hotel.data.repository.*;
 import edu.nju.hotel.data.util.VerifyResult;
 import edu.nju.hotel.logic.service.HotelService;
 import edu.nju.hotel.logic.service.TransferService;
-import edu.nju.hotel.logic.vo.HotelVO;
-import edu.nju.hotel.logic.vo.PlanVO;
-import edu.nju.hotel.logic.vo.RoomTypeVO;
-import edu.nju.hotel.logic.vo.RoomVO;
+import edu.nju.hotel.logic.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 import static java.lang.Integer.parseInt;
@@ -33,6 +31,9 @@ public class HotelServiceImpl implements HotelService {
     private RoomRepository roomRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private RoomAsignRepository roomAsignRepository;
 
     @Autowired
@@ -40,6 +41,9 @@ public class HotelServiceImpl implements HotelService {
 
     @Autowired
     private TransferService transferService;
+
+    @Autowired
+    private BookingRepository bookingRepository;
 
     @Autowired
     private HotelDao hotelDao;
@@ -155,6 +159,72 @@ public class HotelServiceImpl implements HotelService {
         return new Date(year,month,day);
     }
 
+    @Override
+    public void bookHotel(BookingVO bookingVO) {
+        Hotel hotel=hotelRepository.findOne(bookingVO.getHotelId());
+        RoomType roomType=roomTypeRepository.findOne(bookingVO.getRoomTypeId());
+        User user=userRepository.findOne(bookingVO.getUserId());
+
+        Booking booking=getBooking(bookingVO,hotel,roomType,user);
+        Booking bookingSaved=bookingRepository.saveAndFlush(booking);
+
+        List<Room> spareRooms=getSpareRoomList(roomType.getHotelByHotelId().getId(),roomType.getId(),bookingVO.getInTime(),bookingVO.getOutTime());
+
+        String[] usernames=booking.getNameinfo().trim().split(" ");
+        int roomNum=bookingVO.getRoomNum();//3
+        int userNum=usernames.length;//5
+        int pointer=0;
+        for(int i=0;i<roomNum;i++){
+            RoomAsign roomAsign=null;
+            //一间房2个人的情况
+            if(i<userNum%roomNum||(userNum==2&&roomNum==1)){
+                roomAsign=creatRoomAssign(roomType,bookingSaved,usernames[pointer]+" "+usernames[pointer+1],spareRooms.get(i));
+                pointer+=2;
+            }
+            else {
+                roomAsign=creatRoomAssign(roomType,bookingSaved,usernames[pointer],spareRooms.get(i));
+                pointer++;
+            }
+            roomAsignRepository.saveAndFlush(roomAsign);
+        }
+    }
+
+    private RoomAsign creatRoomAssign(RoomType roomType, Booking booking, String userName, Room spareRoom) {
+        String[] userNames=userName.split(" ");
+        RoomAsign roomAsign=new RoomAsign();
+//        空余的房子
+        roomAsign.setRoomByRoomId(spareRoom);
+        roomAsign.setInTime(booking.getInTime());
+        roomAsign.setOutTime(booking.getOutTime());
+        roomAsign.setBookingByBookId(booking);
+        roomAsign.setCheckinByCheckinId(booking.getCheckinsById());
+        roomAsign.setUser1(userNames[0]);
+        if(userNames.length>1){
+            roomAsign.setUser2(userNames[1]);
+        }
+        return roomAsign;
+    }
+
+    private Booking getBooking(BookingVO bookingVO,Hotel hotel,RoomType roomType,User user){
+        Booking booking=new Booking();
+        booking.setHotelByHotelId(hotel);
+        booking.setCancled(bookingVO.getCancled());
+        booking.setCreatTime(bookingVO.getCreatTime());
+        booking.setDeposit(bookingVO.getDeposit());
+        booking.setEmail(bookingVO.getEmail());
+        booking.setInTime(getDate(bookingVO.getInTime()));
+        booking.setOutTime(getDate(bookingVO.getOutTime()));
+        booking.setCreatTime(bookingVO.getCreatTime());
+        booking.setCheckinsById(null);
+        booking.setRoomNum(bookingVO.getRoomNum());
+        booking.setPhone(bookingVO.getPhone());
+        booking.setNameinfo(bookingVO.getNameinfo());
+        booking.setPrice(bookingVO.getPrice());
+        booking.setRoomTypeByRoomTypeId(roomType);
+        booking.setUserByUserId(user);
+        return booking;
+    }
+
 
     @Override
     public List<PlanVO> getPlan(int hotelid) {
@@ -188,14 +258,15 @@ public class HotelServiceImpl implements HotelService {
             }
             int price=getCurrentPrice(roomType);
             mapType.addAttribute("price",price);
+            mapType.addAttribute("id",roomType.getId());
             map.addAttribute(roomType.getName(),mapType);
         }
         return map;
     }
 
-    private List<Room> getSpareRoomList(int hotelid, int id, String start, String end) {
-        List<Room> list=roomRepository.getRoomList(hotelid,id);
-        List<Integer> assignRooms=roomAsignRepository.getAssignRoomBetween(id,getDate(start),getDate(end));
+    private List<Room> getSpareRoomList(int hotelid, int typeid, String start, String end) {
+        List<Room> list=roomRepository.getRoomList(hotelid,typeid);
+        List<Integer> assignRooms=roomAsignRepository.getAssignRoomBetween(typeid,getDate(start),getDate(end));
         List<Room> result=new ArrayList<>();
         for (Room room : list){
             if(!assignRooms.contains(room.getId())){

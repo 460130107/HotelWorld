@@ -34,17 +34,21 @@
 
             <label for="end">离店日期</label>
             <input type="date" name="end" id="end" />
-            <button class="btn btn-primary btn-sm">搜索</button>
+            <button id="search" class="btn btn-primary btn-sm">搜索</button>
         </div>
 
         <table class="table table-bordered table-striped">
-            <tr>
-                <th>房型</th>
-                <th>房价</th>
-                <th>房间数量</th>
-                <th></th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>房型</th>
+                    <th>房价</th>
+                    <th>房间数量</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
 
+            </tbody>
         </table>
 
     </div>
@@ -59,36 +63,50 @@
 <script src="${pageContext.request.contextPath}/js/stdSubmit.js"></script>
 <script>
     $(function(){
-        var end = $("#end");
-        end.val(moment().add(1,'days').format('YYYY-MM-DD'));
-        end.attr("min",moment().add(1,'days').format());
-        var start = $("#start");
-        start.val(moment().format('YYYY-MM-DD'));
-        start.attr("min",moment().format());
+        var $end = $("#end"),
+            $start = $("#start"),
+            $table=$('table'),
+            $tbody=$table.find('tbody'),
+            $search=$('#search'),
+            id=window.location.pathname.split("/").pop();
 
-        var $table=$('table');
-
+        initDate();
         getRooms();
 
-        $('button').click(function () {
-//        alert($("#start").val());
-            booking();
+        $tbody.on('click','button.book',booking);
+
+        $search.click(function () {
+            $tbody.empty();
+            getRooms();
         });
-        function booking() {
-            $.stdPost("${pageContext.request.contextPath}/users/booking",
-                {
-                    start:$("#start").val(),
-                    end:$("#end").val(),
-                    hotelId:document.URL.split("/").pop()
-                });
+
+        function initDate() {
+            $end.val(moment().add(1,'days').format('YYYY-MM-DD'));
+            $end.attr("min",moment().add(1,'days').format());
+            $start.val(moment().format('YYYY-MM-DD'));
+            $start.attr("min",moment().format());
         }
 
+        function booking(e) {
+            var data={
+                start:$start.val(),
+                end:$end.val(),
+                hotelId:id,
+                price:e.target.parentNode.previousSibling.previousSibling.innerHTML,
+                roomNum:e.target.parentNode.previousSibling.innerHTML,
+                typeId:e.target.id,
+                typeName:e.target.name
+            };
+            $.stdGet("${pageContext.request.contextPath}/users/booking",data);
+        }
+
+
         function getRooms() {
-            var id=window.location.pathname.split("/").pop();
+
             var data={
                 id: id,
-                start:$("#start").val(),
-                end:$("#end").val()
+                start:$start.val(),
+                end:$end.val()
             };
             $.ajax({
                 type: "GET",
@@ -108,7 +126,10 @@
                 var $tdPrice=$('<td/>');
                 var $tdNum=$('<td/>');
                 var $tdBut=$('<td></td>');
-                var $but=$('<button class="btn btn-primary btn-sm">预订</button>');
+                var $but=$('<button class="book btn btn-primary btn-sm">预订</button>');
+                $but.attr('id',rooms.id);
+                $but.attr('name',roomtype);
+
                 $tdName.text(roomtype);
                 $tdNum.text(rooms.list.length);
 
@@ -125,7 +146,7 @@
                 $tr.append($tdPrice);
                 $tr.append($tdNum);
                 $tr.append($tdBut);
-                $table.append($tr);
+                $tbody.append($tr);
 
             }
         }
@@ -133,6 +154,8 @@
         function handleError() {
             console.log("error");
         }
+        
+
 
     });
 

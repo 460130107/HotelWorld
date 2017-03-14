@@ -6,6 +6,7 @@ import edu.nju.hotel.logic.vo.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,6 +51,41 @@ public class TransferServiceImpl implements TransferService {
         vo.setLocation(hotel.getLocation());
         vo.setDescription(hotel.getDescription());
         return vo;
+    }
+
+    @Override
+    public BookingVO transferBooking(Booking booking) {
+        BookingVO vo=new BookingVO();
+        vo.setHotelId(booking.getHotelByHotelId().getId());
+        vo.setCancled(booking.getCancled());
+        vo.setCreatTime(booking.getCreatTime());
+        vo.setDeposit(booking.getDeposit());
+        vo.setEmail(booking.getEmail());
+        vo.setInTime(transferDate(booking.getInTime()));
+        vo.setOutTime(transferDate(booking.getOutTime()));
+        vo.setCreatTime(booking.getCreatTime());
+        vo.setCheckinId(booking.getCheckinsById().getId());
+        vo.setRoomNum(booking.getRoomNum());
+        vo.setPhone(booking.getPhone());
+        vo.setNameinfo(booking.getNameinfo());
+        vo.setPrice(booking.getPrice());
+        vo.setRoomTypeId(booking.getRoomTypeByRoomTypeId().getId());
+        vo.setUserId(booking.getUserByUserId().getId());
+        return vo;
+    }
+
+    private String transferDate(Date date){
+        String result="";
+        result+=date.getYear()+1900;
+        result+="-";
+        int month=date.getMonth()+1;
+        if(month<10){
+            result+="0";
+        }
+        result+=month;
+        result+="-";
+        result+=date.getDay();
+        return result;
     }
 
     @Override

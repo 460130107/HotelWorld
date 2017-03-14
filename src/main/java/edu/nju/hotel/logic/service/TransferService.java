@@ -12,6 +12,7 @@ public interface TransferService {
     UserVO transferUser(User user);
     ManagerVO transferAdmin(Admin admin);
     HotelVO transferHotel(Hotel hotel);
+    BookingVO transferBooking(Booking booking);
 
     List<RoomVO> transferRooms(List<Room> list);
     RoomVO transferRoom(Room room);

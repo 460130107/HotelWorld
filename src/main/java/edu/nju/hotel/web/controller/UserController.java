@@ -10,8 +10,11 @@ import edu.nju.hotel.data.repository.UserRepository;
 import edu.nju.hotel.data.util.ChargeResult;
 import edu.nju.hotel.logic.service.HotelService;
 import edu.nju.hotel.logic.service.UserService;
+import edu.nju.hotel.logic.vo.BookTypeVO;
+import edu.nju.hotel.logic.vo.BookingVO;
 import edu.nju.hotel.logic.vo.HotelVO;
 import edu.nju.hotel.logic.vo.UserVO;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,14 +61,23 @@ public class UserController {
 
 
 
-    @PostMapping("/booking")
-    public String booking(HttpServletRequest request){
-        String start= (String) request.getParameter("start");
+    @GetMapping("/booking")
+    public String booking(@ModelAttribute BookTypeVO bookTypeVO,
+                          Model model,
+                          HttpSession session){
+        int userid= (int) session.getAttribute("userid");
+        UserVO userVO=userService.getUserById(userid);
+        model.addAttribute("bookType",bookTypeVO);
+        model.addAttribute("user",userVO);
         return "users/booking";
     }
 
     @PostMapping("/submitbooking")
-    public String handleBooking(){
+    public String handleBooking(@ModelAttribute BookingVO bookingVO, HttpSession session){
+        int userid= (int) session.getAttribute("userid");
+        bookingVO.setUserId(userid);
+
+        hotelService.bookHotel(bookingVO);
         return "redirect:/users/success";
     }
 

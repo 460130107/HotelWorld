@@ -25,37 +25,43 @@
 <div class="container booking">
     <h1>七天连锁酒店</h1>
     <div>
-        <form class="form-horizontal" action="${pageContext.request.contextPath}/users/submitbooking" method="post" onsubmit="return check(this)">
+        <form class="form-horizontal" action="${pageContext.request.contextPath}/users/submitbooking" method="post">
             <div class="form-group">
                 <label class="col-sm-2 control-label">入住日期</label>
                 <div class="col-sm-8 col-xs-10">
-                    2017-10-03
+                    <input type="text" readonly name="inTime" value="${bookType.start}"/>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="col-sm-2 control-label">离店日期</label>
                 <div class="col-sm-8 col-xs-10">
-                    2017-10-13
+                    <input type="text" readonly name="outTime" value="${bookType.end}"/>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="col-sm-2 control-label">房间类型</label>
                 <div class="col-sm-8 col-xs-10">
-                    单人间
+                    <input type="text" class="roomType" readonly id="${bookType.typeId}" value="${bookType.typeName}" name="roomTypeName"/>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="nums" class="col-sm-2 control-label">房间数量</label>
+                <label class="col-sm-2 control-label">单价</label>
                 <div class="col-sm-8 col-xs-10">
-                    <select name="nums" id="nums">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                    <input id="price" type="number" readonly value="${bookType.price}" name="price"/>
+                    总价<span class="totalPrice">${bookType.price}</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="roomNum" class="col-sm-2 control-label">房间数量</label>
+                <div class="col-sm-8 col-xs-10">
+                    <select name="roomNum" id="roomNum">
+                        <c:forEach var="i" begin="1" end="${bookType.roomNum}">
+                            <option value="${i}">${i}</option>
+                        </c:forEach>
                     </select>
                 </div>
             </div>
@@ -72,7 +78,7 @@
             <div class="form-group">
                 <label for="telephone" class="col-sm-2 control-label">联系电话</label>
                 <div class="col-sm-8 col-xs-10">
-                    <input type="tel" class="form-control" id="telephone" name="telephone" placeholder="联系电话"/>
+                    <input type="tel" class="form-control" id="telephone" name="phone" placeholder="联系电话"/>
                 </div>
             </div>
 
@@ -84,16 +90,10 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-2 control-label">总价</label>
-                <div class="col-sm-8 col-xs-10">
-                    1200元
-                </div>
-            </div>
-
-            <div class="form-group">
                 <label class="col-sm-2 control-label">定金</label>
                 <div class="col-sm-8 col-xs-10">
-                    200元
+                    <input type="number" readonly value="200" name="deposit"/>
+                    <span>当前余额<span id="balance">${user.balance}</span></span>
                 </div>
             </div>
 
@@ -113,21 +113,57 @@
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/moment.js"></script>
+<script src="${pageContext.request.contextPath}/js/stdSubmit.js"></script>
 <script>
-    var numSelect=$("#nums");
-    numSelect.change(nameInput);
+    var $form=$('form'),
+        $numSelect=$("#roomNum"),
+        balance=$('span#balance').text(),
+        $name=$("#nameInput"),
+        $totalPrice=$('.totalPrice'),
+        price=$('input#price').val();
+
+    $numSelect.change(nameInput);
     function nameInput() {
-        var name=$("#nameInput");
-        name.empty();
-        var roomNum=numSelect.val();
+
+        $name.empty();
+        var roomNum=$numSelect.val();
         for(var i=1;i<=roomNum*2;i++){
-            name.append('<input type="text" class="name" name="name' +i+
+            $name.append('<input type="text" class="name" name="name' +i+
                 '" id="name' +i+
                 '" placeholder="住客姓名' +i+
                 '">');
         }
-        name.append("至少填写"+roomNum+"个住客信息");
 
+        $totalPrice.text(price*roomNum);
+        $name.append("至少填写"+roomNum+"个住客信息");
+    }
+
+    $form.submit(submitbooking);
+    function submitbooking(e) {
+        e.preventDefault();
+        if(balance<200){
+            alert("余额不足");
+            return;
+        }
+        var data={};
+        var name="";
+        $('input').each(function (index,item) {
+            if(item.className=="name"){
+                name+=item.value+' ';
+            }
+            else {
+                data[item.name]=item.value;
+            }
+        });
+        data.nameinfo=name;
+        data.roomNum=$('select').val();
+        data.roomTypeId=$('.roomType').attr('id');
+        data.hotelId=getHotelId();
+        console.log(data);
+        $.stdPost("/users/submitbooking",data);
+    }
+    function getHotelId() {
+        return location.href.split('?')[1].split('&')[2].split('=')[1];
     }
 </script>
 </body>

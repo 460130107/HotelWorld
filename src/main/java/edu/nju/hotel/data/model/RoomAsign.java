@@ -32,7 +32,7 @@ public class RoomAsign {
     }
 
     @Basic
-    @Column(name = "user1", nullable = false, length = 45)
+    @Column(name = "user1", nullable = true, length = 45)
     public String getUser1() {
         return user1;
     }
@@ -42,7 +42,7 @@ public class RoomAsign {
     }
 
     @Basic
-    @Column(name = "idcard1", nullable = false, length = 45)
+    @Column(name = "idcard1", nullable = true, length = 45)
     public String getIdcard1() {
         return idcard1;
     }
@@ -72,7 +72,7 @@ public class RoomAsign {
     }
 
     @Basic
-    @Column(name = "inTime", nullable = false)
+    @Column(name = "inTime", nullable = true)
     public Date getInTime() {
         return inTime;
     }
@@ -82,7 +82,7 @@ public class RoomAsign {
     }
 
     @Basic
-    @Column(name = "outTime", nullable = false)
+    @Column(name = "outTime", nullable = true)
     public Date getOutTime() {
         return outTime;
     }
