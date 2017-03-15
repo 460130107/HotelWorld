@@ -1,19 +1,14 @@
 package edu.nju.hotel.web.controller;
 
+import edu.nju.hotel.data.model.Booking;
 import edu.nju.hotel.data.model.Hotel;
 import edu.nju.hotel.logic.service.HotelService;
-import edu.nju.hotel.logic.vo.HotelVO;
-import edu.nju.hotel.logic.vo.PlanVO;
-import edu.nju.hotel.logic.vo.RoomTypeVO;
-import edu.nju.hotel.logic.vo.RoomVO;
+import edu.nju.hotel.logic.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -43,7 +38,11 @@ public class HotelController {
     }
 
     @RequestMapping("/index")
-    public String bookList(Model model) {
+    public String bookList(Model model,HttpSession session) {
+        int hotelId= (int) session.getAttribute("hotelid");
+
+        List<BookingVO> bookingVOS=hotelService.getBookingNow(hotelId);
+        model.addAttribute("bookingList",bookingVOS);
         return "hotels/bookList";
     }
 
@@ -58,12 +57,22 @@ public class HotelController {
     }
 
     @PostMapping("/checkin")
-    public @ResponseBody String checkin(HttpServletRequest request){
+    public String checkinPost(@RequestParam("bookingId") int bookingId,
+                              @RequestParam("payType") int payType,
+                              @RequestParam("idCards") String idCards,
+                              Model model){
+        ModelMap roomAssignVOS=hotelService.checkinBooking(bookingId,payType,idCards);
+        model.addAttribute("booking",roomAssignVOS);
+        return "hotels/bookingSuccess";
+    }
+
+    @PostMapping("/handleCheckin")
+    public @ResponseBody String handleCheckin(HttpServletRequest request){
         return "success";
     }
 
-    @RequestMapping("/checkout")
-    public @ResponseBody String checkout(){
+    @RequestMapping("/handleCheckout")
+    public @ResponseBody String handleCheckout(){
         return "success";
     }
 
@@ -86,7 +95,6 @@ public class HotelController {
         ModelMap roomList=hotelService.getRoom(hotelid);
 
         model.addAttribute("roomList",roomList);
-
         return roomList;
 
     }

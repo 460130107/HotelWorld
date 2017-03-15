@@ -155,8 +155,10 @@
 
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/main.js"></script>
 <script>
     $(function () {
+         $.focusNav(4);
          var $roomDetail=$(".roomDetail");
          var $addRoom=$('#addRoom');
          var $addRoomType=$('#addRoomType');

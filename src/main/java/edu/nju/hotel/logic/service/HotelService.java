@@ -44,4 +44,10 @@ public interface HotelService {
     ModelMap getSpareRoom(int id, String start, String end);
 
     void bookHotel(BookingVO bookingVO);
+
+    List<BookingVO> getBookingNow(int hotelId);
+
+    BookingVO getBookingById(int bookingId);
+
+    ModelMap checkinBooking(int bookingId,int payType,String idCards);
 }

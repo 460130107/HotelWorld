@@ -3,8 +3,10 @@ package edu.nju.hotel.data.repository;
 import edu.nju.hotel.data.model.Booking;
 import edu.nju.hotel.data.model.Plan;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -20,4 +22,15 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     @Query("select b from Booking b where b.creatTime=?1")
     Booking findByCreatTime(Timestamp creatTime);
+
+    @Query("select b from Booking b where b.userByUserId.id=?1 order by b.inTime")
+    List<Booking> getUserHistory(int userId);
+
+    @Modifying      // 说明该方法是修改操作
+    @Transactional  // 说明该方法是事务性操作
+    @Query("update Booking bk set bk.cancled=1 where bk.id=?1")
+    void updateCancel(int id);
+
+    @Query("select bk from Booking bk where bk.hotelByHotelId.id=?1 and bk.inTime>?2")
+    List<Booking> getBookingAfter(int hotelId, Date date);
 }

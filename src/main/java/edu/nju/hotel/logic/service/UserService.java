@@ -1,10 +1,13 @@
 package edu.nju.hotel.logic.service;
 
+import edu.nju.hotel.data.model.Booking;
 import edu.nju.hotel.data.model.User;
 import edu.nju.hotel.data.util.VerifyResult;
 import edu.nju.hotel.logic.vo.BookingVO;
 import edu.nju.hotel.logic.vo.UserUpdate;
 import edu.nju.hotel.logic.vo.UserVO;
+
+import java.util.List;
 
 /**
  * Created by zhouxiaofan on 2017/2/4.
@@ -22,12 +25,13 @@ public interface UserService {
 
     UserVO getUserById(int id);
 
-
     String updateUser(UserVO user);
 
     String chargeCard(int id,int money);
 
     String logOff(int id);
 
+    List<BookingVO> getBookingHistory(int userId);
 
+    void cancelBooking(int id);
 }

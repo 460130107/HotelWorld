@@ -39,6 +39,8 @@ CREATE TABLE `checkout` (
 
 //跟下面的表一起决定了入住的信息
 null则为没有预订
+
+payType :0为现金支付，1为会员卡支付
 DROP TABLE IF EXISTS `checkin`;
 CREATE TABLE `checkin` (
   `id` int(11) NOT NULL,

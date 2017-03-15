@@ -2,10 +2,7 @@ package edu.nju.hotel.web.controller;
 
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import edu.nju.hotel.data.dao.UserDao;
-import edu.nju.hotel.data.model.Hotel;
-import edu.nju.hotel.data.model.Room;
-import edu.nju.hotel.data.model.RoomType;
-import edu.nju.hotel.data.model.User;
+import edu.nju.hotel.data.model.*;
 import edu.nju.hotel.data.repository.UserRepository;
 import edu.nju.hotel.data.util.ChargeResult;
 import edu.nju.hotel.logic.service.HotelService;
@@ -87,7 +84,10 @@ public class UserController {
     }
 
     @RequestMapping("/bookHistory")
-    public String bookHistory(){
+    public String bookHistory(Model model,HttpSession session){
+        int userId= (int) session.getAttribute("userid");
+        List<BookingVO> bookingList=userService.getBookingHistory(userId);
+        model.addAttribute("bookingList",bookingList);
         return "users/bookHistory";
     }
 
@@ -96,6 +96,12 @@ public class UserController {
         return "users/checkinHistory";
     }
 
+    @PostMapping("/cancelBooking")
+    public @ResponseBody String cancelBooking(@RequestParam("id") int id){
+        userService.cancelBooking(id);
+        ModelMap map=new ModelMap();
+        return "success";
+    }
 
 
     @GetMapping("/account")

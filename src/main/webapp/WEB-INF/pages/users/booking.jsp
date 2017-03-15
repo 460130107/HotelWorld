@@ -50,7 +50,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">单价</label>
                 <div class="col-sm-8 col-xs-10">
-                    <input id="price" type="number" readonly value="${bookType.price}" name="price"/>
+                    <input id="singlePrice" type="number" readonly value="${bookType.price}" name="price"/>
                     总价<span class="totalPrice">${bookType.price}</span>
                 </div>
             </div>
@@ -120,7 +120,7 @@
         balance=$('span#balance').text(),
         $name=$("#nameInput"),
         $totalPrice=$('.totalPrice'),
-        price=$('input#price').val();
+        price=$('input#singlePrice').val();
 
     $numSelect.change(nameInput);
     function nameInput() {
@@ -159,6 +159,7 @@
         data.roomNum=$('select').val();
         data.roomTypeId=$('.roomType').attr('id');
         data.hotelId=getHotelId();
+        data.price=price*data.roomNum;
         console.log(data);
         $.stdPost("/users/submitbooking",data);
     }

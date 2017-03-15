@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -27,40 +28,42 @@
     <%@ include file="header.jsp"%>
     <main class="panel-group">
             
-            <div class="panel-body">
-                <div><h4>预订记录</h4></div>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>房间类型</th>
-                            <th>住客姓名</th>
-                            <th><a href="/hotels/checkin" class="btn btn-sm btn-danger">办理入住</a></th>
-                        </tr>
-                    </thead>
+        <div class="panel-body">
+            <div><h4>预订记录</h4></div>
+            <table class="table table-striped">
+                <thead>
                     <tr>
-                        <td>单人间</td>
-                        <td>张三</td>
-                        <td><button class="btn btn-sm btn-primary">办理入住</button></td>
+                        <th>房间类型</th>
+                        <th>住客姓名</th>
+                        <th>总价</th>
+                        <th>办理入住</th>
                     </tr>
-                    <tbody>
+                </thead>
+
+                <tbody>
+                    <c:forEach items="${bookingList}" var="booking">
                         <tr>
-                            <td>单人间</td>
-                            <td>张三</td>
-                            <td><button class="btn btn-sm btn-primary">办理入住</button></td>
+                            <td>${booking.roomTypeName}</td>
+                            <td>${booking.nameinfo}</td>
+                            <td>${booking.price}</td>
+                            <td id="${booking.id}">
+                                <button class="bookToCheckin btn btn-sm btn-primary">办理入住</button>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>单人间</td>
-                            <td>张三</td>
-                            <td><button class="btn btn-sm btn-primary">办理入住</button></td>
-                        </tr>
-                        <tr>
-                            <td>单人间</td>
-                            <td>张三</td>
-                            <td><button class="btn btn-sm btn-primary">办理入住</button></td>
-                        </tr>
-                    </tbody>
-                </table>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="panel-body checkinInfo" style="display: none">
+            <div class="idCardInput">
+
             </div>
+            <div>
+                <button id="cashpay" class="btn btn-sm btn-primary">现金支付</button>
+                <button id="cardpay" class="btn btn-sm btn-primary">会员卡支付</button>
+            </div>
+        </div>
     </main>
 
 </div>
@@ -70,5 +73,55 @@
 
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/js/stdSubmit.js"></script>
+
+<script>
+    $.focusNav(0);
+
+    var $table=$('table');
+    var $checkinInfo=$('.checkinInfo');
+    var $inputArea=$('.idCardInput');
+    $table.on('click','button',requestInfo);
+    $checkinInfo.on('click','button',requestCheckin);
+    function requestInfo(e) {
+        var target=e.target;
+        var nameInfo=target.parentNode.previousSibling.previousSibling.innerHTML;
+        var nameList=nameInfo.split(' ');
+        nameList.map(function (name) {
+            var $label=$('<label/>');
+            $label.text(name);
+            var $input=$('<input type="number" placeholder="身份证号"/>');
+            $inputArea.append($label);
+            $inputArea.append($input);
+        });
+        $checkinInfo.css("display","block");
+        $checkinInfo.attr("id",target.parentNode.id);
+    }
+    function requestCheckin(e) {
+        var id=e.target.parentNode.id;
+        var payType=e.target.id;
+        if(payType=="cashPay")payType=0;
+        if(payType=="cardPay")payType=1;
+        var idCards=[];
+        $('.idCardInput input').each(function(index,item){
+            idCards.push(item.value);
+        });
+        $.ajax({
+            type:"POST",
+            url:"checkin",
+            data:{bookingId:id,payType:payType,idCards:idCards.join(' ')},
+            success:function (msg) {
+                msg=JSON.parse(msg);
+                e.target.parentNode.innerHTML="已入住";
+                showAssign(msg);
+            }
+        });
+
+    }
+    function showAssign(msg) {
+        alert(msg);
+    }
+</script>
 </body>
 </html>

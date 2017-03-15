@@ -46,7 +46,9 @@ public class HotelServiceImpl implements HotelService {
     private BookingRepository bookingRepository;
 
     @Autowired
-    private HotelDao hotelDao;
+    private CheckinRepository checkinRepository;
+
+
 
     @Override
     public VerifyResult verifyLogin(int id, String password) {
@@ -187,6 +189,71 @@ public class HotelServiceImpl implements HotelService {
             }
             roomAsignRepository.saveAndFlush(roomAsign);
         }
+        userRepository.updateUserBalance(user.getBalance()-200,user.getId());
+    }
+
+    @Override
+    public List<BookingVO> getBookingNow(int hotelId) {
+        Date date=new Date();
+        date.setDate(date.getDate()-1);
+        List<Booking> bookingList=bookingRepository.getBookingAfter(hotelId,date);
+        return transferService.transferBookings(bookingList);
+    }
+
+    @Override
+    public BookingVO getBookingById(int bookingId) {
+        Booking booking=bookingRepository.findOne(bookingId);
+        return transferService.transferBooking(booking);
+    }
+
+
+    @Override
+    public ModelMap checkinBooking(int bookingId, int payType,String idCards) {
+        ModelMap result=new ModelMap();
+        Booking booking=bookingRepository.findOne(bookingId);
+
+        String[] idCardList=idCards.split(" ");
+        if(payType==1){
+            User user=booking.getUserByUserId();
+            int userBal=user.getBalance();
+            if(userBal<booking.getPrice()){
+                result.addAttribute("error","用户余额为"+userBal+"，支付不足");
+                return result;
+            }
+            else userRepository.updateUserBalance(userBal-booking.getPrice(),user.getId());
+        }
+        List<RoomAsign> roomAsigns= (List<RoomAsign>) booking.getRoomAsignsById();
+        int assignIndex=0;
+        for(RoomAsign roomAsign:roomAsigns){
+            String user2=roomAsign.getUser2();
+            if (user2.length()>1){
+                roomAsignRepository.updateUserCard(idCardList[assignIndex],idCardList[assignIndex+1]);
+            }
+            else {
+                roomAsignRepository.updateUserCard(idCardList[assignIndex],"");
+            }
+            roomAsignRepository.updateAssignChekin(roomAsign.getId());
+        }
+        Checkin checkin=creatCheckin(booking);
+        checkin.setPayType(payType);
+        checkinRepository.saveAndFlush(checkin);
+        List<RoomAssignVO> asgVOS=transferService.transferRoomAssigns(roomAsigns);
+        result.addAttribute("roomAssign",roomAsigns);
+
+        return result;
+    }
+
+
+
+    private Checkin creatCheckin(Booking booking) {
+        Checkin checkin=new Checkin();
+        checkin.setPrice(booking.getPrice());
+        checkin.setBookingByBookId(booking);
+        checkin.setCheckoutsById(null);
+        checkin.setPayType(1);
+        checkin.setRoomAsignsById(booking.getRoomAsignsById());
+        checkin.setUserByUserId(booking.getUserByUserId());
+        return checkin;
     }
 
     private RoomAsign creatRoomAssign(RoomType roomType, Booking booking, String userName, Room spareRoom) {
@@ -218,7 +285,7 @@ public class HotelServiceImpl implements HotelService {
         booking.setCheckinsById(null);
         booking.setRoomNum(bookingVO.getRoomNum());
         booking.setPhone(bookingVO.getPhone());
-        booking.setNameinfo(bookingVO.getNameinfo());
+        booking.setNameinfo(bookingVO.getNameinfo().trim());
         booking.setPrice(bookingVO.getPrice());
         booking.setRoomTypeByRoomTypeId(roomType);
         booking.setUserByUserId(user);

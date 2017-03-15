@@ -5,6 +5,7 @@ import edu.nju.hotel.data.model.BankCard;
 import edu.nju.hotel.data.model.Booking;
 import edu.nju.hotel.data.model.User;
 import edu.nju.hotel.data.repository.BankRepository;
+import edu.nju.hotel.data.repository.BookingRepository;
 import edu.nju.hotel.data.repository.UserRepository;
 import edu.nju.hotel.data.util.ChargeResult;
 import edu.nju.hotel.data.util.VerifyResult;
@@ -43,6 +44,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private BankRepository bankRepository;
+
+    @Autowired
+    private BookingRepository bookingRepository;
 
 
     @Autowired
@@ -102,8 +106,19 @@ public class UserServiceImpl implements UserService {
         return "success";
     }
 
+    @Override
+    public List<BookingVO> getBookingHistory(int userId) {
+        List<Booking> bookingList=bookingRepository.getUserHistory(userId);
 
+        return transferService.transferBookings(bookingList);
+    }
 
+    @Override
+    public void cancelBooking(int id) {
+        Booking booking=bookingRepository.findOne(id);
+        bookingRepository.updateCancel(booking.getId());
+        userRepository.updateUserBalance(booking.getUserByUserId().getBalance()+200,booking.getUserByUserId().getId());
+    }
 
 
     /**

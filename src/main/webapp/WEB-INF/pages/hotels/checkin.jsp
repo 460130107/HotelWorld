@@ -103,7 +103,12 @@
 
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/main.js"></script>
+
 <script>
+
+    $.focusNav(1);
+
     $("#cashPay").click(function () {
         alert("成功入住");
         location.href="/hotels/history";
@@ -159,6 +164,8 @@
 //    $("table").on("click",".delete",function (e) {
 //        alert(e.target.id);
 //    })
+
+
 
 
 

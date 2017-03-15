@@ -56,6 +56,7 @@ public class TransferServiceImpl implements TransferService {
     @Override
     public BookingVO transferBooking(Booking booking) {
         BookingVO vo=new BookingVO();
+        vo.setId(booking.getId());
         vo.setHotelId(booking.getHotelByHotelId().getId());
         vo.setCancled(booking.getCancled());
         vo.setCreatTime(booking.getCreatTime());
@@ -64,28 +65,30 @@ public class TransferServiceImpl implements TransferService {
         vo.setInTime(transferDate(booking.getInTime()));
         vo.setOutTime(transferDate(booking.getOutTime()));
         vo.setCreatTime(booking.getCreatTime());
-        vo.setCheckinId(booking.getCheckinsById().getId());
+        if(booking.getCheckinsById()!=null){
+            vo.setCheckinId(booking.getCheckinsById().getId());
+        }
         vo.setRoomNum(booking.getRoomNum());
+        vo.setRoomTypeName(booking.getRoomTypeByRoomTypeId().getName());
         vo.setPhone(booking.getPhone());
         vo.setNameinfo(booking.getNameinfo());
         vo.setPrice(booking.getPrice());
         vo.setRoomTypeId(booking.getRoomTypeByRoomTypeId().getId());
         vo.setUserId(booking.getUserByUserId().getId());
+        if(booking.getCancled()>0){
+            vo.setStatus(2);
+            return vo;
+        }
+        if(booking.getInTime().before(new Date())){
+            vo.setStatus(1);
+        }
+
         return vo;
     }
 
     private String transferDate(Date date){
-        String result="";
-        result+=date.getYear()+1900;
-        result+="-";
-        int month=date.getMonth()+1;
-        if(month<10){
-            result+="0";
-        }
-        result+=month;
-        result+="-";
-        result+=date.getDay();
-        return result;
+
+        return date.toString();
     }
 
     @Override
@@ -104,6 +107,19 @@ public class TransferServiceImpl implements TransferService {
         roomVO.setName(room.getName());
         roomVO.setRoomType(room.getRoomTypeByRoomTypeId().getName());
         return roomVO;
+    }
+
+    @Override
+    public RoomAssignVO transferRoomAssign(RoomAsign roomAssign) {
+        RoomAssignVO vo= new RoomAssignVO();
+        vo.setId(roomAssign.getId());
+        vo.setRoomName(roomAssign.getRoomByRoomId().getName());
+        vo.setRoomType(roomAssign.getRoomByRoomId().getRoomTypeByRoomTypeId().getName());
+        vo.setUser1(roomAssign.getUser1());
+        vo.setUser2(roomAssign.getUser2());
+        vo.setIdcard1(roomAssign.getIdcard1());
+        vo.setIdcard2(roomAssign.getIdcard2());
+        return vo;
     }
 
     @Override
@@ -134,6 +150,26 @@ public class TransferServiceImpl implements TransferService {
             hotelVOS.add(vo);
         }
         return hotelVOS;
+    }
+
+    @Override
+    public List<BookingVO> transferBookings(List<Booking> bookingList) {
+        List<BookingVO> bookingVOS=new ArrayList<>();
+        for (Booking booking:bookingList){
+            BookingVO vo=transferBooking(booking);
+            bookingVOS.add(vo);
+        }
+        return bookingVOS;
+    }
+
+    @Override
+    public List<RoomAssignVO> transferRoomAssigns(List<RoomAsign> roomAsigns) {
+        List<RoomAssignVO> roomAssignVOS=new ArrayList<>();
+        for (RoomAsign roomAsign:roomAsigns){
+            RoomAssignVO roomAssignVO=transferRoomAssign(roomAsign);
+            roomAssignVOS.add(roomAssignVO);
+        }
+        return roomAssignVOS;
     }
 
     private RoomTypeVO transferRoomType(RoomType roomType) {

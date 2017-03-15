@@ -38,44 +38,26 @@
             <th>定金</th>
             <th>状态</th>
         </tr>
-        <tr>
-            <td>2017-01-14</td>
-            <td>2017-01-14</td>
-            <td>单人房</td>
-            <td>2</td>
-            <td>张三，李四，周小帆</td>
-            <td>15902283998</td>
-            <td>无</td>
-            <td>¥1200</td>
-            <td>¥200</td>
-            <td><button class="btn btn-sm btn-primary">取消订单</button></td>
-        </tr>
 
-        <tr>
-            <td>2017-01-14</td>
-            <td>2017-01-14</td>
-            <td>单人房</td>
-            <td>2</td>
-            <td>张三，李四，周小帆</td>
-            <td>15902283998</td>
-            <td>无</td>
-            <td>¥1200</td>
-            <td>¥200</td>
-            <td>已入住</td>
-        </tr>
+        <c:forEach items="${bookingList}" var="booking">
+            <tr>
+                <td>${booking.inTime.substring(0,10)}</td>
+                <td>${booking.outTime.substring(0,10)}</td>
+                <td>${booking.roomTypeName}</td>
+                <td>${booking.roomNum}</td>
+                <td>${booking.nameinfo}</td>
+                <td>${booking.phone}</td>
+                <td>${booking.email}</td>
+                <td>${booking.price}</td>
+                <td>${booking.deposit}</td>
+                <td id="${booking.id}">
+                    ${booking.status==0?"<button id='cancelBooking' class='btn btn-sm btn-primary'>取消订单</button>":""}
+                    ${booking.status==1?"已到期":""}
+                    ${booking.status==2?"已取消":""}
+                </td>
+            </tr>
+        </c:forEach>
 
-        <tr>
-            <td>2017-01-14</td>
-            <td>2017-01-14</td>
-            <td>单人房</td>
-            <td>2</td>
-            <td>张三，李四，周小帆</td>
-            <td>15902283998</td>
-            <td>无</td>
-            <td>¥1200</td>
-            <td>¥200</td>
-            <td><button class="btn btn-sm btn-primary">取消订单</button></td>
-        </tr>
 
     </table>
 </div>
@@ -85,5 +67,23 @@
 
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+        var $table=$('table');
+        $table.on('click','#cancelBooking',cancelBooking);
+        function cancelBooking(e) {
+            var ele=e.target;
+            var id=ele.parentNode.id;
+            $.ajax({
+                type:"POST",
+                url:"cancelBooking",
+                data:{id:id},
+                success:function () {
+                    ele.parentNode.innerHTML="已取消";
+                }
+            });
+        }
+    });
+</script>
 </body>
 </html>

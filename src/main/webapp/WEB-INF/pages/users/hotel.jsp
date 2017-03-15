@@ -136,6 +136,8 @@
                 if(rooms.price<0){
                     $tdPrice.text("暂时无价格");
                     $but.addClass("disabled");
+                }else if (rooms.list.length<1){
+                    $but.addClass('disabled');
                 }
                 else {
                     $tdPrice.text(rooms.price);

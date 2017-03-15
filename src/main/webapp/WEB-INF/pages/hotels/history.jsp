@@ -122,5 +122,9 @@
 
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/main.js"></script>
+<script>
+    $.focusNav(5);
+</script>
 </body>
 </html>

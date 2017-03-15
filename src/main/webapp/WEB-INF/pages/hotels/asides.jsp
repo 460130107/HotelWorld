@@ -6,7 +6,7 @@
             <a href="#" class="navbar-brand"><b>Hotel</b>World</a>
         </div>
         <ul class="nav">
-            <li class="active">
+            <li>
                 <a href="index">
                     <p>预订列表</p>
                 </a>

@@ -10,6 +10,7 @@ import java.util.Date;
  */
 public class BookingVO {
 
+    private int id;
     private String inTime;
     private String outTime;
     private Integer roomNum;
@@ -18,6 +19,8 @@ public class BookingVO {
     private String email;
     private Integer price;
     private int cancled;
+    //0表示正常，1表示过期了，2表示取消了
+    private int status=0;
     private int deposit;
     private Timestamp creatTime = new Timestamp( new Date().getTime());
     private int userId;
@@ -145,5 +148,21 @@ public class BookingVO {
 
     public void setRoomTypeName(String roomTypeName) {
         this.roomTypeName = roomTypeName;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

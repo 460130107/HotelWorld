@@ -16,10 +16,16 @@ public interface TransferService {
 
     List<RoomVO> transferRooms(List<Room> list);
     RoomVO transferRoom(Room room);
+    RoomAssignVO transferRoomAssign(RoomAsign roomAssign);
+
 
     List<PlanVO> transferPlans(List<Plan> list);
 
     List<RoomTypeVO> transferRoomTypes(List<RoomType> list);
 
     List<HotelVO> transferHotels(List<Hotel> hotelList);
+
+    List<BookingVO> transferBookings(List<Booking> bookingList);
+
+    List<RoomAssignVO> transferRoomAssigns(List<RoomAsign> roomAsigns);
 }
