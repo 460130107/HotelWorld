@@ -21,6 +21,7 @@ public class Checkin {
     private Collection<RoomAsign> roomAsignsById;
 
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     public int getId() {
         return id;

@@ -42,22 +42,29 @@
 
         <div class="panel-body add-panel">
             <div>
-                <input type="date" name="start" id="start"/>
-                <input type="date" name="end" id="end"/>
-                <select name="roomType" id="roomType">
-                    <option value="单人房">单人房</option>
-                    <option value="双人房">双人房</option>
-                    <option value="大床房">大床房</option>
-                </select>
-                <select name="nums" id="nums">
-                    <option value="1">301</option>
-                    <option value="2">302</option>
-                    <option value="3">303</option>
-                    <option value="4">304</option>
-                    <option value="5">305</option>
-                </select>
+                <input type="date" name="inTime" id="start"/>
+                <input type="date" name="outTime" id="end"/>
+                <button id="search" class="btn btn-primary btn-sm">查找</button>
             </div>
             <div>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>房型</th>
+                            <th>房价</th>
+                            <th>房间数量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <select name="roomType" id="roomType">
+
+                </select>
                 <input type="text" name="name1" id="name1" placeholder="姓名">
                 <input type="text" name="idcard1" id="idcard1" placeholder="身份证号">
                 <input type="text" name="name2" id="name2" placeholder="姓名">
@@ -80,7 +87,6 @@
                     <th>入住日期</th>
                     <th>离店日期</th>
                     <th>房间类型</th>
-                    <th>房间号</th>
                     <th>住客姓名1</th>
                     <th>住客身份证1</th>
                     <th>住客姓名2</th>
@@ -104,10 +110,81 @@
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/main.js"></script>
-
+<script src="${pageContext.request.contextPath}/js/moment.js"></script>
 <script>
 
     $.focusNav(1);
+    var $end = $("#end"),
+        $start = $("#start"),
+        $search=$('#search'),
+        $roomTbody=$('.add-panel tbody'),
+        $roomTypeSelect=$('select#roomType');
+        $addRoomBook=$('#addRoomBook');
+        $bookTbody=$('.list-panel tbody');
+        checkinList=[];
+
+
+    initDate();
+    getRooms();
+
+    $addRoomBook.click(addBookItem);
+
+    function initDate() {
+        $end.val(moment().add(1,'days').format('YYYY-MM-DD'));
+        $end.attr("min",moment().add(1,'days').format());
+        $start.val(moment().format('YYYY-MM-DD'));
+        $start.attr("min",moment().format());
+    }
+
+    function getRooms() {
+
+        var data={
+            id:-1,
+            start:$start.val(),
+            end:$end.val()
+        };
+        $.ajax({
+            type: "GET",
+            url: "/json/hotel/getSpareRoom",
+            data: data,
+            success: mountRoom,
+            error: handleError
+        });
+    }
+    function handleError() {
+        console.log("error");
+    }
+
+    function mountRoom(msg) {
+        msg=JSON.parse(msg);
+        var roomList=msg.rooms;
+        for (var roomtype in roomList){
+            var rooms=roomList[roomtype];
+            var $tr=$('<tr/>');
+            var $tdName=$('<td/>');
+            var $tdPrice=$('<td/>');
+            var $tdNum=$('<td/>');
+
+            $tdName.text(roomtype);
+            $tdNum.text(rooms.list.length);
+
+            if(rooms.price<0)
+                $tdPrice.text("暂时无价格");
+            else {
+                $tdPrice.text(rooms.price);
+            }
+
+            var $option=$('<option/>');
+            $option.text(roomtype);
+            $option.attr('value',rooms.id);
+            $roomTypeSelect.append($option);
+
+            $tr.append($tdName);
+            $tr.append($tdPrice);
+            $tr.append($tdNum);
+            $roomTbody.append($tr);
+        }
+    }
 
     $("#cashPay").click(function () {
         alert("成功入住");
@@ -127,48 +204,36 @@
         };
     })();
 
-    $("#add").click(function (e) {
-        $("table").append('<tr id="room' +counter.add()+
-            '">' +'<td><input type="date" name="start" id="start"/></td>'+
-            '<td><input type="date" name="end" id="end"/></td>'+
-            '<td> ' +
-            '<select name="roomType" id="roomType"> ' +
-            '<option value="单人房">单人房</option> ' +
-            '<option value="双人房">双人房</option> ' +
-            '<option value="大床房">大床房</option> ' +
-            '</select>'+
-            '</td>'+
-            '<td> ' +
-            '<select name="nums" id="nums">' +
-            '<option value="1">301</option>' +
-            '<option value="2">302</option>' +
-            '<option value="3">303</option>' +
-            '<option value="4">304</option><option value="5">305</option></select>' +
-            '</td>'+
-            '<td><input type="text" name="name1" id="name1" placeholder="姓名"></td>' +
-            '<td><input type="text" name="idcard1" id="idcard1" placeholder="身份证号"></td>' +
-            '<td><input type="text" name="name2" id="name2" placeholder="姓名"></td>' +
-            '<td><input type="text" name="idcard2" id="idcard2" placeholder="身份证号"></td>'+
-            '<td><button class="btn btn-primary btn-sm delete" id="' +counter.get()+
-            '">删除</button></td>'+
-            '</tr>');
-
+    $addRoomBook.click(function (e) {
 //        location.href="/hotels/index";
     });
 
-    $("table").on("click",".delete",function (e) {
-        var num=e.target.id;
-        $('#room'+num).remove();
-    });
+    function addBookItem(e) {
+        var $tr=$('<tr/>');
+        var tdArr=[];
+        var data={};
+        for (var i=0;i<7;i++){
+            tdArr[i]=$('<td/>');
+        }
 
-//    $("table").on("click",".delete",function (e) {
-//        alert(e.target.id);
-//    })
+        $('.add-panel input').each(function (index,item) {
+            data[item.name]=item.value;
+            if(index<2){
+                tdArr[index].text(item.value);
+            }else {
+                tdArr[index+1].text(item.value);
+            }
+        });
+        data.roomTypeId=$roomTypeSelect.val();
+        data.roomTypeName=$roomTypeSelect.find('option:selected').text();
+        checkinList.push(data);
+        tdArr[2].text(data.roomTypeName);
+        for (var i=0;i<7;i++){
+            $tr.append(tdArr[i]);
+        }
+        $bookTbody.append($tr);
 
-
-
-
-
+    }
 
 
 </script>

@@ -197,6 +197,7 @@ public class HotelServiceImpl implements HotelService {
         Date date=new Date();
         date.setDate(date.getDate()-1);
         List<Booking> bookingList=bookingRepository.getBookingAfter(hotelId,date);
+
         return transferService.transferBookings(bookingList);
     }
 
@@ -222,23 +223,24 @@ public class HotelServiceImpl implements HotelService {
             }
             else userRepository.updateUserBalance(userBal-booking.getPrice(),user.getId());
         }
-        List<RoomAsign> roomAsigns= (List<RoomAsign>) booking.getRoomAsignsById();
+        List<RoomAsign> roomAsigns=roomAsignRepository.findByBookingId(bookingId);
         int assignIndex=0;
         for(RoomAsign roomAsign:roomAsigns){
             String user2=roomAsign.getUser2();
             if (user2.length()>1){
-                roomAsignRepository.updateUserCard(idCardList[assignIndex],idCardList[assignIndex+1]);
+                roomAsignRepository.updateUserCard(idCardList[assignIndex],idCardList[assignIndex+1],roomAsign.getId());
             }
             else {
-                roomAsignRepository.updateUserCard(idCardList[assignIndex],"");
+                roomAsignRepository.updateUserCard(idCardList[assignIndex],"",roomAsign.getId());
             }
             roomAsignRepository.updateAssignChekin(roomAsign.getId());
         }
+        bookingRepository.updateChecked(booking.getId());
         Checkin checkin=creatCheckin(booking);
         checkin.setPayType(payType);
         checkinRepository.saveAndFlush(checkin);
         List<RoomAssignVO> asgVOS=transferService.transferRoomAssigns(roomAsigns);
-        result.addAttribute("roomAssign",roomAsigns);
+        result.addAttribute("roomAssign",asgVOS);
 
         return result;
     }
@@ -250,8 +252,6 @@ public class HotelServiceImpl implements HotelService {
         checkin.setPrice(booking.getPrice());
         checkin.setBookingByBookId(booking);
         checkin.setCheckoutsById(null);
-        checkin.setPayType(1);
-        checkin.setRoomAsignsById(booking.getRoomAsignsById());
         checkin.setUserByUserId(booking.getUserByUserId());
         return checkin;
     }

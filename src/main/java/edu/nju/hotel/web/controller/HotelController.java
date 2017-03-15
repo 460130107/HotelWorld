@@ -56,14 +56,13 @@ public class HotelController {
         return "hotels/checkin";
     }
 
-    @PostMapping("/checkin")
-    public String checkinPost(@RequestParam("bookingId") int bookingId,
+    @PostMapping("/checkinPost")
+    public @ResponseBody Object checkinPost(@RequestParam("bookingId") int bookingId,
                               @RequestParam("payType") int payType,
-                              @RequestParam("idCards") String idCards,
-                              Model model){
-        ModelMap roomAssignVOS=hotelService.checkinBooking(bookingId,payType,idCards);
-        model.addAttribute("booking",roomAssignVOS);
-        return "hotels/bookingSuccess";
+                              @RequestParam("idCards") String idCards){
+        ModelMap result=hotelService.checkinBooking(bookingId,payType,idCards);
+
+        return result;
     }
 
     @PostMapping("/handleCheckin")

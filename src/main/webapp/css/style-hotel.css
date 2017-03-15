@@ -175,6 +175,13 @@ body.bookList main .panel-body {
     margin: 0 10px; }
 body.bookList main th, body.bookList main td {
   padding-left: 20px; }
+body.bookList main .checkinInfo {
+  margin-top: 20px;
+  padding: 20px 0; }
+  body.bookList main .checkinInfo .idCardInput {
+    margin: 10px; }
+  body.bookList main .checkinInfo input {
+    margin: 0 10px; }
 
 body.checkin main .panel-body, body.checkin main .panel-heading {
   display: flex;
@@ -201,6 +208,8 @@ body.checkin main .add-panel {
   flex-direction: column; }
   body.checkin main .add-panel > div {
     margin: 5px; }
+  body.checkin main .add-panel table {
+    width: 300px; }
 body.checkin main input, body.checkin main select {
   padding: 5px;
   border: 1px solid rgba(0, 0, 0, 0.1);

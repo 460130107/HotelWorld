@@ -11,4 +11,14 @@
 	th ,td {
 		padding-left: 20px;
 	}
+	.checkinInfo{
+		margin-top: 20px;
+	    padding: 20px 0;
+	    .idCardInput{
+	    	margin: 10px;
+	    }
+	    input{
+	    	margin: 0 10px;
+	    }
+	}
 }

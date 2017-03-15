@@ -18,4 +18,20 @@ public class CommonJsonController {
     @Autowired
     HotelService hotelService;
 
+    @GetMapping("/hotel/getSpareRoom")
+    public @ResponseBody Object getSpareRoom(@RequestParam("id") int id,
+                                             @RequestParam("start") String start,
+                                             @RequestParam("end") String end,
+                                             HttpSession session){
+
+        if (id==-1){
+            id= (int) session.getAttribute("hotelid");
+        }
+        ModelMap rooms=hotelService.getSpareRoom(id,start,end);
+        ModelMap model=new ModelMap();
+
+        model.addAttribute("rooms",rooms);
+        return model;
+    }
+
 }

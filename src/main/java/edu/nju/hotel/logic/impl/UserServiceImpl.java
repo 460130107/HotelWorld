@@ -1,11 +1,10 @@
 package edu.nju.hotel.logic.impl;
 
 import edu.nju.hotel.data.dao.UserDao;
-import edu.nju.hotel.data.model.BankCard;
-import edu.nju.hotel.data.model.Booking;
-import edu.nju.hotel.data.model.User;
+import edu.nju.hotel.data.model.*;
 import edu.nju.hotel.data.repository.BankRepository;
 import edu.nju.hotel.data.repository.BookingRepository;
+import edu.nju.hotel.data.repository.RoomAsignRepository;
 import edu.nju.hotel.data.repository.UserRepository;
 import edu.nju.hotel.data.util.ChargeResult;
 import edu.nju.hotel.data.util.VerifyResult;
@@ -15,6 +14,7 @@ import edu.nju.hotel.logic.vo.BookingVO;
 import edu.nju.hotel.logic.vo.UserUpdate;
 import edu.nju.hotel.logic.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.spel.ast.Assign;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Query;
@@ -47,6 +47,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private BookingRepository bookingRepository;
+
+    @Autowired
+    private RoomAsignRepository roomAsignRepository;
 
 
     @Autowired
@@ -117,6 +120,10 @@ public class UserServiceImpl implements UserService {
     public void cancelBooking(int id) {
         Booking booking=bookingRepository.findOne(id);
         bookingRepository.updateCancel(booking.getId());
+        List<RoomAsign> asigns=  roomAsignRepository.findByBookingId(id);
+        for (RoomAsign roomAsign:asigns){
+            roomAsignRepository.delete(roomAsign.getId());
+        }
         userRepository.updateUserBalance(booking.getUserByUserId().getBalance()+200,booking.getUserByUserId().getId());
     }
 

@@ -20,6 +20,7 @@ public class Booking {
     private String email;
     private Integer price;
     private int cancled;
+    private int checked;
     private int deposit;
     private Timestamp creatTime = new Timestamp( new Date().getTime());
     private User userByUserId;
@@ -120,6 +121,16 @@ public class Booking {
     }
 
     @Basic
+    @Column(name = "checked", nullable = false)
+    public int getChecked() {
+        return checked;
+    }
+
+    public void setChecked(int checked) {
+        this.checked = checked;
+    }
+
+    @Basic
     @Column(name = "deposit", nullable = false)
     public int getDeposit() {
         return deposit;
@@ -148,6 +159,7 @@ public class Booking {
 
         if (id != booking.id) return false;
         if (cancled != booking.cancled) return false;
+        if (checked != booking.checked) return false;
         if (deposit != booking.deposit) return false;
         if (inTime != null ? !inTime.equals(booking.inTime) : booking.inTime != null) return false;
         if (outTime != null ? !outTime.equals(booking.outTime) : booking.outTime != null) return false;
@@ -173,6 +185,7 @@ public class Booking {
         result = 31 * result + (price != null ? price.hashCode() : 0);
         result = 31 * result + (creatTime != null ? creatTime.hashCode() : 0);
         result = 31 * result + cancled;
+        result = 31 * result + checked;
         result = 31 * result + deposit;
         return result;
     }

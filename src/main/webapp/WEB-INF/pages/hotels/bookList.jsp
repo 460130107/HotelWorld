@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style-hotel.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
 
-
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -86,7 +85,7 @@
     $checkinInfo.on('click','button',requestCheckin);
     function requestInfo(e) {
         var target=e.target;
-        var nameInfo=target.parentNode.previousSibling.previousSibling.innerHTML;
+        var nameInfo=target.parentNode.parentNode.querySelectorAll('td')[1].innerHTML
         var nameList=nameInfo.split(' ');
         nameList.map(function (name) {
             var $label=$('<label/>');
@@ -96,31 +95,46 @@
             $inputArea.append($input);
         });
         $checkinInfo.css("display","block");
-        $checkinInfo.attr("id",target.parentNode.id);
+        $checkinInfo.attr("data-id",target.parentNode.id);
     }
     function requestCheckin(e) {
-        var id=e.target.parentNode.id;
-        var payType=e.target.id;
-        if(payType=="cashPay")payType=0;
-        if(payType=="cardPay")payType=1;
+        var id=e.target.parentNode.parentNode.dataset.id;
+        var payTypeName=e.target.id;
+        var payType=0;
+        if(payTypeName=="cardPay")payType=1;
         var idCards=[];
         $('.idCardInput input').each(function(index,item){
             idCards.push(item.value);
         });
+        $('#'+id).text("已入住");
         $.ajax({
             type:"POST",
-            url:"checkin",
+            url:"checkinPost",
             data:{bookingId:id,payType:payType,idCards:idCards.join(' ')},
             success:function (msg) {
                 msg=JSON.parse(msg);
-                e.target.parentNode.innerHTML="已入住";
+                $checkinInfo.css('display','none');
+                $('#'+id).text("已入住");
                 showAssign(msg);
             }
         });
 
     }
     function showAssign(msg) {
-        alert(msg);
+        if(msg.error){
+            alert(msg.error);
+            return;
+        }
+        else {
+            var result="";
+            var roomAssigns=msg.roomAssign;
+            roomAssigns.map(function (item) {
+                result+="房间号："+item.roomName+" 住户："+item.user1+","+item.user2;
+            });
+
+
+            alert(result);
+        }
     }
 </script>
 </body>

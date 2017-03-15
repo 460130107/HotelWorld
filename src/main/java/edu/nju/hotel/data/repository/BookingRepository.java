@@ -31,6 +31,11 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     @Query("update Booking bk set bk.cancled=1 where bk.id=?1")
     void updateCancel(int id);
 
-    @Query("select bk from Booking bk where bk.hotelByHotelId.id=?1 and bk.inTime>?2")
+    @Query("select bk from Booking bk where bk.hotelByHotelId.id=?1 and bk.inTime>?2 and bk.cancled=0 and bk.checked=0")
     List<Booking> getBookingAfter(int hotelId, Date date);
+
+    @Modifying
+    @Transactional
+    @Query("update Booking bk set bk.checked=1 where bk.id=?1")
+    void updateChecked(int id);
 }

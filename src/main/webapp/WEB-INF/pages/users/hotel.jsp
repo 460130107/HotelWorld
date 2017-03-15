@@ -110,7 +110,7 @@
             };
             $.ajax({
                 type: "GET",
-                url: "/users/json/hotel/getSpareRoom",
+                url: "/json/hotel/getSpareRoom",
                 data: data,
                 success: mountRoom,
                 error: handleError
@@ -143,13 +143,11 @@
                     $tdPrice.text(rooms.price);
                 }
                 $tdBut.append($but);
-
                 $tr.append($tdName);
                 $tr.append($tdPrice);
                 $tr.append($tdNum);
                 $tr.append($tdBut);
                 $tbody.append($tr);
-
             }
         }
         
