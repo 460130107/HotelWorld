@@ -1,7 +1,5 @@
 package edu.nju.hotel.logic.vo;
 
-import edu.nju.hotel.data.model.RoomType;
-
 /**
  * Created by zhouxiaofan on 2017/2/5.
  */

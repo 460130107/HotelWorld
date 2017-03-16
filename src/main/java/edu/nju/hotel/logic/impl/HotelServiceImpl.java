@@ -1,6 +1,5 @@
 package edu.nju.hotel.logic.impl;
 
-import edu.nju.hotel.data.dao.HotelDao;
 import edu.nju.hotel.data.model.*;
 import edu.nju.hotel.data.repository.*;
 import edu.nju.hotel.data.util.VerifyResult;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 import static java.lang.Integer.parseInt;
@@ -172,21 +170,9 @@ public class HotelServiceImpl implements HotelService {
 
         List<Room> spareRooms=getSpareRoomList(roomType.getHotelByHotelId().getId(),roomType.getId(),bookingVO.getInTime(),bookingVO.getOutTime());
 
-        String[] usernames=booking.getNameinfo().trim().split(" ");
-        int roomNum=bookingVO.getRoomNum();//3
-        int userNum=usernames.length;//5
-        int pointer=0;
+        int roomNum=bookingVO.getRoomNum();
         for(int i=0;i<roomNum;i++){
-            RoomAsign roomAsign=null;
-            //一间房2个人的情况
-            if(i<userNum%roomNum||(userNum==2&&roomNum==1)){
-                roomAsign=creatRoomAssign(roomType,bookingSaved,usernames[pointer]+" "+usernames[pointer+1],spareRooms.get(i));
-                pointer+=2;
-            }
-            else {
-                roomAsign=creatRoomAssign(roomType,bookingSaved,usernames[pointer],spareRooms.get(i));
-                pointer++;
-            }
+            RoomAsign roomAsign=creatRoomAssign(roomType,bookingSaved,spareRooms.get(i));
             roomAsignRepository.saveAndFlush(roomAsign);
         }
         userRepository.updateUserBalance(user.getBalance()-200,user.getId());
@@ -214,6 +200,8 @@ public class HotelServiceImpl implements HotelService {
         Booking booking=bookingRepository.findOne(bookingId);
 
         String[] idCardList=idCards.split(" ");
+        String[] userNameList=booking.getNameinfo().split(" ");
+        //会员卡支付,扣费
         if(payType==1){
             User user=booking.getUserByUserId();
             int userBal=user.getBalance();
@@ -223,52 +211,161 @@ public class HotelServiceImpl implements HotelService {
             }
             else userRepository.updateUserBalance(userBal-booking.getPrice(),user.getId());
         }
+        //获取之前分配的房间
         List<RoomAsign> roomAsigns=roomAsignRepository.findByBookingId(bookingId);
-        int assignIndex=0;
-        for(RoomAsign roomAsign:roomAsigns){
-            String user2=roomAsign.getUser2();
-            if (user2.length()>1){
-                roomAsignRepository.updateUserCard(idCardList[assignIndex],idCardList[assignIndex+1],roomAsign.getId());
+        //返回房间分配结果
+        List<RoomAssignVO> asgVOS=new ArrayList<>();
+        int index=0;
+        int roomNum=booking.getRoomNum();//3
+        int userNum=userNameList.length;//5
+        for(int i=0;i<roomNum;i++){
+            String userName="";
+            //存入住的订单
+            Checkin checkin=creatCheckin(booking);
+            checkin.setIdcard1(idCardList[index]);
+            checkin.setUser1(userNameList[index]);
+            userName+=idCardList[index]+" ";
+            index++;
+            //一间房2个人的情况
+            if(userNum/roomNum==2||i<userNum%roomNum){
+                checkin.setIdcard2(idCardList[index]);
+                checkin.setUser2(userNameList[index]);
+                userName+=idCardList[index]+" ";
+                index++;
             }
-            else {
-                roomAsignRepository.updateUserCard(idCardList[assignIndex],"",roomAsign.getId());
-            }
-            roomAsignRepository.updateAssignChekin(roomAsign.getId());
-        }
-        bookingRepository.updateChecked(booking.getId());
-        Checkin checkin=creatCheckin(booking);
-        checkin.setPayType(payType);
-        checkinRepository.saveAndFlush(checkin);
-        List<RoomAssignVO> asgVOS=transferService.transferRoomAssigns(roomAsigns);
-        result.addAttribute("roomAssign",asgVOS);
+            checkin.setPayType(payType);
+            checkinRepository.saveAndFlush(checkin);
 
+            //改变房间分配状态
+            RoomAsign roomAsign=roomAsigns.get(i);
+            roomAsignRepository.updateAssignChekin(roomAsign.getId(),checkin.getId());
+            RoomAssignVO rsVO=transferService.transferRoomAssign(roomAsign);
+            rsVO.setUser1(userName);
+            asgVOS.add(rsVO);
+
+        }
+        //更新预订订单的状态为已入住
+        bookingRepository.updateChecked(booking.getId());
+
+        //返回房间分配结果
+//        List<RoomAssignVO> asgVOS=transferService.transferRoomAssigns(roomAsigns);
+//        List<CheckinVO> cList=transferService.transferCheckins(checkinList);
+        result.addAttribute("roomAssign",asgVOS);
         return result;
     }
 
+    @Override
+    public ModelMap newCheckin(CheckinListVO checkinListVO) {
+        ModelMap result=new ModelMap();
+        User user=null;
+        int userid=checkinListVO.getUserId();
+        if(userid!=0){
+            user=userRepository.findOne(userid);
+        }
+        //用户id输错了
+        if(userid!=0&&user==null){
+            result.addAttribute("error","用户不存在");
+            return result;
+        }
+        int payType=checkinListVO.getPayType();
+        if(payType==1){
+            //用户没有输入id但是要会员卡支付
+            if(user==null){
+                result.addAttribute("error","没有输入id");
+                return result;
+            }
+            //余额不足
+            if(user.getBalance()<checkinListVO.getPrice()){
+                result.addAttribute("error","余额不足");
+                return result;
+            }
+            //扣房费
+            userRepository.updateUserBalance(user.getBalance()-checkinListVO.getPrice(),userid);
+
+        }
+
+        //遍历checkinList，建立每个checkin和对应的assign
+        List<NewCheckinVO> checkinList=checkinListVO.getCheckinList();
+        //返回房间分配结果
+        List<RoomAssignVO> asgVOS=new ArrayList<>();
+        for (NewCheckinVO vo:checkinList){
+            RoomType roomType=roomTypeRepository.findOne(vo.getRoomTypeId());
+
+            //存入住订单
+            Checkin checkin=creatNewCheckin(vo);
+            checkin.setUserByUserId(user);
+            checkin.setPayType(payType);
+            checkin.setRoomTypeByRoomTypeId(roomType);
+            checkinRepository.saveAndFlush(checkin);
+
+            List<Room> spareRooms=getSpareRoomList(roomType.getHotelByHotelId().getId(),roomType.getId(),vo.getInTime(),vo.getOutTime());
+            RoomAsign roomAsign=creatNewRoomAssign(vo,spareRooms.get(0),checkin.getId());
+
+            roomAsignRepository.saveAndFlush(roomAsign);
+
+            RoomAssignVO assignVO=transferService.transferRoomAssign(roomAsign);
+            assignVO.setUser1(checkin.getUser1());
+            assignVO.setUser2(checkin.getUser2());
+            asgVOS.add(assignVO);
+        }
+        result.addAttribute("roomAssign",asgVOS);
+        return result;
+    }
+
+    @Override
+    public List<CheckinVO> getCheckinList(int hotelId) {
+        Date date=new Date();
+        date.setDate(date.getDate()-1);
+        List<CheckinVO> checkinVOS=checkinRepository.getCheckinListAfter(hotelId,date);
+        return null;
+    }
+
+    private RoomAsign creatNewRoomAssign(NewCheckinVO vo,Room spareRoom,int id) {
+        Checkin checkin=checkinRepository.findOne(id);
+        RoomAsign roomAsign=new RoomAsign();
+//        空余的房子
+        roomAsign.setRoomByRoomId(spareRoom);
+        roomAsign.setInTime(getDate(vo.getInTime()));
+        roomAsign.setOutTime(getDate(vo.getOutTime()));
+        roomAsign.setBookingByBookId(null);
+        roomAsign.setCheckinByCheckinId(checkin);
+//        1表示入住
+        roomAsign.setState(1);
+        return roomAsign;
+    }
+
+    private Checkin creatNewCheckin(NewCheckinVO vo) {
+        Checkin checkin=new Checkin();
+        checkin.setIdcard1(vo.getIdcard1());
+        checkin.setIdcard2(vo.getIdcard2());
+        checkin.setUser1(vo.getUser1());
+        checkin.setUser2(vo.getUser2());
+        checkin.setInTime(getDate(vo.getInTime()));
+        checkin.setOutTime(getDate(vo.getOutTime()));
+
+        return checkin;
+    }
 
 
     private Checkin creatCheckin(Booking booking) {
         Checkin checkin=new Checkin();
         checkin.setPrice(booking.getPrice());
         checkin.setBookingByBookId(booking);
-        checkin.setCheckoutsById(null);
         checkin.setUserByUserId(booking.getUserByUserId());
+        checkin.setRoomTypeByRoomTypeId(booking.getRoomTypeByRoomTypeId());
+        checkin.setInTime(booking.getInTime());
+        checkin.setOutTime(booking.getOutTime());
         return checkin;
     }
 
-    private RoomAsign creatRoomAssign(RoomType roomType, Booking booking, String userName, Room spareRoom) {
-        String[] userNames=userName.split(" ");
+    private RoomAsign creatRoomAssign(RoomType roomType, Booking booking, Room spareRoom) {
         RoomAsign roomAsign=new RoomAsign();
 //        空余的房子
         roomAsign.setRoomByRoomId(spareRoom);
         roomAsign.setInTime(booking.getInTime());
         roomAsign.setOutTime(booking.getOutTime());
         roomAsign.setBookingByBookId(booking);
-        roomAsign.setCheckinByCheckinId(booking.getCheckinsById());
-        roomAsign.setUser1(userNames[0]);
-        if(userNames.length>1){
-            roomAsign.setUser2(userNames[1]);
-        }
+        roomAsign.setCheckinByCheckinId(null);
         return roomAsign;
     }
 

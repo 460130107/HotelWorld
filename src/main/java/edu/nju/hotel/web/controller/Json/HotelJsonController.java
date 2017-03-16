@@ -1,19 +1,13 @@
 package edu.nju.hotel.web.controller.Json;
 
-import edu.nju.hotel.data.model.Plan;
-import edu.nju.hotel.data.model.Room;
-import edu.nju.hotel.data.model.RoomType;
 import edu.nju.hotel.logic.service.HotelService;
 import edu.nju.hotel.logic.vo.HotelVO;
-import edu.nju.hotel.logic.vo.RoomTypeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-
-import java.util.Date;
 
 import static java.lang.Integer.parseInt;
 

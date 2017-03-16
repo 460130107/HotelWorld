@@ -1,12 +1,12 @@
 package edu.nju.hotel.data.model;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Date;
 
 /**
- * Created by zhouxiaofan on 2017/2/4.
+ * Created by zhouxiaofan on 2017/3/15.
  */
 @Entity
 @Table(name = "booking")
@@ -20,13 +20,13 @@ public class Booking {
     private String email;
     private Integer price;
     private int cancled;
-    private int checked;
     private int deposit;
-    private Timestamp creatTime = new Timestamp( new Date().getTime());
+    private Timestamp creatTime=new Timestamp(new Date().getTime());
+    private int checked=0;
     private User userByUserId;
     private Hotel hotelByHotelId;
     private RoomType roomTypeByRoomTypeId;
-    private Checkin checkinsById;
+    private Collection<Checkin> checkinsById;
     private Collection<RoomAsign> roomAsignsById;
 
     @Id
@@ -121,16 +121,6 @@ public class Booking {
     }
 
     @Basic
-    @Column(name = "checked", nullable = false)
-    public int getChecked() {
-        return checked;
-    }
-
-    public void setChecked(int checked) {
-        this.checked = checked;
-    }
-
-    @Basic
     @Column(name = "deposit", nullable = false)
     public int getDeposit() {
         return deposit;
@@ -150,6 +140,16 @@ public class Booking {
         this.creatTime = creatTime;
     }
 
+    @Basic
+    @Column(name = "checked", nullable = true)
+    public Integer getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Integer checked) {
+        this.checked = checked;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -159,8 +159,8 @@ public class Booking {
 
         if (id != booking.id) return false;
         if (cancled != booking.cancled) return false;
-        if (checked != booking.checked) return false;
         if (deposit != booking.deposit) return false;
+        if (checked != booking.checked) return false;
         if (inTime != null ? !inTime.equals(booking.inTime) : booking.inTime != null) return false;
         if (outTime != null ? !outTime.equals(booking.outTime) : booking.outTime != null) return false;
         if (roomNum != null ? !roomNum.equals(booking.roomNum) : booking.roomNum != null) return false;
@@ -183,10 +183,10 @@ public class Booking {
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);
-        result = 31 * result + (creatTime != null ? creatTime.hashCode() : 0);
         result = 31 * result + cancled;
-        result = 31 * result + checked;
         result = 31 * result + deposit;
+        result = 31 * result + checked;
+        result = 31 * result + (creatTime != null ? creatTime.hashCode() : 0);
         return result;
     }
 
@@ -220,12 +220,12 @@ public class Booking {
         this.roomTypeByRoomTypeId = roomTypeByRoomTypeId;
     }
 
-    @OneToOne(mappedBy = "bookingByBookId")
-    public Checkin getCheckinsById() {
+    @OneToMany(mappedBy = "bookingByBookId")
+    public Collection<Checkin> getCheckinsById() {
         return checkinsById;
     }
 
-    public void setCheckinsById(Checkin checkinsById) {
+    public void setCheckinsById(Collection<Checkin> checkinsById) {
         this.checkinsById = checkinsById;
     }
 
@@ -237,6 +237,4 @@ public class Booking {
     public void setRoomAsignsById(Collection<RoomAsign> roomAsignsById) {
         this.roomAsignsById = roomAsignsById;
     }
-
-
 }

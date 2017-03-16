@@ -1,10 +1,8 @@
 package edu.nju.hotel.logic.service;
 
-import edu.nju.hotel.data.model.Booking;
 import edu.nju.hotel.data.model.User;
 import edu.nju.hotel.data.util.VerifyResult;
 import edu.nju.hotel.logic.vo.BookingVO;
-import edu.nju.hotel.logic.vo.UserUpdate;
 import edu.nju.hotel.logic.vo.UserVO;
 
 import java.util.List;

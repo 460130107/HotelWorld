@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 /**
- * Created by zhouxiaofan on 2017/2/4.
+ * Created by zhouxiaofan on 2017/3/15.
  */
 @Entity
 @Table(name = "roomType")
@@ -12,6 +12,7 @@ public class RoomType {
     private int id;
     private String name;
     private Collection<Booking> bookingsById;
+    private Collection<Checkin> checkinsById;
     private Collection<Plan> plansById;
     private Collection<Room> roomsById;
     private Hotel hotelByHotelId;
@@ -63,6 +64,15 @@ public class RoomType {
 
     public void setBookingsById(Collection<Booking> bookingsById) {
         this.bookingsById = bookingsById;
+    }
+
+    @OneToMany(mappedBy = "roomTypeByRoomTypeId")
+    public Collection<Checkin> getCheckinsById() {
+        return checkinsById;
+    }
+
+    public void setCheckinsById(Collection<Checkin> checkinsById) {
+        this.checkinsById = checkinsById;
     }
 
     @OneToMany(mappedBy = "roomTypeByRoomTypeId")

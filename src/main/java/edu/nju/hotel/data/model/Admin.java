@@ -1,14 +1,12 @@
 package edu.nju.hotel.data.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
- * Created by zhouxiaofan on 2017/2/9.
+ * Created by zhouxiaofan on 2017/3/15.
  */
 @Entity
+@Table(name = "admin")
 public class Admin {
     private int id;
     private String name;

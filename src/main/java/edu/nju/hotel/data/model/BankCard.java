@@ -1,10 +1,9 @@
 package edu.nju.hotel.data.model;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 /**
- * Created by zhouxiaofan on 2017/2/4.
+ * Created by zhouxiaofan on 2017/3/15.
  */
 @Entity
 @Table(name = "bankCard")
@@ -12,7 +11,6 @@ public class BankCard {
     private String number;
     private Integer balance;
     private String name;
-    private Collection<User> usersByNumber;
 
     @Id
     @Column(name = "number", nullable = false, length = 20)

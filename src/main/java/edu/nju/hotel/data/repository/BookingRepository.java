@@ -1,7 +1,6 @@
 package edu.nju.hotel.data.repository;
 
 import edu.nju.hotel.data.model.Booking;
-import edu.nju.hotel.data.model.Plan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

@@ -4,16 +4,12 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Created by zhouxiaofan on 2017/2/4.
+ * Created by zhouxiaofan on 2017/3/15.
  */
 @Entity
 @Table(name = "roomAsign")
 public class RoomAsign {
     private int id;
-    private String user1;
-    private String idcard1;
-    private String user2;
-    private String idcard2;
     private Date inTime;
     private Date outTime;
     private int state;
@@ -32,47 +28,7 @@ public class RoomAsign {
     }
 
     @Basic
-    @Column(name = "user1", nullable = true, length = 45)
-    public String getUser1() {
-        return user1;
-    }
-
-    public void setUser1(String user1) {
-        this.user1 = user1;
-    }
-
-    @Basic
-    @Column(name = "idcard1", nullable = true, length = 45)
-    public String getIdcard1() {
-        return idcard1;
-    }
-
-    public void setIdcard1(String idcard1) {
-        this.idcard1 = idcard1;
-    }
-
-    @Basic
-    @Column(name = "user2", nullable = true, length = 45)
-    public String getUser2() {
-        return user2;
-    }
-
-    public void setUser2(String user2) {
-        this.user2 = user2;
-    }
-
-    @Basic
-    @Column(name = "idcard2", nullable = true, length = 45)
-    public String getIdcard2() {
-        return idcard2;
-    }
-
-    public void setIdcard2(String idcard2) {
-        this.idcard2 = idcard2;
-    }
-
-    @Basic
-    @Column(name = "inTime", nullable = true)
+    @Column(name = "inTime", nullable = false)
     public Date getInTime() {
         return inTime;
     }
@@ -82,7 +38,7 @@ public class RoomAsign {
     }
 
     @Basic
-    @Column(name = "outTime", nullable = true)
+    @Column(name = "outTime", nullable = false)
     public Date getOutTime() {
         return outTime;
     }
@@ -110,10 +66,6 @@ public class RoomAsign {
 
         if (id != roomAsign.id) return false;
         if (state != roomAsign.state) return false;
-        if (user1 != null ? !user1.equals(roomAsign.user1) : roomAsign.user1 != null) return false;
-        if (idcard1 != null ? !idcard1.equals(roomAsign.idcard1) : roomAsign.idcard1 != null) return false;
-        if (user2 != null ? !user2.equals(roomAsign.user2) : roomAsign.user2 != null) return false;
-        if (idcard2 != null ? !idcard2.equals(roomAsign.idcard2) : roomAsign.idcard2 != null) return false;
         if (inTime != null ? !inTime.equals(roomAsign.inTime) : roomAsign.inTime != null) return false;
         if (outTime != null ? !outTime.equals(roomAsign.outTime) : roomAsign.outTime != null) return false;
 
@@ -123,10 +75,6 @@ public class RoomAsign {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (user1 != null ? user1.hashCode() : 0);
-        result = 31 * result + (idcard1 != null ? idcard1.hashCode() : 0);
-        result = 31 * result + (user2 != null ? user2.hashCode() : 0);
-        result = 31 * result + (idcard2 != null ? idcard2.hashCode() : 0);
         result = 31 * result + (inTime != null ? inTime.hashCode() : 0);
         result = 31 * result + (outTime != null ? outTime.hashCode() : 0);
         result = 31 * result + state;

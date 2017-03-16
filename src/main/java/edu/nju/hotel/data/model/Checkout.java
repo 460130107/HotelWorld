@@ -5,13 +5,13 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 /**
- * Created by zhouxiaofan on 2017/2/4.
+ * Created by zhouxiaofan on 2017/3/15.
  */
 @Entity
 @Table(name = "checkout")
 public class Checkout {
     private int id;
-    private Timestamp creatTime = new Timestamp( new Date().getTime());
+    private Timestamp creatTime=new Timestamp(new Date().getTime());
     private int roomAsignId;
     private Checkin checkinByCheckinId;
 

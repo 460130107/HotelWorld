@@ -2,7 +2,6 @@ package edu.nju.hotel.data.daoImpl;
 
 import edu.nju.hotel.data.dao.HotelDao;
 import edu.nju.hotel.data.model.Hotel;
-import edu.nju.hotel.data.model.User;
 import edu.nju.hotel.data.util.VerifyResult;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

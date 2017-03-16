@@ -20,13 +20,8 @@ public interface RoomAsignRepository extends JpaRepository<RoomAsign, Integer> {
 
     @Modifying
     @Transactional
-    @Query("update RoomAsign asg set asg.state=1 where asg.id=?1")
-    void updateAssignChekin(int id);
-
-    @Modifying
-    @Transactional
-    @Query("update RoomAsign asg set asg.idcard1=?1, asg.idcard2=?2 where asg.id=?3")
-    void updateUserCard(String i, String i1,int id);
+    @Query("update RoomAsign asg set asg.state=1 , asg.checkinByCheckinId.id=?2 where asg.id=?1")
+    void updateAssignChekin(int id,int checkinId);
 
     @Query("select asg from RoomAsign asg where asg.bookingByBookId.id=?1")
     List<RoomAsign> findByBookingId(int id);

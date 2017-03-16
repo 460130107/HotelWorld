@@ -1,8 +1,5 @@
 package edu.nju.hotel.logic.vo;
 
-import edu.nju.hotel.data.model.Hotel;
-import edu.nju.hotel.data.model.RoomType;
-
 import java.util.Date;
 
 /**

@@ -35,7 +35,7 @@
             </h4>
             <div>
                 <span>会员登录</span>
-                <input type="text" name="userId" placeholder="会员卡号">
+                <input type="text" id="userId" name="userId" placeholder="会员卡号">
                 <a id="checkUser" class="fa fa-check"></a>
             </div>
         </div>
@@ -65,10 +65,10 @@
                 <select name="roomType" id="roomType">
 
                 </select>
-                <input type="text" name="name1" id="name1" placeholder="姓名">
+                <input type="text" name="user1" id="user1" placeholder="姓名">
                 <input type="text" name="idcard1" id="idcard1" placeholder="身份证号">
-                <input type="text" name="name2" id="name2" placeholder="姓名">
-                    <input type="text" name="idcard2" id="idcard2" placeholder="身份证号">
+                <input type="text" name="user2" id="user2" placeholder="姓名">
+                <input type="text" name="idcard2" id="idcard2" placeholder="身份证号">
                 <a id="addRoomBook" class="fa fa-check"></a>
                 <a id="cancelRoomBook" class="fa fa-close"></a>
             </div>
@@ -76,7 +76,7 @@
 
         <div class="panel-body list-panel">
             <div>
-                <span>总价：1000元</span>
+                <span>总价：<span class="totalPrice">0</span>元</span>
                 <button class="btn btn-sm btn-primary" id="cashPay">现金付款
                 </button>
                 <button class="btn btn-sm btn-primary" id="cardPay">会员卡付款</button>
@@ -116,18 +116,23 @@
     $.focusNav(1);
     var $end = $("#end"),
         $start = $("#start"),
+        $totalPrice=$("span.totalPrice");
         $search=$('#search'),
         $roomTbody=$('.add-panel tbody'),
-        $roomTypeSelect=$('select#roomType');
-        $addRoomBook=$('#addRoomBook');
-        $bookTbody=$('.list-panel tbody');
-        checkinList=[];
+        $roomTypeSelect=$('select#roomType'),
+        $addRoomBook=$('#addRoomBook'),
+        $bookTbody=$('.list-panel tbody'),
+        $userIdInput=$('#userId');
+        checkinList=[],
+        price=0;
 
 
     initDate();
     getRooms();
 
     $addRoomBook.click(addBookItem);
+
+    $('.list-panel').on('click','button',submitbooking);
 
     function initDate() {
         $end.val(moment().add(1,'days').format('YYYY-MM-DD'));
@@ -177,6 +182,7 @@
             var $option=$('<option/>');
             $option.text(roomtype);
             $option.attr('value',rooms.id);
+            $option.attr('data-price',rooms.price);
             $roomTypeSelect.append($option);
 
             $tr.append($tdName);
@@ -185,28 +191,6 @@
             $roomTbody.append($tr);
         }
     }
-
-    $("#cashPay").click(function () {
-        alert("成功入住");
-        location.href="/hotels/history";
-    });
-
-    var counter=(function(){
-        var x=1;
-        return {
-            add:function () {
-                x++;
-                return x;
-            },
-            get:function () {
-                return x;
-            }
-        };
-    })();
-
-    $addRoomBook.click(function (e) {
-//        location.href="/hotels/index";
-    });
 
     function addBookItem(e) {
         var $tr=$('<tr/>');
@@ -226,6 +210,10 @@
         });
         data.roomTypeId=$roomTypeSelect.val();
         data.roomTypeName=$roomTypeSelect.find('option:selected').text();
+        var roomPrice=$roomTypeSelect.find('option:selected').attr('data-price');
+        roomPrice=parseInt(roomPrice);
+        price+=roomPrice;
+        $totalPrice.text(price);
         checkinList.push(data);
         tdArr[2].text(data.roomTypeName);
         for (var i=0;i<7;i++){
@@ -233,6 +221,47 @@
         }
         $bookTbody.append($tr);
 
+    }
+
+    function submitbooking(e) {
+        var payType=0;
+        if(e.target.id=="cardPay")payType=1;
+        var userId=$userIdInput.val().length===0?0:$userIdInput.val();
+
+        var data={
+            checkinList:checkinList,
+            payType:payType,
+            price:price,
+            userId:userId
+        };
+        $.ajax({
+            type:"POST",
+            url:"newCheckin",
+            contentType:"application/json",
+            data:JSON.stringify(data),
+            success:function (msg) {
+                msg=JSON.parse(msg);
+                showAssign(msg);
+
+            }
+
+        });
+    }
+    function showAssign(msg) {
+        if(msg.error){
+            alert(msg.error);
+            return;
+        }
+        else {
+            var result="";
+            debugger;
+            var roomAssigns=msg.roomAssign;
+            roomAssigns.map(function (item) {
+                result+="房间号："+item.roomName+" 住户："+item.user1+" "+item.user2;
+            });
+            alert(result);
+            window.location.reload();
+        }
     }
 
 

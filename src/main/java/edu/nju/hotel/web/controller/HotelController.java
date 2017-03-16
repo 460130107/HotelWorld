@@ -1,9 +1,9 @@
 package edu.nju.hotel.web.controller;
 
-import edu.nju.hotel.data.model.Booking;
-import edu.nju.hotel.data.model.Hotel;
+import edu.nju.hotel.data.model.Checkout;
 import edu.nju.hotel.logic.service.HotelService;
 import edu.nju.hotel.logic.vo.*;
+import org.hibernate.annotations.Check;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by zhouxiaofan on 2017/1/26.
@@ -47,8 +48,17 @@ public class HotelController {
     }
 
     @GetMapping("/checkout")
-    public String checkoutList(Model model) {
+    public String checkoutList(Model model,HttpSession session) {
+        int hotelId= (int) session.getAttribute("hotelid");
+
+        List<CheckinVO> checkinVOS=hotelService.getCheckinList(hotelId);
         return "hotels/checkout";
+    }
+
+    @PostMapping("/checkoutPost")
+    public @ResponseBody Object checkoutPost(){
+        ModelMap map=new ModelMap();
+        return map;
     }
 
     @GetMapping("/checkin")
@@ -63,6 +73,15 @@ public class HotelController {
         ModelMap result=hotelService.checkinBooking(bookingId,payType,idCards);
 
         return result;
+    }
+
+    @PostMapping("/newCheckin")
+    public @ResponseBody Object handleBooking(@RequestBody CheckinListVO checkinList,
+                                              HttpSession session){
+        ModelMap result=new ModelMap();
+
+        ModelMap modelMap=hotelService.newCheckin(checkinList);
+        return modelMap;
     }
 
     @PostMapping("/handleCheckin")
@@ -95,9 +114,7 @@ public class HotelController {
 
         model.addAttribute("roomList",roomList);
         return roomList;
-
     }
-
 
     @RequestMapping("/history")
     public String history(Model model) {

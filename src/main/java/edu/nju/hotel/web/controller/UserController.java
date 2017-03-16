@@ -103,7 +103,6 @@ public class UserController {
         return "success";
     }
 
-
     @GetMapping("/account")
     public String account(Model model,HttpSession session) {
         int uid= (int) session.getAttribute("userid");

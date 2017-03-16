@@ -65,9 +65,6 @@ public class TransferServiceImpl implements TransferService {
         vo.setInTime(transferDate(booking.getInTime()));
         vo.setOutTime(transferDate(booking.getOutTime()));
         vo.setCreatTime(booking.getCreatTime());
-        if(booking.getCheckinsById()!=null){
-            vo.setCheckinId(booking.getCheckinsById().getId());
-        }
         vo.setRoomNum(booking.getRoomNum());
         vo.setRoomTypeName(booking.getRoomTypeByRoomTypeId().getName());
         vo.setPhone(booking.getPhone());
@@ -79,10 +76,13 @@ public class TransferServiceImpl implements TransferService {
             vo.setStatus(2);
             return vo;
         }
+        if(booking.getChecked()>0){
+            vo.setStatus(3);
+            return vo;
+        }
         if(booking.getInTime().before(new Date())){
             vo.setStatus(1);
         }
-
         return vo;
     }
 
@@ -115,10 +115,24 @@ public class TransferServiceImpl implements TransferService {
         vo.setId(roomAssign.getId());
         vo.setRoomName(roomAssign.getRoomByRoomId().getName());
         vo.setRoomType(roomAssign.getRoomByRoomId().getRoomTypeByRoomTypeId().getName());
-        vo.setUser1(roomAssign.getUser1());
-        vo.setUser2(roomAssign.getUser2());
-        vo.setIdcard1(roomAssign.getIdcard1());
-        vo.setIdcard2(roomAssign.getIdcard2());
+
+        return vo;
+    }
+
+    @Override
+    public CheckinVO transferCheckin(Checkin checkin) {
+        CheckinVO vo=new CheckinVO();
+        vo.setIdcard1(checkin.getIdcard1());
+        vo.setIdcard2(checkin.getIdcard2());
+        vo.setUser1(checkin.getUser1());
+        vo.setUser2(checkin.getUser2());
+        vo.setPayType(checkin.getPayType());
+        vo.setBookingId(checkin.getBookingByBookId().getId());
+        vo.setInTime(checkin.getInTime().toString());
+        vo.setOutTime(checkin.getOutTime().toString());
+        vo.setPrice(checkin.getPrice());
+        vo.setRoomTypeId(checkin.getRoomTypeByRoomTypeId().getId());
+        vo.setRoomTypeName(checkin.getRoomTypeByRoomTypeId().getName());
         return vo;
     }
 
@@ -170,6 +184,16 @@ public class TransferServiceImpl implements TransferService {
             roomAssignVOS.add(roomAssignVO);
         }
         return roomAssignVOS;
+    }
+
+    @Override
+    public List<CheckinVO> transferCheckins(List<Checkin> checkinList) {
+        List<CheckinVO> list=new ArrayList<>();
+        for (Checkin checkin:checkinList){
+            CheckinVO vo=transferCheckin(checkin);
+            list.add(vo);
+        }
+        return null;
     }
 
     private RoomTypeVO transferRoomType(RoomType roomType) {

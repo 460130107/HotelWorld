@@ -1,11 +1,11 @@
 package edu.nju.hotel.data.model;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
+import java.sql.Timestamp;
 
 /**
- * Created by zhouxiaofan on 2017/2/4.
+ * Created by zhouxiaofan on 2017/3/15.
  */
 @Entity
 @Table(name = "plan")
@@ -14,8 +14,8 @@ public class Plan {
     private Date startTime;
     private Date endTime;
     private int price;
+    private Timestamp creatTime=new Timestamp(new Date().getTime());
     private Hotel hotelByHotelId;
-    private Timestamp creatTime = new Timestamp( new Date().getTime());
     private RoomType roomTypeByRoomTypeId;
 
     @Id
@@ -68,7 +68,6 @@ public class Plan {
         this.creatTime = creatTime;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -90,8 +89,8 @@ public class Plan {
         int result = id;
         result = 31 * result + (startTime != null ? startTime.hashCode() : 0);
         result = 31 * result + (endTime != null ? endTime.hashCode() : 0);
-        result = 31 * result + (creatTime != null ? creatTime.hashCode() : 0);
         result = 31 * result + price;
+        result = 31 * result + (creatTime != null ? creatTime.hashCode() : 0);
         return result;
     }
 

@@ -34,6 +34,9 @@
                     <tr>
                         <th>房间类型</th>
                         <th>住客姓名</th>
+                        <th>入住时间</th>
+                        <th>离店时间时间</th>
+                        <th>房间数量</th>
                         <th>总价</th>
                         <th>办理入住</th>
                     </tr>
@@ -44,6 +47,9 @@
                         <tr>
                             <td>${booking.roomTypeName}</td>
                             <td>${booking.nameinfo}</td>
+                            <td>${booking.inTime.substring(0,10)}</td>
+                            <td>${booking.outTime.substring(0,10)}</td>
+                            <td>${booking.roomNum}</td>
                             <td>${booking.price}</td>
                             <td id="${booking.id}">
                                 <button class="bookToCheckin btn btn-sm btn-primary">办理入住</button>
@@ -85,7 +91,7 @@
     $checkinInfo.on('click','button',requestCheckin);
     function requestInfo(e) {
         var target=e.target;
-        var nameInfo=target.parentNode.parentNode.querySelectorAll('td')[1].innerHTML
+        var nameInfo=target.parentNode.parentNode.querySelectorAll('td')[1].innerHTML;
         var nameList=nameInfo.split(' ');
         nameList.map(function (name) {
             var $label=$('<label/>');
@@ -129,10 +135,11 @@
             var result="";
             var roomAssigns=msg.roomAssign;
             roomAssigns.map(function (item) {
-                result+="房间号："+item.roomName+" 住户："+item.user1+","+item.user2;
+                result+="房间号："+item.roomName+" 住户："+item.user1+" ";
+                if (item.user2){
+                    result+=item.user+" ";
+                }
             });
-
-
             alert(result);
         }
     }

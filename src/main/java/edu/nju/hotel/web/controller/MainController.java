@@ -1,7 +1,5 @@
 package edu.nju.hotel.web.controller;
 
-import com.sun.deploy.net.HttpResponse;
-import edu.nju.hotel.data.model.Booking;
 import edu.nju.hotel.data.model.Hotel;
 import edu.nju.hotel.data.model.User;
 import edu.nju.hotel.data.util.VerifyResult;
@@ -14,7 +12,6 @@ import edu.nju.hotel.logic.vo.LoginInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -112,7 +109,7 @@ public class MainController {
     }
 
     @PostMapping("/addUser")
-    public String addUser(@ModelAttribute User user,HttpSession session,Model model) {
+    public String addUser(@ModelAttribute User user, HttpSession session, Model model) {
         UserVO userVO=null;
         if(user.getName()!=null){
             userVO=userService.addUser(user);

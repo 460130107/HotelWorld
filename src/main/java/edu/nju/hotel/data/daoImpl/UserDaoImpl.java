@@ -6,7 +6,6 @@ import edu.nju.hotel.data.model.BankCard;
 import edu.nju.hotel.data.model.User;
 import edu.nju.hotel.data.repository.BankRepository;
 import edu.nju.hotel.data.repository.UserRepository;
-import edu.nju.hotel.data.util.ChargeResult;
 import edu.nju.hotel.data.util.VerifyResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -32,8 +31,6 @@ public class UserDaoImpl implements UserDao {
     @Autowired
     private UserRepository up;
 
-    @Autowired
-    private BankRepository bp;
 
     @Override
     public void add(User user) {

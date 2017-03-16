@@ -17,6 +17,7 @@ public interface TransferService {
     List<RoomVO> transferRooms(List<Room> list);
     RoomVO transferRoom(Room room);
     RoomAssignVO transferRoomAssign(RoomAsign roomAssign);
+    CheckinVO transferCheckin(Checkin checkin);
 
 
     List<PlanVO> transferPlans(List<Plan> list);
@@ -28,4 +29,6 @@ public interface TransferService {
     List<BookingVO> transferBookings(List<Booking> bookingList);
 
     List<RoomAssignVO> transferRoomAssigns(List<RoomAsign> roomAsigns);
+
+    List<CheckinVO> transferCheckins(List<Checkin> checkinList);
 }

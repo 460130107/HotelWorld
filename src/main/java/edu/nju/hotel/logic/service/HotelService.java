@@ -50,4 +50,8 @@ public interface HotelService {
     BookingVO getBookingById(int bookingId);
 
     ModelMap checkinBooking(int bookingId,int payType,String idCards);
+
+    ModelMap newCheckin(CheckinListVO checkinListVO);
+
+    List<CheckinVO> getCheckinList(int hotelId);
 }

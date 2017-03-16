@@ -1,31 +1,28 @@
 package edu.nju.hotel.data.model;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Date;
 
 /**
- * Created by zhouxiaofan on 2017/2/4.
+ * Created by zhouxiaofan on 2017/3/15.
  */
 @Entity
 @Table(name = "user")
 public class User {
     private int id;
+    private String bank;
     private String psw;
     private String name;
     private String idcard;
     private String phone;
     private int state;
     private int level;
-    private Timestamp creatTime = new Timestamp( new Date().getTime());
     private int points;
-    private int balance;
+    private Timestamp creatTime;
+    private Integer balance;
     private Collection<Booking> bookingsById;
     private Collection<Checkin> checkinsById;
-    private String bank;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -35,6 +32,16 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "bank", nullable = true, length = 20)
+    public String getBank() {
+        return bank;
+    }
+
+    public void setBank(String bank) {
+        this.bank = bank;
     }
 
     @Basic
@@ -55,16 +62,6 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Basic
-    @Column(name = "creatTime", nullable = true)
-    public Timestamp getCreatTime() {
-        return creatTime;
-    }
-
-    public void setCreatTime(Timestamp creatTime) {
-        this.creatTime = creatTime;
     }
 
     @Basic
@@ -108,16 +105,6 @@ public class User {
     }
 
     @Basic
-    @Column(name = "balance", nullable = true)
-    public int getBalance() {
-        return balance;
-    }
-
-    public void setBalance(int balance) {
-        this.balance = balance;
-    }
-
-    @Basic
     @Column(name = "points", nullable = false)
     public int getPoints() {
         return points;
@@ -128,13 +115,23 @@ public class User {
     }
 
     @Basic
-    @Column(name = "bank", nullable = false)
-    public String getBank() {
-        return bank;
+    @Column(name = "creatTime", nullable = true)
+    public Timestamp getCreatTime() {
+        return creatTime;
     }
 
-    public void setBank(String bank) {
-        this.bank = bank;
+    public void setCreatTime(Timestamp creatTime) {
+        this.creatTime = creatTime;
+    }
+
+    @Basic
+    @Column(name = "balance", nullable = true)
+    public Integer getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Integer balance) {
+        this.balance = balance;
     }
 
     @Override
@@ -148,13 +145,13 @@ public class User {
         if (state != user.state) return false;
         if (level != user.level) return false;
         if (points != user.points) return false;
-        if (balance != user.balance) return false;
-        if (creatTime != null ? !creatTime.equals(user.creatTime) : user.creatTime != null) return false;
+        if (bank != null ? !bank.equals(user.bank) : user.bank != null) return false;
         if (psw != null ? !psw.equals(user.psw) : user.psw != null) return false;
         if (name != null ? !name.equals(user.name) : user.name != null) return false;
         if (idcard != null ? !idcard.equals(user.idcard) : user.idcard != null) return false;
         if (phone != null ? !phone.equals(user.phone) : user.phone != null) return false;
-        if (bank != null ? !bank.equals(user.bank) : user.bank != null) return false;
+        if (creatTime != null ? !creatTime.equals(user.creatTime) : user.creatTime != null) return false;
+        if (balance != null ? !balance.equals(user.balance) : user.balance != null) return false;
 
         return true;
     }
@@ -162,16 +159,16 @@ public class User {
     @Override
     public int hashCode() {
         int result = id;
+        result = 31 * result + (bank != null ? bank.hashCode() : 0);
         result = 31 * result + (psw != null ? psw.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (bank != null ? bank.hashCode() : 0);
         result = 31 * result + (idcard != null ? idcard.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
-        result = 31 * result + (creatTime != null ? creatTime.hashCode() : 0);
         result = 31 * result + state;
         result = 31 * result + level;
         result = 31 * result + points;
-        result = 31 * result + balance;
+        result = 31 * result + (creatTime != null ? creatTime.hashCode() : 0);
+        result = 31 * result + (balance != null ? balance.hashCode() : 0);
         return result;
     }
 
@@ -192,5 +189,4 @@ public class User {
     public void setCheckinsById(Collection<Checkin> checkinsById) {
         this.checkinsById = checkinsById;
     }
-
 }

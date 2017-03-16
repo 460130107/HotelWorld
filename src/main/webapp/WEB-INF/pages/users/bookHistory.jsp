@@ -54,6 +54,7 @@
                     ${booking.status==0?"<button id='cancelBooking' class='btn btn-sm btn-primary'>取消订单</button>":""}
                     ${booking.status==1?"已到期":""}
                     ${booking.status==2?"已取消":""}
+                    ${booking.status==3?"已入住":""}
                 </td>
             </tr>
         </c:forEach>

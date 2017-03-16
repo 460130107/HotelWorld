@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 /**
- * Created by zhouxiaofan on 2017/2/4.
+ * Created by zhouxiaofan on 2017/3/15.
  */
 @Entity
 @Table(name = "hotel")
@@ -61,7 +61,7 @@ public class Hotel {
     }
 
     @Basic
-    @Column(name = "description", nullable = true)
+    @Column(name = "description", nullable = true, length = 500)
     public String getDescription() {
         return description;
     }
