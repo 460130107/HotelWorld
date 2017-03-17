@@ -41,7 +41,7 @@
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/main.js"></script>
 <script>
-    $.focusNav(6);
+    $.focusNav(7);
 </script>
 </body>
 </html>

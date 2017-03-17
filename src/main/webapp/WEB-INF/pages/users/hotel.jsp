@@ -110,7 +110,7 @@
             };
             $.ajax({
                 type: "GET",
-                url: "/json/hotel/getSpareRoom",
+                url: "/json/hotel/getEmptyRoom",
                 data: data,
                 success: mountRoom,
                 error: handleError

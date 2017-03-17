@@ -43,7 +43,7 @@
             </li>
             <li>
                 <a href="finance">
-                    <p>统计信息</p>
+                    <p>财务信息</p>
                 </a>
             </li>
         </ul>
