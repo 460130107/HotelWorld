@@ -3,6 +3,7 @@ package edu.nju.hotel.logic.service;
 import edu.nju.hotel.data.model.User;
 import edu.nju.hotel.data.util.VerifyResult;
 import edu.nju.hotel.logic.vo.BookingVO;
+import edu.nju.hotel.logic.vo.CheckinVO;
 import edu.nju.hotel.logic.vo.UserVO;
 
 import java.util.List;
@@ -32,4 +33,8 @@ public interface UserService {
     List<BookingVO> getBookingHistory(int userId);
 
     void cancelBooking(int id);
+
+    void exchangePoints(int userid,int points);
+
+    List<CheckinVO> getCheckinHistory(int userid);
 }

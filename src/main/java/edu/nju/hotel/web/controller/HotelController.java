@@ -48,16 +48,19 @@ public class HotelController {
     }
 
     @GetMapping("/checkout")
-    public String checkoutList(Model model,HttpSession session) {
+    public String checkoutPage(Model model,HttpSession session) {
         int hotelId= (int) session.getAttribute("hotelid");
 
-        List<CheckinVO> checkinVOS=hotelService.getCheckinList(hotelId);
+        List<CheckinVO> checkinVOS=hotelService.getCheckinListNotOut(hotelId);
+        model.addAttribute("checkinList",checkinVOS);
         return "hotels/checkout";
     }
 
     @PostMapping("/checkoutPost")
-    public @ResponseBody Object checkoutPost(){
+    public @ResponseBody Object checkoutPost(@RequestParam("checkinId") int checkinId){
         ModelMap map=new ModelMap();
+        hotelService.checkout(checkinId);
+        map.addAttribute("result","成功");
         return map;
     }
 
@@ -116,14 +119,40 @@ public class HotelController {
         return roomList;
     }
 
-    @RequestMapping("/history")
-    public String history(Model model) {
-        //所有历史记录
-        return "hotels/history";
+    /**
+     * 预订记录
+     * @param model
+     * @return
+     */
+    @GetMapping("/bookHistory")
+    public String bookHistory(Model model,HttpSession session) {
+        int hotelid=(Integer) session.getAttribute("hotelid");
+        List<BookingVO> list=hotelService.getBookingHistoryByHotel(hotelid);
+        model.addAttribute("bookList",list);
+        return "hotels/bookHistory";
     }
-    @RequestMapping("/summary")
+
+    /**
+     * 入住记录
+     * @return
+     */
+    @GetMapping("/checkinHistory")
+    public String checkinHistory(Model model,HttpSession session){
+        int hotelid=(Integer) session.getAttribute("hotelid");
+        List<CheckinVO> list=hotelService.getHistoryByHotel(hotelid);
+        model.addAttribute("checkinList",list);
+
+        return "hotels/checkinHistory";
+    }
+
+    /**
+     * 财务统计
+     * @param model
+     * @return
+     */
+    @GetMapping("/finance")
     public String summary(Model model) {
         //所有历史记录
-        return "hotels/summary";
+        return "hotels/finance";
     }
 }

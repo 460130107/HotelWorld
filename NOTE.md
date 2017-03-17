@@ -75,3 +75,11 @@
 - url不能用manager
 -  sass --watch main-hotel.scss:style-hotel.css
 - 获取自增的主键，加注解，数据库建表
+- @GenerateValue
+- p标签里面不能放ul，div，只能放段落内容Phrasing content
+https://www.w3.org/TR/html5/grouping-content.html#the-p-element
+- Sectioning content：article aside nav section
+- flow content：用于文档的内容和应用内容，除了metadata几乎都是
+- Phrasing content：a abbr area (if it is a descendant of a map element) audio b bdi bdo br button canvas cite code data datalist del dfn em embed i iframe img input ins kbd keygen label map mark math meter noscript object output progress q ruby s samp script select small span strong sub sup svg template textarea time u var video wbr text
+- Heading content：h1 h2 h3 h4 h5 h6
+- Embedded content：audio canvas embed iframe img math object svg video

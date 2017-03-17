@@ -6,6 +6,7 @@ import edu.nju.hotel.data.util.VerifyResult;
 import edu.nju.hotel.logic.service.HotelService;
 import edu.nju.hotel.logic.service.TransferService;
 import edu.nju.hotel.logic.vo.*;
+import edu.nju.hotel.util.constant.HotelConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
@@ -46,6 +47,8 @@ public class HotelServiceImpl implements HotelService {
     @Autowired
     private CheckinRepository checkinRepository;
 
+    @Autowired
+    private CheckoutRepository checkoutRepository;
 
 
     @Override
@@ -201,16 +204,21 @@ public class HotelServiceImpl implements HotelService {
 
         String[] idCardList=idCards.split(" ");
         String[] userNameList=booking.getNameinfo().split(" ");
+        User user=booking.getUserByUserId();
         //会员卡支付,扣费
         if(payType==1){
-            User user=booking.getUserByUserId();
             int userBal=user.getBalance();
             if(userBal<booking.getPrice()){
                 result.addAttribute("error","用户余额为"+userBal+"，支付不足");
                 return result;
             }
-            else userRepository.updateUserBalance(userBal-booking.getPrice(),user.getId());
+            else {
+                user.setBalance(userBal-booking.getPrice());
+
+            }
         }
+        user.setLevel(user.getLevel()+booking.getPrice());
+        userRepository.saveAndFlush(user);
         //获取之前分配的房间
         List<RoomAsign> roomAsigns=roomAsignRepository.findByBookingId(bookingId);
         //返回房间分配结果
@@ -248,8 +256,6 @@ public class HotelServiceImpl implements HotelService {
         bookingRepository.updateChecked(booking.getId());
 
         //返回房间分配结果
-//        List<RoomAssignVO> asgVOS=transferService.transferRoomAssigns(roomAsigns);
-//        List<CheckinVO> cList=transferService.transferCheckins(checkinList);
         result.addAttribute("roomAssign",asgVOS);
         return result;
     }
@@ -280,8 +286,13 @@ public class HotelServiceImpl implements HotelService {
                 return result;
             }
             //扣房费
-            userRepository.updateUserBalance(user.getBalance()-checkinListVO.getPrice(),userid);
-
+            user.setBalance(user.getBalance()-checkinListVO.getPrice());
+        }
+        if(user!=null){
+            //加积分，加等级
+            user.setPoints(user.getPoints()+checkinListVO.getPrice());
+            user.setLevel(user.getLevel()+checkinListVO.getPrice());
+            userRepository.saveAndFlush(user);
         }
 
         //遍历checkinList，建立每个checkin和对应的assign
@@ -313,12 +324,54 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<CheckinVO> getCheckinList(int hotelId) {
+    public List<CheckinVO> getCheckinListNotOut(int hotelId) {
         Date date=new Date();
         date.setDate(date.getDate()-1);
-        List<CheckinVO> checkinVOS=checkinRepository.getCheckinListAfter(hotelId,date);
-        return null;
+        List<Checkin> checkins=checkinRepository.getCheckinListAfter(hotelId,date);
+        List<Checkin> result=new ArrayList<>();
+        for (Checkin checkin:checkins){
+            List<Checkout> checkoutList=checkoutRepository.findByCheckinId(checkin.getId());
+            if(checkoutList.size()==0){
+                result.add(checkin);
+            }
+        }
+        return transferService.transferCheckins(result);
     }
+
+    @Override
+    public void checkout(int checkinId) {
+
+        //如果是预订的就返回押金，删除房间分配信息，生成check out的订单
+        Checkin checkin=checkinRepository.findOne(checkinId);
+        List<RoomAsign> roomAsigns=roomAsignRepository.findByCheckin(checkin.getId());
+
+        Checkout checkout=new Checkout();
+        for (RoomAsign roomAsign:roomAsigns){
+            checkout.setRoomAsignId(roomAsign.getId());
+            roomAsignRepository.delete(roomAsign.getId());
+
+        }
+        if (checkin.getBookingByBookId()!=null){
+            User user=checkin.getUserByUserId();
+            userRepository.updateUserBalance(user.getBalance()+ HotelConstant.DEPOSIT,user.getId());
+        }
+        checkout.setCheckinByCheckinId(checkin);
+        checkoutRepository.saveAndFlush(checkout);
+
+    }
+
+    @Override
+    public List<BookingVO> getBookingHistoryByHotel(int hotelid) {
+        List<Booking> bookings=bookingRepository.getByHotelId(hotelid);
+        return transferService.transferBookings(bookings);
+    }
+
+    @Override
+    public List<CheckinVO> getHistoryByHotel(int hotelid) {
+        List<Checkin> checkinList=checkinRepository.getByHotelId(hotelid);
+        return transferService.transferCheckins(checkinList);
+    }
+
 
     private RoomAsign creatNewRoomAssign(NewCheckinVO vo,Room spareRoom,int id) {
         Checkin checkin=checkinRepository.findOne(id);

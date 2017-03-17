@@ -2,17 +2,16 @@ package edu.nju.hotel.logic.impl;
 
 import edu.nju.hotel.data.dao.UserDao;
 import edu.nju.hotel.data.model.*;
-import edu.nju.hotel.data.repository.BankRepository;
-import edu.nju.hotel.data.repository.BookingRepository;
-import edu.nju.hotel.data.repository.RoomAsignRepository;
-import edu.nju.hotel.data.repository.UserRepository;
+import edu.nju.hotel.data.repository.*;
 import edu.nju.hotel.data.util.ChargeResult;
 import edu.nju.hotel.data.util.VerifyResult;
 import edu.nju.hotel.logic.service.TransferService;
 import edu.nju.hotel.logic.service.UserService;
 import edu.nju.hotel.logic.vo.BookingVO;
+import edu.nju.hotel.logic.vo.CheckinVO;
 import edu.nju.hotel.logic.vo.UserUpdate;
 import edu.nju.hotel.logic.vo.UserVO;
+import edu.nju.hotel.util.constant.UserConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.spel.ast.Assign;
 import org.springframework.stereotype.Service;
@@ -50,6 +49,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RoomAsignRepository roomAsignRepository;
+
+    @Autowired
+    private CheckinRepository checkinRepository;
 
 
     @Autowired
@@ -125,6 +127,22 @@ public class UserServiceImpl implements UserService {
             roomAsignRepository.delete(roomAsign.getId());
         }
         userRepository.updateUserBalance(booking.getUserByUserId().getBalance()+200,booking.getUserByUserId().getId());
+    }
+
+    @Override
+    public void exchangePoints(int userid,int points) {
+        User user=userRepository.findOne(userid);
+        int userPoints=user.getPoints();
+        user.setPoints(userPoints-points);
+        int incre=points/ UserConstant.POINTS_TO_BALANCE;
+        user.setBalance(user.getBalance()+incre);
+        userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public List<CheckinVO> getCheckinHistory(int userid) {
+        List<Checkin> checkinList=checkinRepository.getByUserId(userid);
+        return transferService.transferCheckins(checkinList);
     }
 
 

@@ -23,7 +23,7 @@
 <%@ include file="asides.jsp"%>
 <div class="container">
 <%@ include file="header.jsp"%>
-<main class="panel-group">
+    <main class="panel-group">
         <div class="panel-heading">
             <h3 class="panel-title">HotelWorld 入住记录</h3>
         </div>

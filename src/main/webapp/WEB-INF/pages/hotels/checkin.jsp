@@ -254,7 +254,6 @@
         }
         else {
             var result="";
-            debugger;
             var roomAssigns=msg.roomAssign;
             roomAssigns.map(function (item) {
                 result+="房间号："+item.roomName+" 住户："+item.user1+" "+item.user2;

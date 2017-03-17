@@ -32,12 +32,17 @@
                 </a>
             </li>
             <li>
-                <a href="history">
-                    <p>历史订单</p>
+                <a href="bookHistory">
+                    <p>预订记录</p>
                 </a>
             </li>
             <li>
-                <a href="summary">
+                <a href="checkinHistory">
+                    <p>入住记录</p>
+                </a>
+            </li>
+            <li>
+                <a href="finance">
                     <p>统计信息</p>
                 </a>
             </li>

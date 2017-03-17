@@ -224,7 +224,7 @@ body.checkin main .fa:hover {
   color: #337ab7;
   text-decoration: none; }
 
-body.checkout main .panel-body, body.checkout main .panel-heading {
+body.checkout main .panel-body, body.checkout main .panel-heading, body.history main .panel-body, body.history main .panel-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;

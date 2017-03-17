@@ -52,7 +52,7 @@ body.checkin main{
     @include checkinStyle;
 }
 
-body.checkout main{
+body.checkout main,body.history main{
     @include panelStyle;
 }
 

@@ -106,4 +106,8 @@ public class UserVO {
         this.balance = balance;
     }
 
+    public String getUserLevel(){
+        return this.level+"";
+    }
+
 }

@@ -16,5 +16,11 @@ import java.util.List;
 public interface CheckinRepository extends JpaRepository<Checkin, Integer> {
 
     @Query("select ckin from Checkin ckin where ckin.roomTypeByRoomTypeId.hotelByHotelId.id=?1 and ckin.outTime>?2")
-    List<CheckinVO> getCheckinListAfter(int hotelId, Date date);
+    List<Checkin> getCheckinListAfter(int hotelId, Date date);
+
+    @Query("select ckin from Checkin ckin where ckin.roomTypeByRoomTypeId.hotelByHotelId.id=?1 order by ckin.inTime desc")
+    List<Checkin> getByHotelId(int hotelid);
+
+    @Query("select ckin from Checkin ckin where ckin.userByUserId.id=?1")
+    List<Checkin> getByUserId(int userid);
 }

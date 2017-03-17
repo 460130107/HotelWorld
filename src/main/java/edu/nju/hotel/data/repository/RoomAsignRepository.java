@@ -25,4 +25,7 @@ public interface RoomAsignRepository extends JpaRepository<RoomAsign, Integer> {
 
     @Query("select asg from RoomAsign asg where asg.bookingByBookId.id=?1")
     List<RoomAsign> findByBookingId(int id);
+
+    @Query("select ra from RoomAsign ra where ra.checkinByCheckinId.id=?1")
+    List<RoomAsign> findByCheckin(int id);
 }

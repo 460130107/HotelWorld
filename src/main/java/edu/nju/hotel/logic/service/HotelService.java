@@ -53,5 +53,11 @@ public interface HotelService {
 
     ModelMap newCheckin(CheckinListVO checkinListVO);
 
-    List<CheckinVO> getCheckinList(int hotelId);
+    List<CheckinVO> getCheckinListNotOut(int hotelId);
+
+    void checkout(int checkinId);
+
+    List<BookingVO> getBookingHistoryByHotel(int hotelid);
+
+    List<CheckinVO> getHistoryByHotel(int hotelid);
 }

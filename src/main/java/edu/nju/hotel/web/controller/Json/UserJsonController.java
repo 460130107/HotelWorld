@@ -55,6 +55,16 @@ public class UserJsonController {
         return modelMap;
     }
 
+    @PostMapping("/exchangePoints")
+    public @ResponseBody Object exchangePoints(@RequestParam("points") int points,
+                                                 HttpSession session){
+
+        int userid= (int) session.getAttribute("userid");
+        userService.exchangePoints(userid,points);
+        ModelMap modelMap=new ModelMap();
+        return modelMap;
+    }
+
     @GetMapping("/hotel/getDetail")
     public @ResponseBody Object getDetail(@RequestParam("id") int id){
 

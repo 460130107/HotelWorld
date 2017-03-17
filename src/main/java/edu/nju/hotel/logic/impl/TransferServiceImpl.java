@@ -122,12 +122,17 @@ public class TransferServiceImpl implements TransferService {
     @Override
     public CheckinVO transferCheckin(Checkin checkin) {
         CheckinVO vo=new CheckinVO();
+        vo.setId(checkin.getId());
         vo.setIdcard1(checkin.getIdcard1());
         vo.setIdcard2(checkin.getIdcard2());
         vo.setUser1(checkin.getUser1());
         vo.setUser2(checkin.getUser2());
         vo.setPayType(checkin.getPayType());
-        vo.setBookingId(checkin.getBookingByBookId().getId());
+        if (checkin.getBookingByBookId()==null){
+            vo.setBookingId(0);
+        }else {
+            vo.setBookingId(checkin.getBookingByBookId().getId());
+        }
         vo.setInTime(checkin.getInTime().toString());
         vo.setOutTime(checkin.getOutTime().toString());
         vo.setPrice(checkin.getPrice());
@@ -193,7 +198,7 @@ public class TransferServiceImpl implements TransferService {
             CheckinVO vo=transferCheckin(checkin);
             list.add(vo);
         }
-        return null;
+        return list;
     }
 
     private RoomTypeVO transferRoomType(RoomType roomType) {

@@ -36,8 +36,12 @@
             <p><strong>姓名:</strong>${userInfo.name}</p>
             <p><strong>会员卡号:</strong>${userInfo.id}</p>
             <p><strong>等级:</strong>${userInfo.level}级</p>
-            <p><strong>积分:</strong>${userInfo.points}分</p>
-            <p><strong>会员卡余额:</strong>${userInfo.balance}元</p>
+            <p class="balance"><strong>会员卡余额:</strong><span>${userInfo.balance}</span>元</p>
+            <p class="points">
+                <strong>积分:</strong><span>${userInfo.points}</span>
+                <input type="number" placeholder="兑换积分数量"/>
+                <button>兑换积分</button>
+            </p>
             <p><strong>注册日期:</strong>${userInfo.creatTime.toString().substring(0,10)} （有效期一年）</p>
             <div class="form-group">
                 <label for="idcard">身份证:</label>
@@ -79,10 +83,15 @@
         var $activeB=$("#activate");
         var $logOffB=$("#logOff");
         var $modal=$('.modal-money');
+        var $points=$('.points span'),
+            $exchangeIp=$('.points input'),
+            $exchangeB=$('.points button'),
+            $balance=$('.balance span');
 
         $modifyB.click(enableEdit);
         $activeB.click(activate);
         $logOffB.click(logOff);
+        $exchangeB.click(exchangeToBalance);
         function enableEdit (e) {
             e.preventDefault();
             var data={};
@@ -209,6 +218,25 @@
                     }
                 });
             }
+        }
+        function exchangeToBalance(e) {
+            var changePo=parseInt($exchangeIp.val());
+            var points=parseInt($('.points span').text());
+            if (points<changePo){
+                alert("兑换积分超过当前积分");
+            }
+            $.ajax({
+                type:"POST",
+                url:"json/exchangePoints",
+                data:{
+                    points:changePo
+                },
+                success:function (e) {
+                    alert("兑换成功");
+                    location.reload();
+                }
+            });
+
         }
     });
 </script>

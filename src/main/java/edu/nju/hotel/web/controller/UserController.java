@@ -7,10 +7,7 @@ import edu.nju.hotel.data.repository.UserRepository;
 import edu.nju.hotel.data.util.ChargeResult;
 import edu.nju.hotel.logic.service.HotelService;
 import edu.nju.hotel.logic.service.UserService;
-import edu.nju.hotel.logic.vo.BookTypeVO;
-import edu.nju.hotel.logic.vo.BookingVO;
-import edu.nju.hotel.logic.vo.HotelVO;
-import edu.nju.hotel.logic.vo.UserVO;
+import edu.nju.hotel.logic.vo.*;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -91,8 +88,11 @@ public class UserController {
         return "users/bookHistory";
     }
 
-    @RequestMapping("/checkinHistory")
-    public String checkinHistory(){
+    @GetMapping("/checkinHistory")
+    public String checkinHistory(HttpSession session,Model model){
+        int userId= (int) session.getAttribute("userid");
+        List<CheckinVO> checkinVOS=userService.getCheckinHistory(userId);
+        model.addAttribute("checkinList",checkinVOS);
         return "users/checkinHistory";
     }
 
