@@ -35,7 +35,7 @@
             </c:if>
             <p><strong>姓名:</strong>${userInfo.name}</p>
             <p><strong>会员卡号:</strong>${userInfo.id}</p>
-            <p><strong>等级:</strong>${userInfo.level}级</p>
+            <p><strong>等级:</strong>${userInfo.userLevel}</p>
             <p class="balance"><strong>会员卡余额:</strong><span>${userInfo.balance}</span>元</p>
             <p class="points">
                 <strong>积分:</strong><span>${userInfo.points}</span>

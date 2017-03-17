@@ -4,16 +4,24 @@
 		align-items:flex-start;
 
 		&>div{
-			// display: flex;
+			display: flex;
 			margin: 10px;
+			width: 90%;
+			justify-content: space-between;
 			button{
 				font-size: 12px;
 			}
 		}
+		&>div>div>span{
+			margin: 0 40px 0 0;
+		}
 		span{
-			margin: 0 20px 0 0;
-			font-size: 20px;
-			font-weight: 600;
+
+			span{
+				margin: 0 10px 0 0;
+				font-size: 20px;
+				font-weight: 600;
+			}
 		}
 	}
 	.add-panel{

@@ -13,6 +13,7 @@ public class NewCheckinVO {
     private int roomTypeId;
     private String roomTypeName;
     private String roomName;
+    private int price;
 
     public String getInTime() {
         return inTime;
@@ -84,5 +85,13 @@ public class NewCheckinVO {
 
     public void setRoomName(String roomName) {
         this.roomName = roomName;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

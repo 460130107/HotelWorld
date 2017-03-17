@@ -86,4 +86,11 @@ public class UserJsonController {
         model.addAttribute("rooms",rooms);
         return model;
     }
+
+    @GetMapping("/getUserInfo")
+    public @ResponseBody Object getUserInfo(HttpSession session){
+        int userid= (int) session.getAttribute("userid");
+        UserVO userVO=userService.getUserById(userid);
+        return userVO;
+    }
 }

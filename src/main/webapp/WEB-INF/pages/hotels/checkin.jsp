@@ -69,17 +69,23 @@
                 <input type="text" name="idcard1" id="idcard1" placeholder="身份证号">
                 <input type="text" name="user2" id="user2" placeholder="姓名">
                 <input type="text" name="idcard2" id="idcard2" placeholder="身份证号">
-                <a id="addRoomBook" class="fa fa-check"></a>
+                <a id="addBook" class="fa fa-check"></a>
                 <a id="cancelRoomBook" class="fa fa-close"></a>
             </div>
         </div>
 
         <div class="panel-body list-panel">
             <div>
-                <span>总价：<span class="totalPrice">0</span>元</span>
-                <button class="btn btn-sm btn-primary" id="cashPay">现金付款
-                </button>
-                <button class="btn btn-sm btn-primary" id="cardPay">会员卡付款</button>
+                <div>
+                    <span>总价：<span class="totalPrice">0</span>元</span>
+                    <span>折扣：<span class="discount">无</span></span>
+                    <span>应付：<span class="price">0</span>元</span>
+                </div>
+                <div>
+                    <button class="btn btn-sm btn-primary" id="cashPay">现金付款
+                    </button>
+                    <button class="btn btn-sm btn-primary" id="cardPay">会员卡付款</button>
+                </div>
             </div>
             <table class="table table-striped">
                 <thead>
@@ -116,32 +122,41 @@
     $.focusNav(1);
     var $end = $("#end"),
         $start = $("#start"),
-        $totalPrice=$("span.totalPrice");
+        $totalPrice=$("span.totalPrice"),
         $search=$('#search'),
         $roomTbody=$('.add-panel tbody'),
         $roomTypeSelect=$('select#roomType'),
-        $addRoomBook=$('#addRoomBook'),
+        $addBook=$('#addBook'),
         $bookTbody=$('.list-panel tbody'),
-        $userIdInput=$('#userId');
+        $userIdInput=$('#userId'),
+        $discount=$('span.discount'),
+        $price=$('span.price'),
+        $checkUser=$('#checkUser'),
+        $inputs=$('.add-panel input'),
         checkinList=[],
-        price=0;
+        price=0,
+        disPrice=0,
+        userInfo={};
 
 
-    initDate();
-    getRooms();
 
-    $addRoomBook.click(addBookItem);
 
+
+    $addBook.click(addBookItem);
+    $checkUser.click(checkUser);
+    $search.click(getEmptyRoomByDate);
     $('.list-panel').on('click','button',submitbooking);
 
-    function initDate() {
+    (function initDate() {
         $end.val(moment().add(1,'days').format('YYYY-MM-DD'));
         $end.attr("min",moment().add(1,'days').format());
         $start.val(moment().format('YYYY-MM-DD'));
         $start.attr("min",moment().format());
-    }
+    })();
 
-    function getRooms() {
+    getEmptyRoomByDate();
+
+    function getEmptyRoomByDate() {
 
         var data={
             id:-1,
@@ -150,7 +165,7 @@
         };
         $.ajax({
             type: "GET",
-            url: "/json/hotel/getSpareRoom",
+            url: "/json/hotel/getEmptyRoom",
             data: data,
             success: mountRoom,
             error: handleError
@@ -163,6 +178,7 @@
     function mountRoom(msg) {
         msg=JSON.parse(msg);
         var roomList=msg.rooms;
+        $roomTbody.empty();
         for (var roomtype in roomList){
             var rooms=roomList[roomtype];
             var $tr=$('<tr/>');
@@ -200,7 +216,7 @@
             tdArr[i]=$('<td/>');
         }
 
-        $('.add-panel input').each(function (index,item) {
+        $inputs.each(function (index,item) {
             data[item.name]=item.value;
             if(index<2){
                 tdArr[index].text(item.value);
@@ -212,9 +228,14 @@
         data.roomTypeName=$roomTypeSelect.find('option:selected').text();
         var roomPrice=$roomTypeSelect.find('option:selected').attr('data-price');
         roomPrice=parseInt(roomPrice);
-        price+=roomPrice;
-        $totalPrice.text(price);
+
+        data.price=Math.ceil(roomPrice*(userInfo.discount||1));
         checkinList.push(data);
+
+        price+=roomPrice;
+        disPrice+=Math.ceil(roomPrice*(userInfo.discount||1));
+        $price.text(disPrice);
+        $totalPrice.text(price);
         tdArr[2].text(data.roomTypeName);
         for (var i=0;i<7;i++){
             $tr.append(tdArr[i]);
@@ -231,7 +252,7 @@
         var data={
             checkinList:checkinList,
             payType:payType,
-            price:price,
+            price:disPrice,
             userId:userId
         };
         $.ajax({
@@ -262,6 +283,28 @@
             window.location.reload();
         }
     }
+
+    function checkUser(e) {
+
+        $.ajax({
+            type:"GET",
+            url:"json/getUserById",
+            data:{id:$userIdInput.val()},
+            success:function (data) {
+                data=JSON.parse(data);
+                if (data.error){
+                    alert("用户不存在");
+                    return ;
+                }
+                else {
+                    userInfo=data.user;
+                    $discount.text(data.user.discount);
+                }
+            }
+        });
+
+    }
+
 
 
 </script>

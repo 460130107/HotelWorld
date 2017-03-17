@@ -1,6 +1,9 @@
 package edu.nju.hotel.logic.vo;
 
+import edu.nju.hotel.util.constant.UserConstant;
+
 import java.sql.Timestamp;
+import java.util.logging.Level;
 
 /**
  * Created by zhouxiaofan on 2017/2/5.
@@ -13,8 +16,10 @@ public class UserVO {
     private String phone;
     private int state;
     private int level;
+    private int userLevel;
     private Timestamp creatTime;
     private int points;
+    private double discount;
     private int balance;
     private String bank;
 
@@ -72,6 +77,7 @@ public class UserVO {
 
     public void setLevel(int level) {
         this.level = level;
+        setUserLevelAndDiscount();
     }
 
     public Timestamp getCreatTime() {
@@ -106,8 +112,33 @@ public class UserVO {
         this.balance = balance;
     }
 
-    public String getUserLevel(){
-        return this.level+"";
+    public int setUserLevelAndDiscount(){
+        int sum=UserConstant.LEVEL_TABEL.length;
+        for (int i=0;i<sum;i++){
+            if (this.level<UserConstant.LEVEL_TABEL[i]){
+                this.userLevel=i;
+                this.discount=UserConstant.DISCOUNT_TABEL[i];
+                return i;
+            }
+        }
+        this.userLevel=sum;
+        this.discount=UserConstant.DISCOUNT_TABEL[sum];
+        return sum;
     }
 
+    public int getUserLevel() {
+        return userLevel;
+    }
+
+    public void setUserLevel(int userLevel) {
+        this.userLevel = userLevel;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
 }

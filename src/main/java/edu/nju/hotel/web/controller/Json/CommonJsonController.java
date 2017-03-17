@@ -18,8 +18,8 @@ public class CommonJsonController {
     @Autowired
     HotelService hotelService;
 
-    @GetMapping("/hotel/getSpareRoom")
-    public @ResponseBody Object getSpareRoom(@RequestParam("id") int id,
+    @GetMapping("/hotel/getEmptyRoom")
+    public @ResponseBody Object getEmptyRoom(@RequestParam("id") int id,
                                              @RequestParam("start") String start,
                                              @RequestParam("end") String end,
                                              HttpSession session){

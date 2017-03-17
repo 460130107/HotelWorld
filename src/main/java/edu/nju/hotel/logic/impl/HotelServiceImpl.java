@@ -395,6 +395,7 @@ public class HotelServiceImpl implements HotelService {
         checkin.setUser2(vo.getUser2());
         checkin.setInTime(getDate(vo.getInTime()));
         checkin.setOutTime(getDate(vo.getOutTime()));
+        checkin.setPrice(vo.getPrice());
 
         return checkin;
     }

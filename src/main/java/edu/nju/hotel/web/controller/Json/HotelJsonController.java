@@ -1,7 +1,10 @@
 package edu.nju.hotel.web.controller.Json;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import edu.nju.hotel.logic.service.HotelService;
+import edu.nju.hotel.logic.service.UserService;
 import edu.nju.hotel.logic.vo.HotelVO;
+import edu.nju.hotel.logic.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,6 +22,9 @@ import static java.lang.Integer.parseInt;
 public class HotelJsonController {
     @Autowired
     HotelService hotelService;
+
+    @Autowired
+    UserService userService;
 
     @PostMapping("/update")
     public @ResponseBody Object edit(@RequestBody HotelVO hotel, HttpSession session){
@@ -57,6 +63,19 @@ public class HotelJsonController {
         hotelService.addPlan(hotelid,start,end,typeid,price);
         ModelMap modelMap=new ModelMap();
         modelMap.addAttribute("result","success");
+        return modelMap;
+    }
+
+    @GetMapping("/getUserById")
+    public @ResponseBody Object getUserById(@RequestParam("id") int userId){
+        UserVO userVO=userService.getUserById(userId);
+        ModelMap modelMap=new ModelMap();
+        if (userVO==null){
+            modelMap.addAttribute("error","用户不存在");
+        }
+
+        modelMap.addAttribute("user",userVO);
+
         return modelMap;
     }
 }

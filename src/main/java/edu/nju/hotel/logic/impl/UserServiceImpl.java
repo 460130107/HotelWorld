@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserVO getUserById(int id) {
-        User user=userDao.getUserById(id);
+        User user=userRepository.findOne(id);
         return transferService.transferUser(user);
     }
 

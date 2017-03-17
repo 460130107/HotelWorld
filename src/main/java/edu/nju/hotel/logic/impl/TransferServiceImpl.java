@@ -16,6 +16,10 @@ import java.util.List;
 public class TransferServiceImpl implements TransferService {
     @Override
     public UserVO transferUser(User user) {
+
+        if (user==null){
+            return null;
+        }
         UserVO vo=new UserVO();
         vo.setId(user.getId());
         vo.setName(user.getName());
@@ -33,6 +37,9 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     public ManagerVO transferAdmin(Admin admin) {
+        if (admin==null){
+            return null;
+        }
         ManagerVO vo=new ManagerVO();
         vo.setId(admin.getId());
         vo.setPsw(admin.getPsw());
@@ -42,6 +49,9 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     public HotelVO transferHotel(Hotel hotel) {
+        if (hotel==null){
+            return null;
+        }
         HotelVO vo=new HotelVO();
         vo.setId(hotel.getId());
         vo.setName(hotel.getName());
@@ -55,6 +65,9 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     public BookingVO transferBooking(Booking booking) {
+        if (booking==null){
+            return null;
+        }
         BookingVO vo=new BookingVO();
         vo.setId(booking.getId());
         vo.setHotelId(booking.getHotelByHotelId().getId());
@@ -103,6 +116,7 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     public RoomVO transferRoom(Room room) {
+        if (room==null)return null;
         RoomVO roomVO=new RoomVO();
         roomVO.setName(room.getName());
         roomVO.setRoomType(room.getRoomTypeByRoomTypeId().getName());
@@ -111,6 +125,7 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     public RoomAssignVO transferRoomAssign(RoomAsign roomAssign) {
+        if (roomAssign==null) return null;
         RoomAssignVO vo= new RoomAssignVO();
         vo.setId(roomAssign.getId());
         vo.setRoomName(roomAssign.getRoomByRoomId().getName());
@@ -121,6 +136,7 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     public CheckinVO transferCheckin(Checkin checkin) {
+        if (checkin==null) return null;
         CheckinVO vo=new CheckinVO();
         vo.setId(checkin.getId());
         vo.setIdcard1(checkin.getIdcard1());

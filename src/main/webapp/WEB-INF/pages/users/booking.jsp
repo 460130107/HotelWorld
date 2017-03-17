@@ -51,9 +51,9 @@
                 <label class="col-sm-2 control-label">单价</label>
                 <div class="col-sm-8 col-xs-10">
                     <input id="singlePrice" type="number" readonly value="${bookType.price}" name="price"/>
-                    总价<span class="totalPrice">${bookType.price}</span>
                 </div>
             </div>
+
 
             <div class="form-group">
                 <label for="roomNum" class="col-sm-2 control-label">房间数量</label>
@@ -98,6 +98,28 @@
             </div>
 
             <div class="form-group">
+                <label class="col-sm-2 control-label">总价</label>
+                <div class="col-sm-8 col-xs-10">
+                    <span class="totalPrice">${bookType.price}</span>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">会员折扣</label>
+                <div class="col-sm-8 col-xs-10">
+                    <span class="discount">${user.discount}</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">折扣价</label>
+                <div class="col-sm-8 col-xs-10">
+                    <span class="disPrice">${bookType.price*user.discount}</span>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <button type="submit" class="btn btn-danger">支付定金</button>
                 </div>
@@ -120,9 +142,13 @@
         balance=$('span#balance').text(),
         $name=$("#nameInput"),
         $totalPrice=$('.totalPrice'),
-        price=$('input#singlePrice').val();
+        $disPrice=$('span.disPrice');
+        singlePrice=$('input#singlePrice').val(),
+        discount=parseFloat($('span.discount').text());
 
     $numSelect.change(nameInput);
+    $disPrice.text(Math.ceil(singlePrice*discount));
+
     function nameInput() {
 
         $name.empty();
@@ -134,7 +160,8 @@
                 '">');
         }
 
-        $totalPrice.text(price*roomNum);
+        $totalPrice.text(singlePrice*roomNum);
+        $disPrice.text(Math.ceil(singlePrice*roomNum*discount));
         $name.append("至少填写"+roomNum+"个住客信息");
     }
 
@@ -159,7 +186,7 @@
         data.roomNum=$('select').val();
         data.roomTypeId=$('.roomType').attr('id');
         data.hotelId=getHotelId();
-        data.price=price*data.roomNum;
+        data.price=Math.ceil(singlePrice*data.roomNum*discount);
         console.log(data);
         $.stdPost("/users/submitbooking",data);
     }
