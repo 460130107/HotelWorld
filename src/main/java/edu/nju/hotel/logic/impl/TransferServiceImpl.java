@@ -165,7 +165,7 @@ public class TransferServiceImpl implements TransferService {
         vo.setCity(hotelUpdate.getCity());
         vo.setLocation(hotelUpdate.getLocation());
         vo.setPsw(hotelUpdate.getPsw());
-        vo.setHotelId(hotelUpdate.getId());
+        vo.setHotelId(hotelUpdate.getHotelByHotelId().getId());
         vo.setDescription(hotelUpdate.getDescription());
         vo.setName(hotelUpdate.getName());
         vo.setCreatTime(transTimestampToString(hotelUpdate.getCreatTime()));

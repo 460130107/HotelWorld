@@ -33,6 +33,7 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
+                    <th>酒店编号</th>
                     <th>酒店名称</th>
                     <th>城市</th>
                     <th>地址</th>
@@ -43,6 +44,7 @@
             <tbody>
                 <c:forEach items="${hotels}" var="hotel">
                     <tr>
+                        <td>${hotel.id}</td>
                         <td>${hotel.name}</td>
                         <td>${hotel.city}</td>
                         <td>${hotel.location}</td>
@@ -66,6 +68,7 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
+                    <th>酒店编号</th>
                     <th>酒店名称</th>
                     <th>城市</th>
                     <th>地址</th>
@@ -77,6 +80,7 @@
             <tbody>
             <c:forEach items="${updates}" var="update">
                 <tr>
+                    <td>${update.hotelId}</td>
                     <td>${update.name}</td>
                     <td>${update.city}</td>
                     <td>${update.location}</td>

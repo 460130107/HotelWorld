@@ -72,6 +72,10 @@ public class HotelUpdateVO {
         this.psw = psw;
     }
 
+    public String getRealPsw(){
+        return this.psw;
+    }
+
     public Integer getApproved() {
         return approved;
     }

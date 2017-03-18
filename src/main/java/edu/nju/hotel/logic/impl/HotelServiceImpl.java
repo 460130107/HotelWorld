@@ -109,7 +109,7 @@ public class HotelServiceImpl implements HotelService {
         update.setCity(vo.getCity());
         update.setDescription(vo.getDescription());
         update.setName(vo.getName());
-        update.setPsw(vo.getPsw());
+        update.setPsw(vo.getRealPsw());
         update.setHotelByHotelId(hotel);
         return update;
     }
