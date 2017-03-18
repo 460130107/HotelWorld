@@ -33,8 +33,8 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>酒店编号</th>
-                    <th>酒店名称</th>
+                    <th>客栈编号</th>
+                    <th>客栈名称</th>
                     <th>城市</th>
                     <th>地址</th>
                     <th>简介</th>
@@ -68,8 +68,9 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>酒店编号</th>
-                    <th>酒店名称</th>
+                    <th>客栈编号</th>
+                    <th>客栈名称</th>
+                    <th>银行卡号</th>
                     <th>城市</th>
                     <th>地址</th>
                     <th>简介</th>
@@ -82,6 +83,7 @@
                 <tr>
                     <td>${update.hotelId}</td>
                     <td>${update.name}</td>
+                    <td>${update.bank}</td>
                     <td>${update.city}</td>
                     <td>${update.location}</td>
                     <td>${update.description}</td>

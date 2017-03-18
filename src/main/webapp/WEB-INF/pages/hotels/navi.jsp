@@ -16,12 +16,12 @@
                     <li><a href="/hotels/checkout">办理退房</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="${pageContext.request.contextPath}/hotels/account">酒店信息</a></li>
+                    <li><a href="${pageContext.request.contextPath}/hotels/account">客栈信息</a></li>
                     <li><a href="${pageContext.request.contextPath}/hotels/plan">发布计划</a></li>
                     <li><a href="${pageContext.request.contextPath}/hotels/history">订单列表</a></li>
                     <li><a href="${pageContext.request.contextPath}/hotels/summary">统计信息</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">如家快捷酒店 <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">如家快捷客栈 <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="/hotels/logout">退出</a></li>
                         </ul>

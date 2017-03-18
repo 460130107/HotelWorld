@@ -16,6 +16,7 @@ public class HotelUpdate {
     private String description;
     private Timestamp creatTime=new Timestamp(new Date().getTime());
     private String psw;
+    private String bank;
     private Integer approved=0;
     private Hotel hotelByHotelId;
 
@@ -27,6 +28,17 @@ public class HotelUpdate {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+
+    @Basic
+    @Column(name = "bank", nullable = true, length = 20)
+    public String getBank() {
+        return bank;
+    }
+
+    public void setBank(String bank) {
+        this.bank = bank;
     }
 
     @Basic
@@ -108,6 +120,7 @@ public class HotelUpdate {
 
         if (id != that.id) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (bank != null ? !bank.equals(that.bank) : that.bank != null) return false;
         if (creatTime != null ? !creatTime.equals(that.creatTime) : that.creatTime != null) return false;
         if (city != null ? !city.equals(that.city) : that.city != null) return false;
         if (location != null ? !location.equals(that.location) : that.location != null) return false;
@@ -121,6 +134,7 @@ public class HotelUpdate {
     @Override
     public int hashCode() {
         int result = id;
+        result = 31 * result + (bank != null ? bank.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (creatTime != null ? creatTime.hashCode() : 0);

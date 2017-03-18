@@ -55,6 +55,9 @@ public class HotelServiceImpl implements HotelService {
     @Autowired
     private CheckoutRepository checkoutRepository;
 
+    @Autowired
+    private BankRepository bankRepository;
+
 
     @Override
     public VerifyResult verifyLogin(int id, String password) {
@@ -455,6 +458,26 @@ public class HotelServiceImpl implements HotelService {
         Hotel hotel=hotelRepository.findOne(hotelId);
         hotel.setApproved(2);
         hotelRepository.saveAndFlush(hotel);
+    }
+
+    @Override
+    public List<CheckinVO> getUnpayedBills() {
+        List<Checkin> checkinList=checkinRepository.getUnPayedCheckin();
+        return transferService.transferCheckins(checkinList);
+    }
+
+    @Override
+    public HotelVO payHotel(int checkinId) {
+        Checkin checkin=checkinRepository.findOne(checkinId);
+        Hotel hotel=hotelRepository.findOne(checkin.getRoomTypeByRoomTypeId().getHotelByHotelId().getId());
+        BankCard bankCard=bankRepository.findByNumber(hotel.getBank());
+        if (bankCard==null)
+            return null;
+        bankCard.setBalance(bankCard.getBalance()+checkin.getPrice());
+        bankRepository.saveAndFlush(bankCard);
+        checkin.setPayed(1);
+        checkinRepository.saveAndFlush(checkin);
+        return transferService.transferHotel(hotel);
     }
 
 

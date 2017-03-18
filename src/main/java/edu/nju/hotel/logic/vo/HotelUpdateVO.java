@@ -9,6 +9,7 @@ public class HotelUpdateVO {
     private String location;
     private String description;
     private String psw;
+    private String bank;
     /**
      * 0表示未审批，1表示审批通过，2表示审批不通过
      */
@@ -98,5 +99,13 @@ public class HotelUpdateVO {
 
     public void setCreatTime(String creatTime) {
         this.creatTime = creatTime;
+    }
+
+    public String getBank() {
+        return bank;
+    }
+
+    public void setBank(String bank) {
+        this.bank = bank;
     }
 }

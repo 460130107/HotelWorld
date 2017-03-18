@@ -21,6 +21,7 @@ public class CheckinVO {
     private String user;
     private int userId;
     private int bookingId;
+    private int payed;
 
 
     public String getInTime() {
@@ -141,5 +142,13 @@ public class CheckinVO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getPayed() {
+        return payed;
+    }
+
+    public void setPayed(int payuped) {
+        this.payed = payuped;
     }
 }

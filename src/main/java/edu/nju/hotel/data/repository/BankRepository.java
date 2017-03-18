@@ -19,4 +19,7 @@ public interface BankRepository extends JpaRepository<BankCard, Integer> {
     @Transactional
     @Query("update BankCard bank set bank.balance=:money where bank.number=:cardNum")
     void updateBankCard(@Param("cardNum") String number, @Param("money") int money);
+
+    @Query("select b from BankCard b where b.number=?1")
+    BankCard findByNumber(String bank);
 }

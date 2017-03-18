@@ -2,6 +2,7 @@ package edu.nju.hotel.data.repository;
 
 import edu.nju.hotel.data.model.Checkin;
 import edu.nju.hotel.logic.vo.CheckinVO;
+import edu.nju.hotel.logic.vo.HotelBillVO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -23,4 +24,7 @@ public interface CheckinRepository extends JpaRepository<Checkin, Integer> {
 
     @Query("select ckin from Checkin ckin where ckin.userByUserId.id=?1")
     List<Checkin> getByUserId(int userid);
+
+    @Query("select ckin from Checkin ckin where ckin.payType=1 and ckin.payed=0")
+    List<Checkin> getUnPayedCheckin();
 }

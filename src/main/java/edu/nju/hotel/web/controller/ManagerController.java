@@ -1,16 +1,16 @@
 package edu.nju.hotel.web.controller;
 
-import edu.nju.hotel.data.model.HotelUpdate;
+import edu.nju.hotel.data.model.Hotel;
 import edu.nju.hotel.logic.service.HotelService;
+import edu.nju.hotel.logic.vo.CheckinVO;
+import edu.nju.hotel.logic.vo.HotelBillVO;
 import edu.nju.hotel.logic.vo.HotelUpdateVO;
 import edu.nju.hotel.logic.vo.HotelVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,11 +22,6 @@ import java.util.List;
 public class ManagerController {
     @Autowired
     public HotelService hotelService;
-
-    @PostMapping("/login")
-    public String mangLogin(){
-        return "redirect:/managers/index";
-    }
 
     @RequestMapping("/index")
     public String getHotelsAndUpdates(Model model) {
@@ -52,7 +47,6 @@ public class ManagerController {
 
     @PostMapping("/approveHotel")
     public @ResponseBody Object approveHotel(@RequestParam("id") int hotelId){
-
         hotelService.approveHotel(hotelId);
         return null;
     }
@@ -63,22 +57,25 @@ public class ManagerController {
         return null;
     }
 
-    @RequestMapping("/approve")
-    public @ResponseBody String approve(Model model) {
-//        审批开店信息
-        return "approve";
+    @GetMapping("bills")
+    public String getHotelBill(Model model){
+        List<CheckinVO> billList=hotelService.getUnpayedBills();
+        model.addAttribute("checkinList",billList);
+        return "/managers/hotelBill";
     }
 
-    @RequestMapping("/pay")
-    public String payList(Model model) {
-//        等待结算列表结算
-        return "/managers/payList";
-    }
-
-    @PostMapping("/pay")
-    public @ResponseBody String payHotel(Model model) {
-//        给酒店结算结算
-        return "pay";
+    @PostMapping("/payUp")
+    public @ResponseBody Object payHotel(@RequestParam("id") int checkinId,Model model) {
+//        给客栈结算
+        HotelVO hotel= hotelService.payHotel(checkinId);
+        ModelMap result=new ModelMap();
+        if (hotel==null){
+            result.addAttribute("error","银行卡不存在");
+        }
+        else {
+            result.addAttribute("hotel",hotel);
+        }
+        return result;
     }
 
     @RequestMapping("/users")
@@ -89,7 +86,7 @@ public class ManagerController {
 
     @RequestMapping("/hotels")
     public String hotelSummary(Model model) {
-        //所有酒店入住情况
+        //所有客栈入住情况
         return "managers/hotels";
     }
 

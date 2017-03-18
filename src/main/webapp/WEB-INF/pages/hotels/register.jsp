@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>酒店注册</title>
+    <title>客栈注册</title>
 
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
@@ -23,13 +23,13 @@
 </head>
 <body>
 <div class="container register">
-    <h1>HotelWorld 酒店注册</h1>
+    <h1>HotelWorld 客栈注册</h1>
     <hr/>
     <form:form action="/addHotel" cssClass="form-horizontal" method="post" commandName="managers" role="form">
         <div class="form-group">
-            <label for="name" class="col-sm-2 control-label">酒店名称:</label>
+            <label for="name" class="col-sm-2 control-label">客栈名称:</label>
             <div class="col-sm-8 col-xs-8">
-            <input type="text" class="form-control" id="name" name="name" placeholder="酒店名称"/>
+            <input type="text" class="form-control" id="name" name="name" placeholder="客栈名称"/>
             </div>
         </div>
         <div class="form-group">
@@ -38,6 +38,14 @@
                 <input type="password" class="form-control" id="psw" name="psw" placeholder="账号密码"/>
             </div>
         </div>
+
+        <div class="form-group">
+            <label for="bank" class="col-sm-2 control-label">银行账号</label>
+            <div class="col-sm-8 col-xs-8">
+                <input type="text" class="form-control" id="bank" name="bank" placeholder="银行账号"/>
+            </div>
+        </div>
+
         <div class="form-group">
             <label for="city" class="col-sm-2 control-label">城市</label>
             <div class="col-sm-8 col-xs-8">

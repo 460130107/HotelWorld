@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -25,38 +26,24 @@
 <div class="container index">
     <table class="table table-bordered table-striped">
         <tr>
-            <th>客栈名称</th>
-            <th>会员支付总额</th>
+            <th>会员编号</th>
+            <th>房间类型</th>
+            <th>入住时间</th>
+            <th>金额</th>
             <th></th>
         </tr>
-        <tr>
-            <td>如家快捷客栈</td>
-            <td>23243元</td>
-            <td>
-                <button class="btn btn-sm btn-success">结算</button>、
-            </td>
-        </tr>
-        <tr>
-            <td>如家快捷客栈</td>
-            <td>23243元</td>
-            <td>
-                <button class="btn btn-sm btn-success">结算</button>、
-            </td>
-        </tr>
-        <tr>
-            <td>如家快捷客栈</td>
-            <td>23243元</td>
-            <td>
-                <button class="btn btn-sm btn-success">结算</button>、
-            </td>
-        </tr>
-        <tr>
-            <td>如家快捷客栈</td>
-            <td>23243元</td>
-            <td>
-                <button class="btn btn-sm btn-success">结算</button>、
-            </td>
-        </tr>
+        <c:forEach items="${checkinList}" var="checkin">
+            <tr>
+                <td>${checkin.userId}</td>
+                <td>${checkin.roomTypeName}</td>
+                <td>${checkin.inTime.substring(0,10)}</td>
+                <td>${checkin.price}</td>
+                <td data-id="${checkin.id}">
+                    <button class="btn btn-sm btn-success">结算</button>
+                </td>
+            </tr>
+        </c:forEach>
+
 
     </table>
 
@@ -68,5 +55,27 @@
 
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script>
+    var $table=$('table');
+    $table.on('click','button',payUp);
+
+    function payUp(e) {
+        var ele=e.target.parentNode;
+        var id=ele.dataset.id;
+        $.ajax({
+            type:"POST",
+            url:"payUp",
+            data:{id:id},
+            success:function (data) {
+                data=JSON.parse(data);
+                if(data.error){
+                    alert(data.error);
+                    return ;
+                }
+                $(ele).text("已清算");
+            }
+        });
+    }
+</script>
 </body>
 </html>

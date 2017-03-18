@@ -3,7 +3,7 @@
 框架：
 Springmvc+jsp+hibernate+Mysql
 功能：
-一个酒店管理系统
+一个客栈管理系统
 - 会员
    
   - 预订/取消预订

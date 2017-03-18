@@ -74,4 +74,8 @@ public interface HotelService {
     void approveHotel(int hotelId);
 
     void disapproveHotel(int hotelId);
+
+    List<CheckinVO> getUnpayedBills();
+
+    HotelVO payHotel(int checkinId);
 }

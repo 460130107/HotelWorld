@@ -15,6 +15,7 @@ public class Hotel {
     private String description;
     private String psw;
     private Integer approved;
+    private String bank;
     private Collection<Booking> bookingsById;
     private Collection<HotelUpdate> hotelUpdatesById;
     private Collection<Plan> plansById;
@@ -28,6 +29,16 @@ public class Hotel {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "bank", nullable = true, length = 20)
+    public String getBank() {
+        return bank;
+    }
+
+    public void setBank(String bank) {
+        this.bank = bank;
     }
 
     @Basic
@@ -98,6 +109,7 @@ public class Hotel {
         Hotel hotel = (Hotel) o;
 
         if (id != hotel.id) return false;
+        if (bank != null ? !bank.equals(hotel.bank) : hotel.bank != null) return false;
         if (name != null ? !name.equals(hotel.name) : hotel.name != null) return false;
         if (city != null ? !city.equals(hotel.city) : hotel.city != null) return false;
         if (location != null ? !location.equals(hotel.location) : hotel.location != null) return false;

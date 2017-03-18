@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>查看酒店信息</title>
+    <title>查看客栈信息</title>
 
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style-hotel.css">
@@ -48,12 +48,21 @@
                             <input type="text" value="${hotelInfo.name}" disabled class="form-control" id="name" name="name" placeholder="姓名"/>
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label for="psw" class="control-label">账号密码</label>
                         <div>
                             <input type="password" value="${hotelInfo.psw}" disabled class="form-control" id="psw" name="psw" placeholder="账号密码"/>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="bank" class="control-label">银行账号:</label>
+                        <div>
+                            <input type="text" value="${hotelInfo.bank}" disabled class="form-control" id="bank" name="bank" placeholder="银行账号"/>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label for="city" class="control-label">城市</label>
                         <div>
@@ -95,6 +104,7 @@
                 <tr>
                     <th>客栈名称</th>
                     <th>账号密码</th>
+                    <th>银行账号</th>
                     <th>城市</th>
                     <th>地址</th>
                     <th>简介</th>
@@ -183,21 +193,20 @@
 
     function mountUpdate(data) {
         var $tr=$('<tr/>');
-        var $tdName=$('<td/>').text(data.name);
-        var $tdPsw=$('<td/>').text(encryPsw(data.psw));
-        var $tdCity=$('<td/>').text(data.city);
-        var $tdLoc=$('<td/>').text(data.location);
-        var $tdDesc=$('<td/>').text(data.description);
-        var $tdTime=$('<td/>').text(data.creatTime);
-        var $tdState=$('<td/>').text(getState(data.approved));
+        var $tds=[];
+        $tds.push($('<td/>').text(data.name));
+        $tds.push($('<td/>').text(encryPsw(data.psw)));
+        $tds.push($('<td/>').text(data.bank));
+        $tds.push($('<td/>').text(data.city));
+        $tds.push($('<td/>').text(data.location));
+        $tds.push($('<td/>').text(data.description));
+        $tds.push($('<td/>').text(data.creatTime));
+        $tds.push($('<td/>').text(getState(data.approved)));
 
-        $tr.append($tdName)
-            .append($tdPsw)
-            .append($tdCity)
-            .append($tdLoc)
-            .append($tdDesc)
-            .append($tdTime)
-            .append($tdState);
+        $tds.map(function (item) {
+            $tr.append(item);
+        });
+
         $tbody.append($tr);
     }
 

@@ -12,9 +12,9 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/hotels/index">酒店审批 <span class="sr-only">(current)</span></a></li>
-                    <li><a href="${pageContext.request.contextPath}/managers/account">酒店结算</a></li>
-                    <li><a href="${pageContext.request.contextPath}/managers/hotels">酒店信息</a></li>
+                    <li class="active"><a href="/hotels/index">客栈审批 <span class="sr-only">(current)</span></a></li>
+                    <li><a href="${pageContext.request.contextPath}/managers/bills">客栈结算</a></li>
+                    <li><a href="${pageContext.request.contextPath}/managers/hotels">客栈信息</a></li>
                     <li><a href="${pageContext.request.contextPath}/managers/users">会员信息</a></li>
                     <li><a href="${pageContext.request.contextPath}/managers/finance">财务信息</a></li>
 

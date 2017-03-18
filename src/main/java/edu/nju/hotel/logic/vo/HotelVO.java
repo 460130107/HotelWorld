@@ -12,6 +12,8 @@ public class HotelVO {
     private String description;
     private String psw;
     private Integer approved;
+    private String bank;
+
 
     public int getId() {
         return id;
@@ -70,4 +72,11 @@ public class HotelVO {
     }
 
 
+    public String getBank() {
+        return bank;
+    }
+
+    public void setBank(String bank) {
+        this.bank = bank;
+    }
 }

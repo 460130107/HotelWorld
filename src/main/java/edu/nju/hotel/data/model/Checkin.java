@@ -21,6 +21,7 @@ public class Checkin {
     private String user2;
     private String idcard1;
     private String idcard2;
+    private int payed;
     private User userByUserId;
     private Booking bookingByBookId;
     private RoomType roomTypeByRoomTypeId;
@@ -128,6 +129,16 @@ public class Checkin {
         this.idcard2 = idcard2;
     }
 
+    @Basic
+    @Column(name = "payed", nullable = true)
+    public int getPayed() {
+        return payed;
+    }
+
+    public void setPayed(int payed) {
+        this.payed = payed;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -138,6 +149,7 @@ public class Checkin {
         if (id != checkin.id) return false;
         if (price != checkin.price) return false;
         if (payType != checkin.payType) return false;
+        if (payed != checkin.payed) return false;
         if (creatTime != null ? !creatTime.equals(checkin.creatTime) : checkin.creatTime != null) return false;
         if (inTime != null ? !inTime.equals(checkin.inTime) : checkin.inTime != null) return false;
         if (outTime != null ? !outTime.equals(checkin.outTime) : checkin.outTime != null) return false;
@@ -154,6 +166,7 @@ public class Checkin {
         int result = id;
         result = 31 * result + price;
         result = 31 * result + payType;
+        result = 31 * result + payed;
         result = 31 * result + (creatTime != null ? creatTime.hashCode() : 0);
         result = 31 * result + (inTime != null ? inTime.hashCode() : 0);
         result = 31 * result + (outTime != null ? outTime.hashCode() : 0);
@@ -211,4 +224,5 @@ public class Checkin {
     public void setRoomAsignsById(Collection<RoomAsign> roomAsignsById) {
         this.roomAsignsById = roomAsignsById;
     }
+
 }

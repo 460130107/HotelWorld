@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>查看酒店信息</title>
+    <title>查看客栈信息</title>
 
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style-hotel.css">
@@ -28,7 +28,7 @@
 <%@ include file="header.jsp"%>
 <main class="panel-group">
     <div class="panel-body">
-        <h1>HotelWorld 酒店信息</h1>
+        <h1>HotelWorld 客栈信息</h1>
         <hr/>
     </div>
 </main>

@@ -62,6 +62,7 @@ public class TransferServiceImpl implements TransferService {
         vo.setCity(hotel.getCity());
         vo.setLocation(hotel.getLocation());
         vo.setDescription(hotel.getDescription());
+        vo.setBank(hotel.getBank());
         return vo;
     }
 
@@ -151,9 +152,15 @@ public class TransferServiceImpl implements TransferService {
         }else {
             vo.setBookingId(checkin.getBookingByBookId().getId());
         }
+
         vo.setInTime(checkin.getInTime().toString());
         vo.setOutTime(checkin.getOutTime().toString());
         vo.setPrice(checkin.getPrice());
+        vo.setPayed(checkin.getPayed());
+        if (checkin.getUserByUserId()!=null){
+            vo.setUserId(checkin.getUserByUserId().getId());
+            vo.setUser(checkin.getUserByUserId().getName());
+        }
         vo.setRoomTypeId(checkin.getRoomTypeByRoomTypeId().getId());
         vo.setRoomTypeName(checkin.getRoomTypeByRoomTypeId().getName());
         return vo;
@@ -171,6 +178,7 @@ public class TransferServiceImpl implements TransferService {
         vo.setCreatTime(transTimestampToString(hotelUpdate.getCreatTime()));
         vo.setApproved(hotelUpdate.getApproved());
         vo.setId(hotelUpdate.getId());
+        vo.setBank(hotelUpdate.getBank());
         return vo;
 
     }

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>酒店预订</title>
+    <title>客栈预订</title>
 
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
@@ -23,7 +23,7 @@
 <body>
 <%@ include file="navi.jsp"%>
 <div class="container booking">
-    <h1>七天连锁酒店</h1>
+    <h1>七天连锁客栈</h1>
     <div>
         <form class="form-horizontal" action="${pageContext.request.contextPath}/users/submitbooking" method="post">
             <div class="form-group">
