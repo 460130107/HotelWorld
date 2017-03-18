@@ -1,6 +1,7 @@
 package edu.nju.hotel.web.controller;
 
 import edu.nju.hotel.data.model.Checkout;
+import edu.nju.hotel.data.model.HotelUpdate;
 import edu.nju.hotel.logic.service.HotelService;
 import edu.nju.hotel.logic.vo.*;
 import org.hibernate.annotations.Check;
@@ -32,8 +33,8 @@ public class HotelController {
 
     @GetMapping("/account")
     public String account(Model model,HttpSession session) {
-        int id= (int) session.getAttribute("hotelid");
-        HotelVO h=hotelService.getHotelById(id);
+        int hotelid= (int) session.getAttribute("hotelid");
+        HotelVO h=hotelService.getHotelById(hotelid);
         model.addAttribute("hotelInfo",h);
         return "hotels/account";
     }

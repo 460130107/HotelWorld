@@ -7,10 +7,12 @@ import edu.nju.hotel.logic.service.HotelService;
 import edu.nju.hotel.logic.service.TransferService;
 import edu.nju.hotel.logic.vo.*;
 import edu.nju.hotel.util.constant.HotelConstant;
+import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static java.lang.Integer.parseInt;
@@ -22,6 +24,9 @@ import static java.lang.Integer.parseInt;
 public class HotelServiceImpl implements HotelService {
     @Autowired
     private HotelRepository hotelRepository;
+
+    @Autowired
+    private HotelUpdateRepository hotelUpdateRepository;
 
     @Autowired
     private RoomTypeRepository roomTypeRepository;
@@ -80,10 +85,33 @@ public class HotelServiceImpl implements HotelService {
         return transferService.transferHotel(h);
     }
 
+    /**
+     * 客栈申请修改信息
+     * @param hotelUpdateVO
+     * @return
+     */
     @Override
-    public String updateHotel(HotelVO hotel) {
-        hotelRepository.updateHotel(hotel.getName(),hotel.getPsw(),hotel.getDescription(),hotel.getCity(),hotel.getLocation(),hotel.getId());
-        return "";
+    public HotelUpdateVO updateHotel(HotelUpdateVO hotelUpdateVO) {
+        Hotel hotel=hotelRepository.findOne(hotelUpdateVO.getHotelId());
+        hotelUpdateVO.setName(hotel.getName());
+
+        HotelUpdate update=creatUpdate(hotelUpdateVO,hotel);
+        hotelUpdateRepository.save(update);
+
+        String time =transferService.transTimestampToString(update.getCreatTime());
+        hotelUpdateVO.setCreatTime(time);
+        return hotelUpdateVO;
+    }
+
+    private HotelUpdate creatUpdate(HotelUpdateVO vo,Hotel hotel) {
+        HotelUpdate update=new HotelUpdate();
+        update.setLocation(vo.getLocation());
+        update.setCity(vo.getCity());
+        update.setDescription(vo.getDescription());
+        update.setName(vo.getName());
+        update.setPsw(vo.getPsw());
+        update.setHotelByHotelId(hotel);
+        return update;
     }
 
 
@@ -372,6 +400,63 @@ public class HotelServiceImpl implements HotelService {
         return transferService.transferCheckins(checkinList);
     }
 
+    @Override
+    public List<HotelVO> getUnApprovedHotels() {
+        List<Hotel> hotelList=hotelRepository.findAllUnApproved();
+        return transferService.transferHotels(hotelList);
+    }
+
+    @Override
+    public List<HotelUpdateVO> getHotelUpdates(int hotelid) {
+        List<HotelUpdate> hotelUpdateList=hotelUpdateRepository.findByHotelId(hotelid);
+        return transferService.transferHotelUpdates(hotelUpdateList);
+    }
+
+    @Override
+    public List<HotelUpdateVO> getUnApprovedHotelUpdates() {
+        List<HotelUpdate> list=hotelUpdateRepository.findAllUnApproved();
+        return transferService.transferHotelUpdates(list);
+    }
+
+    @Override
+    public void approveUpdate(int updateId) {
+        HotelUpdate up=hotelUpdateRepository.findOne(updateId);
+        up.setApproved(1);
+        hotelUpdateRepository.saveAndFlush(up);
+        updateHotelInfo(up.getHotelByHotelId().getId(),up);
+    }
+
+    private void updateHotelInfo(int hotelId, HotelUpdate up) {
+        Hotel hotel=hotelRepository.findOne(hotelId);
+        hotel.setPsw(up.getPsw());
+        hotel.setDescription(up.getDescription());
+        hotel.setLocation(up.getLocation());
+        hotel.setCity(up.getCity());
+        hotel.setName(up.getName());
+        hotelRepository.saveAndFlush(hotel);
+    }
+
+    @Override
+    public void disapproveUpdate(int updateId) {
+        HotelUpdate up=hotelUpdateRepository.findOne(updateId);
+        up.setApproved(2);
+        hotelUpdateRepository.saveAndFlush(up);
+    }
+
+    @Override
+    public void approveHotel(int hotelId) {
+        Hotel hotel=hotelRepository.findOne(hotelId);
+        hotel.setApproved(1);
+        hotelRepository.saveAndFlush(hotel);
+    }
+
+    @Override
+    public void disapproveHotel(int hotelId) {
+        Hotel hotel=hotelRepository.findOne(hotelId);
+        hotel.setApproved(2);
+        hotelRepository.saveAndFlush(hotel);
+    }
+
 
     private RoomAsign creatNewRoomAssign(NewCheckinVO vo,Room spareRoom,int id) {
         Checkin checkin=checkinRepository.findOne(id);
@@ -453,7 +538,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public List<HotelVO> getHotelList() {
-        List<Hotel> hotelList=hotelRepository.findAll();
+        List<Hotel> hotelList=hotelRepository.findAllApproved();
         List<HotelVO> hotels=transferService.transferHotels(hotelList);
         return hotels;
     }

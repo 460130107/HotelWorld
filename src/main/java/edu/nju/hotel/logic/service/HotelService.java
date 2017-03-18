@@ -25,7 +25,7 @@ public interface HotelService {
 
     HotelVO getHotelById(int id);
 
-    String updateHotel(HotelVO hotel);
+    HotelUpdateVO updateHotel(HotelUpdateVO hotelUpdateVO);
 
     void addRoomType(String roomtype,int id);
 
@@ -60,4 +60,18 @@ public interface HotelService {
     List<BookingVO> getBookingHistoryByHotel(int hotelid);
 
     List<CheckinVO> getHistoryByHotel(int hotelid);
+
+    List<HotelVO> getUnApprovedHotels();
+
+    List<HotelUpdateVO> getHotelUpdates(int hotelid);
+
+    List<HotelUpdateVO> getUnApprovedHotelUpdates();
+
+    void approveUpdate(int updateId);
+
+    void disapproveUpdate(int updateId);
+
+    void approveHotel(int hotelId);
+
+    void disapproveHotel(int hotelId);
 }

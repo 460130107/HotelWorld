@@ -1,10 +1,18 @@
 package edu.nju.hotel.web.controller;
 
+import edu.nju.hotel.data.model.HotelUpdate;
+import edu.nju.hotel.logic.service.HotelService;
+import edu.nju.hotel.logic.vo.HotelUpdateVO;
+import edu.nju.hotel.logic.vo.HotelVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * Created by zhouxiaofan on 2017/1/26.
@@ -12,15 +20,47 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/managers")
 public class ManagerController {
+    @Autowired
+    public HotelService hotelService;
+
     @PostMapping("/login")
     public String mangLogin(){
         return "redirect:/managers/index";
     }
 
     @RequestMapping("/index")
-    public String list(Model model) {
-//        审批开店信息列表
-        return "managers/index";
+    public String getHotelsAndUpdates(Model model) {
+        List<HotelVO> hotelList=hotelService.getUnApprovedHotels();
+        List<HotelUpdateVO> hotelupdateList=hotelService.getUnApprovedHotelUpdates();
+        model.addAttribute("hotels",hotelList);
+        model.addAttribute("updates",hotelupdateList);
+        return "managers/hotelApprove";
+    }
+
+    @PostMapping("/approveUpdate")
+    public @ResponseBody Object approveUpdate(@RequestParam("id") int updateId){
+        hotelService.approveUpdate(updateId);
+        return null;
+    }
+
+    @PostMapping("/disapproveUpdate")
+    public @ResponseBody Object disapproveUpdate(@RequestParam("id") int updateId){
+
+        hotelService.disapproveUpdate(updateId);
+        return null;
+    }
+
+    @PostMapping("/approveHotel")
+    public @ResponseBody Object approveHotel(@RequestParam("id") int hotelId){
+
+        hotelService.approveHotel(hotelId);
+        return null;
+    }
+
+    @PostMapping("/disapproveHotel")
+    public @ResponseBody Object disapproveHotel(@RequestParam("id") int hotelId){
+        hotelService.disapproveHotel(hotelId);
+        return null;
     }
 
     @RequestMapping("/approve")

@@ -3,6 +3,7 @@ package edu.nju.hotel.logic.service;
 import edu.nju.hotel.data.model.*;
 import edu.nju.hotel.logic.vo.*;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -18,6 +19,7 @@ public interface TransferService {
     RoomVO transferRoom(Room room);
     RoomAssignVO transferRoomAssign(RoomAsign roomAssign);
     CheckinVO transferCheckin(Checkin checkin);
+    HotelUpdateVO transferHotelUpdate(HotelUpdate hotelUpdate);
 
 
     List<PlanVO> transferPlans(List<Plan> list);
@@ -31,4 +33,8 @@ public interface TransferService {
     List<RoomAssignVO> transferRoomAssigns(List<RoomAsign> roomAsigns);
 
     List<CheckinVO> transferCheckins(List<Checkin> checkinList);
+
+    String transTimestampToString(Timestamp t);
+
+    List<HotelUpdateVO> transferHotelUpdates(List<HotelUpdate> hotelUpdateList);
 }

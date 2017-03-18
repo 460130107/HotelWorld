@@ -3,6 +3,7 @@ package edu.nju.hotel.web.controller.Json;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import edu.nju.hotel.logic.service.HotelService;
 import edu.nju.hotel.logic.service.UserService;
+import edu.nju.hotel.logic.vo.HotelUpdateVO;
 import edu.nju.hotel.logic.vo.HotelVO;
 import edu.nju.hotel.logic.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+
+import java.util.List;
 
 import static java.lang.Integer.parseInt;
 
@@ -27,12 +30,24 @@ public class HotelJsonController {
     UserService userService;
 
     @PostMapping("/update")
-    public @ResponseBody Object edit(@RequestBody HotelVO hotel, HttpSession session){
-        hotel.setId((Integer) session.getAttribute("hotelid"));
-        String result = hotelService.updateHotel(hotel);
-        ModelMap modelMap=new ModelMap();
-        modelMap.addAttribute("result",hotel);
-        return modelMap;
+    public @ResponseBody Object updateHotel(@RequestBody HotelUpdateVO hotelUpdate, HttpSession session){
+        hotelUpdate.setHotelId((Integer) session.getAttribute("hotelid"));
+        HotelUpdateVO update = hotelService.updateHotel(hotelUpdate);
+        ModelMap result=new ModelMap();
+        result.addAttribute("result",update);
+        return result;
+    }
+
+    @GetMapping("/getUpdateList")
+    public @ResponseBody Object getUpdate(HttpSession session){
+        int hotelid=(Integer) session.getAttribute("hotelid");
+
+        List<HotelUpdateVO> hotelUpdateList=hotelService.getHotelUpdates(hotelid);
+
+        ModelMap result=new ModelMap();
+        result.addAttribute("updateList",hotelUpdateList);
+        return result;
+
     }
 
     @PostMapping("/addRoomType")

@@ -1,6 +1,7 @@
 package edu.nju.hotel.data.repository;
 
 import edu.nju.hotel.data.model.Hotel;
+import edu.nju.hotel.data.model.HotelUpdate;
 import edu.nju.hotel.data.model.RoomType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -27,5 +28,11 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
     List<Integer> getIdList();
 
     List<RoomType> getRoomTypeById(int id);
+
+    @Query("select h from Hotel h where h.approved=1")
+    List<Hotel> findAllApproved();
+
+    @Query("select h from Hotel h where h.approved=0")
+    List<Hotel> findAllUnApproved();
 
 }

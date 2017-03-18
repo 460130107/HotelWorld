@@ -1,24 +1,23 @@
 package edu.nju.hotel.data.model;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by zhouxiaofan on 2017/3/18.
  */
 @Entity
-public class Hotel {
+public class HotelUpdate {
     private int id;
     private String name;
     private String city;
     private String location;
     private String description;
+    private Timestamp creatTime=new Timestamp(new Date().getTime());
     private String psw;
-    private Integer approved;
-    private Collection<Booking> bookingsById;
-    private Collection<HotelUpdate> hotelUpdatesById;
-    private Collection<Plan> plansById;
-    private Collection<RoomType> roomTypesById;
+    private Integer approved=0;
+    private Hotel hotelByHotelId;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -31,7 +30,7 @@ public class Hotel {
     }
 
     @Basic
-    @Column(name = "name", nullable = false, length = 45)
+    @Column(name = "name", nullable = true, length = 45)
     public String getName() {
         return name;
     }
@@ -61,7 +60,7 @@ public class Hotel {
     }
 
     @Basic
-    @Column(name = "description", nullable = true, length = 500)
+    @Column(name = "description", nullable = true, length = 400)
     public String getDescription() {
         return description;
     }
@@ -71,13 +70,23 @@ public class Hotel {
     }
 
     @Basic
-    @Column(name = "psw", nullable = false, length = 11)
+    @Column(name = "psw", nullable = true, length = 11)
     public String getPsw() {
         return psw;
     }
 
     public void setPsw(String psw) {
         this.psw = psw;
+    }
+
+    @Basic
+    @Column(name = "creatTime", nullable = true)
+    public Timestamp getCreatTime() {
+        return creatTime;
+    }
+
+    public void setCreatTime(Timestamp creatTime) {
+        this.creatTime = creatTime;
     }
 
     @Basic
@@ -95,15 +104,16 @@ public class Hotel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Hotel hotel = (Hotel) o;
+        HotelUpdate that = (HotelUpdate) o;
 
-        if (id != hotel.id) return false;
-        if (name != null ? !name.equals(hotel.name) : hotel.name != null) return false;
-        if (city != null ? !city.equals(hotel.city) : hotel.city != null) return false;
-        if (location != null ? !location.equals(hotel.location) : hotel.location != null) return false;
-        if (description != null ? !description.equals(hotel.description) : hotel.description != null) return false;
-        if (psw != null ? !psw.equals(hotel.psw) : hotel.psw != null) return false;
-        if (approved != null ? !approved.equals(hotel.approved) : hotel.approved != null) return false;
+        if (id != that.id) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (creatTime != null ? !creatTime.equals(that.creatTime) : that.creatTime != null) return false;
+        if (city != null ? !city.equals(that.city) : that.city != null) return false;
+        if (location != null ? !location.equals(that.location) : that.location != null) return false;
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (psw != null ? !psw.equals(that.psw) : that.psw != null) return false;
+        if (approved != null ? !approved.equals(that.approved) : that.approved != null) return false;
 
         return true;
     }
@@ -113,6 +123,7 @@ public class Hotel {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
+        result = 31 * result + (creatTime != null ? creatTime.hashCode() : 0);
         result = 31 * result + (location != null ? location.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (psw != null ? psw.hashCode() : 0);
@@ -120,39 +131,13 @@ public class Hotel {
         return result;
     }
 
-    @OneToMany(mappedBy = "hotelByHotelId")
-    public Collection<Booking> getBookingsById() {
-        return bookingsById;
+    @ManyToOne
+    @JoinColumn(name = "hotelId", referencedColumnName = "id")
+    public Hotel getHotelByHotelId() {
+        return hotelByHotelId;
     }
 
-    public void setBookingsById(Collection<Booking> bookingsById) {
-        this.bookingsById = bookingsById;
-    }
-
-    @OneToMany(mappedBy = "hotelByHotelId")
-    public Collection<HotelUpdate> getHotelUpdatesById() {
-        return hotelUpdatesById;
-    }
-
-    public void setHotelUpdatesById(Collection<HotelUpdate> hotelUpdatesById) {
-        this.hotelUpdatesById = hotelUpdatesById;
-    }
-
-    @OneToMany(mappedBy = "hotelByHotelId")
-    public Collection<Plan> getPlansById() {
-        return plansById;
-    }
-
-    public void setPlansById(Collection<Plan> plansById) {
-        this.plansById = plansById;
-    }
-
-    @OneToMany(mappedBy = "hotelByHotelId")
-    public Collection<RoomType> getRoomTypesById() {
-        return roomTypesById;
-    }
-
-    public void setRoomTypesById(Collection<RoomType> roomTypesById) {
-        this.roomTypesById = roomTypesById;
+    public void setHotelByHotelId(Hotel hotelByHotelId) {
+        this.hotelByHotelId = hotelByHotelId;
     }
 }

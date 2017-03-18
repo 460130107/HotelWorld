@@ -5,6 +5,8 @@ import edu.nju.hotel.logic.service.TransferService;
 import edu.nju.hotel.logic.vo.*;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -158,6 +160,22 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
+    public HotelUpdateVO transferHotelUpdate(HotelUpdate hotelUpdate) {
+        HotelUpdateVO vo=new HotelUpdateVO();
+        vo.setCity(hotelUpdate.getCity());
+        vo.setLocation(hotelUpdate.getLocation());
+        vo.setPsw(hotelUpdate.getPsw());
+        vo.setHotelId(hotelUpdate.getId());
+        vo.setDescription(hotelUpdate.getDescription());
+        vo.setName(hotelUpdate.getName());
+        vo.setCreatTime(transTimestampToString(hotelUpdate.getCreatTime()));
+        vo.setApproved(hotelUpdate.getApproved());
+        vo.setId(hotelUpdate.getId());
+        return vo;
+
+    }
+
+    @Override
     public List<PlanVO> transferPlans(List<Plan> list) {
         List<PlanVO> planVOS=new ArrayList<PlanVO>();
         for (int i=0;i<list.size();i++){
@@ -215,6 +233,22 @@ public class TransferServiceImpl implements TransferService {
             list.add(vo);
         }
         return list;
+    }
+
+    @Override
+    public List<HotelUpdateVO> transferHotelUpdates(List<HotelUpdate> hotelUpdateList) {
+        List<HotelUpdateVO> list=new ArrayList<>();
+        for (HotelUpdate update:hotelUpdateList ){
+            HotelUpdateVO vo=transferHotelUpdate(update);
+            list.add(vo);
+        }
+        return list;
+    }
+
+    @Override
+    public String transTimestampToString(Timestamp t) {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm").format(t);
+
     }
 
     private RoomTypeVO transferRoomType(RoomType roomType) {
