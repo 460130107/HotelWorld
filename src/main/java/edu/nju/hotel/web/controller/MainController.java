@@ -110,15 +110,24 @@ public class MainController {
 
     @PostMapping("/addUser")
     public String addUser(@ModelAttribute User user, HttpSession session, Model model) {
-        UserVO userVO=null;
-        if(user.getName()!=null){
-            userVO=userService.addUser(user);
+        if(checkUser(user)){
+            UserVO userVO=userService.addUser(user);
             session.setAttribute("userid",userVO.getId());
+            model.addAttribute("id",userVO.getId());
+            return "users/registerSuccess";
         }
-        model.addAttribute("id",userVO.getId());
-        return "users/registerSuccess";
+        else {
+            return "redirect:/addUser";
+        }
+
     }
 
+    private boolean checkUser(User user) {
+        if (user.getName()==null){
+            return false;
+        }
+        return true;
+    }
 
 
 }

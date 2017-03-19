@@ -14,11 +14,11 @@ public class Booking {
     private int id;
     private Date inTime;
     private Date outTime;
-    private Integer roomNum;
+    private int roomNum;
     private String nameinfo;
     private String phone;
     private String email;
-    private Integer price;
+    private int price;
     private int cancled;
     private int deposit;
     private Timestamp creatTime=new Timestamp(new Date().getTime());
@@ -61,12 +61,12 @@ public class Booking {
     }
 
     @Basic
-    @Column(name = "roomNum", nullable = true)
-    public Integer getRoomNum() {
+    @Column(name = "roomNum", nullable = false)
+    public int getRoomNum() {
         return roomNum;
     }
 
-    public void setRoomNum(Integer roomNum) {
+    public void setRoomNum(int roomNum) {
         this.roomNum = roomNum;
     }
 
@@ -101,12 +101,12 @@ public class Booking {
     }
 
     @Basic
-    @Column(name = "price", nullable = true)
-    public Integer getPrice() {
+    @Column(name = "price", nullable = false)
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
@@ -161,13 +161,13 @@ public class Booking {
         if (cancled != booking.cancled) return false;
         if (deposit != booking.deposit) return false;
         if (checked != booking.checked) return false;
+        if (roomNum != booking.roomNum) return false;
+        if (price != booking.price) return false;
         if (inTime != null ? !inTime.equals(booking.inTime) : booking.inTime != null) return false;
         if (outTime != null ? !outTime.equals(booking.outTime) : booking.outTime != null) return false;
-        if (roomNum != null ? !roomNum.equals(booking.roomNum) : booking.roomNum != null) return false;
         if (nameinfo != null ? !nameinfo.equals(booking.nameinfo) : booking.nameinfo != null) return false;
         if (phone != null ? !phone.equals(booking.phone) : booking.phone != null) return false;
         if (email != null ? !email.equals(booking.email) : booking.email != null) return false;
-        if (price != null ? !price.equals(booking.price) : booking.price != null) return false;
         if (creatTime != null ? !creatTime.equals(booking.creatTime) : booking.creatTime != null) return false;
 
         return true;
@@ -178,14 +178,14 @@ public class Booking {
         int result = id;
         result = 31 * result + (inTime != null ? inTime.hashCode() : 0);
         result = 31 * result + (outTime != null ? outTime.hashCode() : 0);
-        result = 31 * result + (roomNum != null ? roomNum.hashCode() : 0);
         result = 31 * result + (nameinfo != null ? nameinfo.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (price != null ? price.hashCode() : 0);
         result = 31 * result + cancled;
         result = 31 * result + deposit;
         result = 31 * result + checked;
+        result = 31 * result + roomNum;
+        result = 31 * result + price;
         result = 31 * result + (creatTime != null ? creatTime.hashCode() : 0);
         return result;
     }

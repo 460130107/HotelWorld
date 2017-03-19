@@ -11,7 +11,7 @@ public class HotelVO {
     private String location;
     private String description;
     private String psw;
-    private Integer approved;
+    private Integer approved=0;
     private String bank;
 
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by dzkan on 2016/3/8.
@@ -34,13 +35,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("update User us set us.state=:state where us.id=:uId")
     void updateUserState(@Param("state") Integer state,@Param("uId") Integer id);
 
-    @Modifying
-    @Transactional
-    @Query("update User us set us.state=2 where us.balance<?2 and us.state<2 and us.creatTime<?1 ")
-    void pause(Date date,int money);
+    @Query("select us from User us where us.balance<?2 and us.state=1 and us.creatTime<?1 ")
+    List<User> findAllTobePaused(Date date,int money);
 
-    @Modifying
-    @Transactional
-    @Query("update User us set us.state=2 where us.balance<?2 and us.state<2 and us.creatTime<?1 ")
-    void stop(Date date);
+    @Query("select us from User us,UserPause pause where us.state=2 and pause.userid=us.id and pause.creatTime<?1")
+    List<User> findAllTobeStoped(Date date);
+
 }

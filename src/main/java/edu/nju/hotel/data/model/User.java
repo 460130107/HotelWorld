@@ -3,6 +3,7 @@ package edu.nju.hotel.data.model;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Created by zhouxiaofan on 2017/3/15.
@@ -19,8 +20,8 @@ public class User {
     private int state;
     private int level;
     private int points;
-    private Timestamp creatTime;
-    private Integer balance;
+    private Timestamp creatTime=new Timestamp(new Date().getTime());
+    private int balance;
     private Collection<Booking> bookingsById;
     private Collection<Checkin> checkinsById;
 
@@ -115,7 +116,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "creatTime", nullable = true)
+    @Column(name = "creatTime", nullable = false)
     public Timestamp getCreatTime() {
         return creatTime;
     }
@@ -125,12 +126,12 @@ public class User {
     }
 
     @Basic
-    @Column(name = "balance", nullable = true)
-    public Integer getBalance() {
+    @Column(name = "balance", nullable = false)
+    public int getBalance() {
         return balance;
     }
 
-    public void setBalance(Integer balance) {
+    public void setBalance(int balance) {
         this.balance = balance;
     }
 
@@ -144,6 +145,7 @@ public class User {
         if (id != user.id) return false;
         if (state != user.state) return false;
         if (level != user.level) return false;
+        if (balance != user.balance) return false;
         if (points != user.points) return false;
         if (bank != null ? !bank.equals(user.bank) : user.bank != null) return false;
         if (psw != null ? !psw.equals(user.psw) : user.psw != null) return false;
@@ -151,7 +153,6 @@ public class User {
         if (idcard != null ? !idcard.equals(user.idcard) : user.idcard != null) return false;
         if (phone != null ? !phone.equals(user.phone) : user.phone != null) return false;
         if (creatTime != null ? !creatTime.equals(user.creatTime) : user.creatTime != null) return false;
-        if (balance != null ? !balance.equals(user.balance) : user.balance != null) return false;
 
         return true;
     }
@@ -167,8 +168,8 @@ public class User {
         result = 31 * result + state;
         result = 31 * result + level;
         result = 31 * result + points;
+        result = 31 * result + balance;
         result = 31 * result + (creatTime != null ? creatTime.hashCode() : 0);
-        result = 31 * result + (balance != null ? balance.hashCode() : 0);
         return result;
     }
 

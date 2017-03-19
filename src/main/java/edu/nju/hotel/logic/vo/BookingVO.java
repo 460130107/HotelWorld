@@ -13,11 +13,11 @@ public class BookingVO {
     private int id;
     private String inTime;
     private String outTime;
-    private Integer roomNum;
+    private Integer roomNum=0;
     private String nameinfo;
     private String phone;
     private String email;
-    private Integer price;
+    private Integer price=0;
     private int cancled;
     //0表示正常，1表示过期了，2表示取消了
     private int status=0;

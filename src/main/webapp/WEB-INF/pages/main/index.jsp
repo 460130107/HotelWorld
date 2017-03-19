@@ -41,8 +41,8 @@
         </ul>
 
         <div id="myTabContent" class="tab-content">
-            <div class="tab-pane fade ${!empty requestScope["user"]?"in active ":""}" id="user">
-                <div class="error-tips">${!empty requestScope["user"]?"":user.errorMsg}</div>
+            <div class="tab-pane fade ${user!=null?"in active ":""}" id="user">
+                <div class="error-tips">${user!=null?user.errorMsg:""}</div>
                 <form:form action="/login" method="post" commandName="user" role="form">
                     <div class="form-group">
                         <input type="number" id="id" <c:if test="${user.id>0}">value="${user.id}"</c:if> class="form-control" name="id" placeholder="会员卡号">
@@ -59,8 +59,8 @@
                 <a href="/addUser" class="right">注册会员</a>
             </div>
 
-            <div class="tab-pane fade ${!empty requestScope["hotel"]?"in active ":""}" id="hotel">
-                <div class="error-tips">${!empty requestScope["hotel"]?"":hotel.errorMsg}</div>
+            <div class="tab-pane fade ${hotel!=null?"in active ":""}" id="hotel">
+                <div class="error-tips">${hotel!=null?hotel.errorMsg:""}</div>
                 <form:form action="/login" method="post" commandName="hotel" role="form">
                     <div class="form-group">
                         <input type="text" class="form-control" name="id" placeholder="客栈编号">
@@ -76,8 +76,8 @@
                 </form:form>
                 <a href="/addHotel" class="right">注册客栈</a>
             </div>
-            <div class="tab-pane fade ${!empty requestScope["manager"]?"in active ":""}" id="manager">
-                <div class="error-tips">${!empty requestScope["manager"]?"":manager.errorMsg}</div>
+            <div class="tab-pane fade ${manager!=null?"in active ":""}" id="manager">
+                <div class="error-tips">${manager!=null?manager.errorMsg:""}</div>
 
                 <form:form action="/login" method="post" commandName="managers" role="form">
                     <div class="form-group">

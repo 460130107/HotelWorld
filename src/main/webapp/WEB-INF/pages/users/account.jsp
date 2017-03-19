@@ -224,6 +224,7 @@
             var points=parseInt($('.points span').text());
             if (points<changePo){
                 alert("兑换积分超过当前积分");
+                return;
             }
             $.ajax({
                 type:"POST",

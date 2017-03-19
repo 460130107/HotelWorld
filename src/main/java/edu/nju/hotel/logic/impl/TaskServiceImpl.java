@@ -1,8 +1,10 @@
 package edu.nju.hotel.logic.impl;
 
+import edu.nju.hotel.data.model.User;
+import edu.nju.hotel.data.model.UserPause;
+import edu.nju.hotel.data.repository.UserPauseRepository;
 import edu.nju.hotel.data.repository.UserRepository;
 import edu.nju.hotel.logic.service.ontimeTask.TaskService;
-import org.omg.CORBA.DATA_CONVERSION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -18,20 +20,35 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private UserRepository userRepository;
 
-    @Scheduled(cron="0 0/1 *  * * ? ")   //每1 min执行一次
+    @Autowired
+    private UserPauseRepository userPauseRepository;
+
+    @Scheduled(cron="0 0/2 *  * * ? ")   //每1 min执行一次
     @Override
     public void job1() {
 
         Date date=getYearBefore();
-        userRepository.pause(date,100);
-        userRepository.stop(date);
+        List<User> users=userRepository.findAllTobePaused(date,100);
+        for (User user:users){
+            UserPause p=new UserPause();
+            p.setUserid(user.getId());
+            userPauseRepository.saveAndFlush(p);
 
-        System.out.println("进入测试");
+            user.setState(2);
+            userRepository.saveAndFlush(user);
+        }
+
+        List<User> usersStopped=userRepository.findAllTobeStoped(date);
+        for (User u:usersStopped){
+            u.setState(3);
+            userRepository.saveAndFlush(u);
+        }
+        System.out.println(date.getHours()+":"+date.getMinutes());
     }
 
     private Date getYearBefore(){
         Date date=new Date();
-        date.setYear(date.getYear());
+        date.setYear(date.getYear()-1);
         return date;
     }
 }

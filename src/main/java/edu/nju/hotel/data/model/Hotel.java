@@ -14,7 +14,7 @@ public class Hotel {
     private String location;
     private String description;
     private String psw;
-    private Integer approved;
+    private int approved=0;
     private String bank;
     private Collection<Booking> bookingsById;
     private Collection<HotelUpdate> hotelUpdatesById;
@@ -93,11 +93,11 @@ public class Hotel {
 
     @Basic
     @Column(name = "approved", nullable = true)
-    public Integer getApproved() {
+    public int getApproved() {
         return approved;
     }
 
-    public void setApproved(Integer approved) {
+    public void setApproved(int approved) {
         this.approved = approved;
     }
 
@@ -109,13 +109,13 @@ public class Hotel {
         Hotel hotel = (Hotel) o;
 
         if (id != hotel.id) return false;
+        if (approved != hotel.approved) return false;
         if (bank != null ? !bank.equals(hotel.bank) : hotel.bank != null) return false;
         if (name != null ? !name.equals(hotel.name) : hotel.name != null) return false;
         if (city != null ? !city.equals(hotel.city) : hotel.city != null) return false;
         if (location != null ? !location.equals(hotel.location) : hotel.location != null) return false;
         if (description != null ? !description.equals(hotel.description) : hotel.description != null) return false;
         if (psw != null ? !psw.equals(hotel.psw) : hotel.psw != null) return false;
-        if (approved != null ? !approved.equals(hotel.approved) : hotel.approved != null) return false;
 
         return true;
     }
@@ -123,12 +123,12 @@ public class Hotel {
     @Override
     public int hashCode() {
         int result = id;
+        result = 31 * result + approved;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (location != null ? location.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (psw != null ? psw.hashCode() : 0);
-        result = 31 * result + (approved != null ? approved.hashCode() : 0);
         return result;
     }
 

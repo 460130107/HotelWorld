@@ -7,6 +7,7 @@ import edu.nju.hotel.logic.service.HotelService;
 import edu.nju.hotel.logic.service.TransferService;
 import edu.nju.hotel.logic.vo.*;
 import edu.nju.hotel.util.constant.HotelConstant;
+import edu.nju.hotel.util.constant.UserConstant;
 import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,6 +58,9 @@ public class HotelServiceImpl implements HotelService {
 
     @Autowired
     private BankRepository bankRepository;
+
+    @Autowired
+    private UserPauseRepository userPauseRepository;
 
 
     @Override
@@ -209,7 +213,17 @@ public class HotelServiceImpl implements HotelService {
             RoomAsign roomAsign=creatRoomAssign(roomType,bookingSaved,spareRooms.get(i));
             roomAsignRepository.saveAndFlush(roomAsign);
         }
-        userRepository.updateUserBalance(user.getBalance()-200,user.getId());
+        checkUserState(user);
+        user.setBalance(user.getBalance()- HotelConstant.DEPOSIT);
+        userRepository.saveAndFlush(user);
+    }
+
+    private void checkUserState(User user) {
+        if (user.getState()==2){
+            UserPause userPause=userPauseRepository.findByUser(user.getId());
+            userPauseRepository.delete(userPause.getId());
+            user.setState(1);
+        }
     }
 
     @Override
@@ -315,6 +329,8 @@ public class HotelServiceImpl implements HotelService {
                 result.addAttribute("error","余额不足");
                 return result;
             }
+            //解除暂停的用户状态
+            checkUserState(user);
             //扣房费
             user.setBalance(user.getBalance()-checkinListVO.getPrice());
         }
