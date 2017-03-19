@@ -12,6 +12,43 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
 
+    <style>
+        body{
+            text-align: center;
+        }
+        .container{
+            display: flex;
+            justify-content: space-around;
+        }
+        .statis{
+            width: 300px;
+            height: 400px;
+            border:solid 2px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /*justify-content: center;*/
+        }
+        .outer{
+            width: 200px;
+            height: 200px;
+            background-color: rgb(124, 181, 236);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .inner{
+            width: 150px;
+            height: 150px;
+            background-color: white;
+            font-size: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -22,11 +59,27 @@
 </head>
 <body>
 <%@ include file="navi.jsp"%>
+<h1>近30天会员统计信息</h1>
+会员入住情况
+一年内，29%的入住比例
+23%的预订比例
+总消费2142134元
 <div class="container index">
-    会员入住情况
-    一年内，29%的入住比例
-    23%的预订比例
-    总消费2142134元
+
+
+    <div class="statis">
+        <h2>预订房间总数(间)</h2>
+        <div class="outer">
+            <div class="inner"><p>${bookNum}</p></div>
+        </div>
+    </div>
+
+    <div class="statis">
+        <h2>总消费金额(元)</h2>
+        <div class="outer">
+            <div class="inner"><p>${consumption}</p></div>
+        </div>
+    </div>
 
 </div>
 

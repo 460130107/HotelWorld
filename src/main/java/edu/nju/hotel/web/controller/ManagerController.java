@@ -1,7 +1,9 @@
 package edu.nju.hotel.web.controller;
 
 import edu.nju.hotel.data.model.Hotel;
+import edu.nju.hotel.data.model.User;
 import edu.nju.hotel.logic.service.HotelService;
+import edu.nju.hotel.logic.service.UserService;
 import edu.nju.hotel.logic.vo.CheckinVO;
 import edu.nju.hotel.logic.vo.HotelBillVO;
 import edu.nju.hotel.logic.vo.HotelUpdateVO;
@@ -12,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +24,10 @@ import java.util.List;
 @RequestMapping("/managers")
 public class ManagerController {
     @Autowired
-    public HotelService hotelService;
+    private HotelService hotelService;
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("/index")
     public String getHotelsAndUpdates(Model model) {
@@ -80,7 +86,12 @@ public class ManagerController {
 
     @RequestMapping("/users")
     public String userSummary(Model model) {
-        //所有会员消费情况
+        //所有会员预订消费情况
+        int bookNum=userService.getBookSumByTime();
+        int money=userService.getConsumeSum();
+
+        model.addAttribute("bookNum",bookNum);
+        model.addAttribute("consumption",money);
         return "managers/users";
     }
 
@@ -90,9 +101,23 @@ public class ManagerController {
         return "managers/hotels";
     }
 
-    @RequestMapping("/finance")
+    @GetMapping("/getHotelStat")
+    public @ResponseBody Object getHotelStat(){
+
+        ArrayList<ArrayList> list=hotelService.getHotelStats();
+        return list;
+    }
+
+    @GetMapping("/finance")
     public String financeSummary(Model model) {
         //所有财务统计
         return "managers/finance";
     }
+
+    @GetMapping("/getFinanc")
+    public @ResponseBody Object getFinanc(){
+        ArrayList<ArrayList> lists=hotelService.getEarningEachDay();
+        return lists;
+    }
+
 }

@@ -480,6 +480,73 @@ public class HotelServiceImpl implements HotelService {
         return transferService.transferHotel(hotel);
     }
 
+    @Override
+    public ArrayList<ArrayList> getHotelStats() {
+        Date today=getDayBefore(0);
+        Date monthBefore=getDayBefore(30);
+        ArrayList<ArrayList> list=new ArrayList<>();
+        List<Hotel> hotelList=hotelRepository.findAll();
+
+        for (Hotel hotel:hotelList){
+            ArrayList<String> arr=new ArrayList<>();
+            arr.add(hotel.getName()+hotel.getId());
+            Integer cNum=getCheckinNum(hotel.getId(),today,monthBefore);
+            if (cNum==null){
+                arr.add(0+"");
+            }
+            else {
+                arr.add(cNum+"");
+            }
+            list.add(arr);
+        }
+        return list;
+    }
+
+    @Override
+    public ArrayList<ArrayList> getEarningEachDay() {
+        ArrayList<ArrayList> list=new ArrayList<>();
+
+        for (int i=14;i>0;i--){
+            ArrayList<Long> arr=new ArrayList<>();
+            Date date=getDayBefore(i);
+            Date date1=getDayBefore(i+1);
+            Integer earning=checkinRepository.getEarningByDay(date,date1);
+            earning=earning==null?0:earning;
+            arr.add(date.getTime());
+            arr.add(Long.valueOf(earning));
+            list.add(arr);
+        }
+        return list;
+    }
+
+    @Override
+    public ArrayList<ArrayList> getEarningEachDayByHotel(int hotelid) {
+        ArrayList<ArrayList> list=new ArrayList<>();
+
+        for (int i=14;i>0;i--){
+            ArrayList<Long> arr=new ArrayList<>();
+            Date date=getDayBefore(i);
+            Date date1=getDayBefore(i+1);
+            Integer earning=checkinRepository.getEarningByDayByHotel(date,date1,hotelid);
+            earning=earning==null?0:earning;
+            arr.add(date.getTime());
+            arr.add(Long.valueOf(earning));
+            list.add(arr);
+        }
+        return list;
+    }
+
+    private Integer getCheckinNum(int id,Date today, Date monthBefore) {
+        return checkinRepository.getCheckinNumByTime(id,today,monthBefore);
+    }
+
+    private Date getDayBefore(int i) {
+        Date date=new Date();
+        Long ml= (Long) (date.getTime()/100000)*100000;
+        date.setTime(ml);
+        date.setDate(date.getDate()-i);
+        return date;
+    }
 
     private RoomAsign creatNewRoomAssign(NewCheckinVO vo,Room spareRoom,int id) {
         Checkin checkin=checkinRepository.findOne(id);

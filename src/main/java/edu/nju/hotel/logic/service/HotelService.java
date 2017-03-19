@@ -78,4 +78,10 @@ public interface HotelService {
     List<CheckinVO> getUnpayedBills();
 
     HotelVO payHotel(int checkinId);
+
+    ArrayList<ArrayList> getHotelStats();
+
+    ArrayList<ArrayList> getEarningEachDay();
+
+    ArrayList<ArrayList> getEarningEachDayByHotel(int hotelid);
 }

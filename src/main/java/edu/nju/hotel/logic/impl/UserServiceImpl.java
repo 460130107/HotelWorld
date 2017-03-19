@@ -9,19 +9,15 @@ import edu.nju.hotel.logic.service.TransferService;
 import edu.nju.hotel.logic.service.UserService;
 import edu.nju.hotel.logic.vo.BookingVO;
 import edu.nju.hotel.logic.vo.CheckinVO;
-import edu.nju.hotel.logic.vo.UserUpdate;
 import edu.nju.hotel.logic.vo.UserVO;
 import edu.nju.hotel.util.constant.UserConstant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.expression.spel.ast.Assign;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Query;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import static java.lang.Integer.parseInt;
 
 /**
  * Created by zhouxiaofan on 2017/2/4.
@@ -143,6 +139,32 @@ public class UserServiceImpl implements UserService {
     public List<CheckinVO> getCheckinHistory(int userid) {
         List<Checkin> checkinList=checkinRepository.getByUserId(userid);
         return transferService.transferCheckins(checkinList);
+    }
+
+    @Override
+    public int getConsumeSum() {
+        Date today=new Date();
+        Date dayBefore=getDateBefore(30);
+        Integer consume=checkinRepository.getTotalConsumeByTime(today,dayBefore);
+        if (consume==null)
+            return 0;
+        return consume;
+    }
+
+    private Date getDateBefore(int i) {
+        Date date=new Date();
+        date.setDate(date.getDate()-i);
+        return date;
+    }
+
+    @Override
+    public int getBookSumByTime() {
+        Date today=new Date();
+        Date dayBefore=getDateBefore(30);
+        Integer bookNum=bookingRepository.getTotalBookByTime(today,dayBefore);
+        if (bookNum==null)
+            return 0;
+        return bookNum;
     }
 
 

@@ -27,4 +27,16 @@ public interface CheckinRepository extends JpaRepository<Checkin, Integer> {
 
     @Query("select ckin from Checkin ckin where ckin.payType=1 and ckin.payed=0")
     List<Checkin> getUnPayedCheckin();
+
+    @Query("select count (ck.id) from Checkin ck where ck.inTime<?2 and ck.inTime>?3 and ck.roomTypeByRoomTypeId.hotelByHotelId.id=?1 group by ck.roomTypeByRoomTypeId.hotelByHotelId.id")
+    Integer getCheckinNumByTime(int id, Date today, Date monthBefore);
+
+    @Query("select sum (ck.price) from Checkin ck where ck.userByUserId.id is not null and ck.creatTime<?1 and ck.creatTime>?2 ")
+    Integer getTotalConsumeByTime(Date today, Date dayBefore);
+
+    @Query("select sum (ck.price) from Checkin ck where ck.creatTime>=?2 and ck.creatTime<?1")
+    Integer getEarningByDay(Date date, Date date1);
+
+    @Query("select sum (ck.price) from Checkin ck where ck.creatTime>=?2 and ck.creatTime<?1 and ck.roomTypeByRoomTypeId.hotelByHotelId.id=?3")
+    Integer getEarningByDayByHotel(Date date, Date date1, int hotelid);
 }

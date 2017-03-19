@@ -25,6 +25,10 @@
 <div class="container index">
     店的列表
     日均入住率，日均入住人数，
+    近30天入住情况
+    <div id="hotelCheckin">
+
+    </div>
 
 </div>
 
@@ -33,5 +37,77 @@
 
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script>
+    $(function () {
+        $.getJSON('getHotelStat', function (data) {
+            console.log(data);
+            data=format(data);
+            $('#hotelCheckin').highcharts(getConf(data));
+
+        });
+    });
+
+    function format(data) {
+        return data.map(function (item) {
+            return [item[0],parseInt(item[1])];
+        });
+
+    }
+
+    function getConf(data) {
+        var conf={
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: '近30天各店入住统计'
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    rotation: -45,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '房间 (间)'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            tooltip: {
+                pointFormat: '入住数量: <b>{point.y} </b>',
+                valueSuffix: ' 间'
+            },
+            series: [{
+                data: data,
+                dataLabels: {
+                    enabled: true,
+                    color: '#FFFFFF',
+                    align: 'right',
+                    format: '{point.y}', // one decimal
+                    y: 0, // 10 pixels down from the top
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            }]
+        };
+        return conf;
+    }
+
+
+</script>
 </body>
 </html>

@@ -37,4 +37,8 @@ public interface UserService {
     void exchangePoints(int userid,int points);
 
     List<CheckinVO> getCheckinHistory(int userid);
+
+    int getConsumeSum();
+
+    int getBookSumByTime();
 }

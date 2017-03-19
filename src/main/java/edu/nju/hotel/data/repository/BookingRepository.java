@@ -40,4 +40,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     @Query("select bk from Booking bk where bk.hotelByHotelId.id=?1 order by bk.inTime desc")
     List<Booking> getByHotelId(int hotelid);
+
+    @Query("select sum (b.roomNum) from Booking b where b.creatTime<?1 and b.creatTime>?2")
+    Integer getTotalBookByTime(Date today, Date dayBefore);
 }

@@ -153,7 +153,14 @@ public class HotelController {
      */
     @GetMapping("/finance")
     public String summary(Model model) {
-        //所有历史记录
+        //财务记录
         return "hotels/finance";
+    }
+
+    @GetMapping("/getFinanc")
+    public @ResponseBody Object getFinanc(HttpSession session){
+        int hotelid=(Integer) session.getAttribute("hotelid");
+        ArrayList<ArrayList> lists=hotelService.getEarningEachDayByHotel(hotelid);
+        return lists;
     }
 }
