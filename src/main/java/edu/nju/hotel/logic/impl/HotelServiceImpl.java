@@ -214,8 +214,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public List<BookingVO> getBookingNow(int hotelId) {
-        Date date=new Date();
-        date.setDate(date.getDate()-1);
+        Date date=getDayBefore(1);
         List<Booking> bookingList=bookingRepository.getBookingAfter(hotelId,date);
 
         return transferService.transferBookings(bookingList);
@@ -356,8 +355,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public List<CheckinVO> getCheckinListNotOut(int hotelId) {
-        Date date=new Date();
-        date.setDate(date.getDate()-1);
+        Date date=getDayBefore(1);
         List<Checkin> checkins=checkinRepository.getCheckinListAfter(hotelId,date);
         List<Checkin> result=new ArrayList<>();
         for (Checkin checkin:checkins){
@@ -542,8 +540,9 @@ public class HotelServiceImpl implements HotelService {
 
     private Date getDayBefore(int i) {
         Date date=new Date();
-        Long ml= (Long) (date.getTime()/100000)*100000;
-        date.setTime(ml);
+        date.setHours(0);
+        date.setMinutes(0);
+        date.setSeconds(0);
         date.setDate(date.getDate()-i);
         return date;
     }

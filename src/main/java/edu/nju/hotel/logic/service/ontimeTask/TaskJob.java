@@ -6,11 +6,11 @@ import org.springframework.stereotype.Component;
 /**
  * Created by zhouxiaofan on 2017/2/5.
  */
-@Component
-public class TaskJob {
-
-//    @Scheduled(cron = "0 0 3 * * ?")
+//@Component
+//public class TaskJob {
+//
+//    @Scheduled(cron = "0 39 16 * * ?")
 //    public void job1() {
 //        System.out.println("任务进行中。。。");
 //    }
-}
+//}

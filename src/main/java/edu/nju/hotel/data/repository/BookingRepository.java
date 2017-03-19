@@ -43,4 +43,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     @Query("select sum (b.roomNum) from Booking b where b.creatTime<?1 and b.creatTime>?2")
     Integer getTotalBookByTime(Date today, Date dayBefore);
+
+    @Query("select sum (b.roomNum) from Booking b where b.userByUserId.id=?3 and b.creatTime<?1 and b.creatTime>?2")
+    Integer getTotalBookByTimeByUser(Date today, Date dayBefore, int uid);
 }

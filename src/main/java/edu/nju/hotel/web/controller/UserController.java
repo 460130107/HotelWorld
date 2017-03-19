@@ -111,6 +111,18 @@ public class UserController {
         return "users/account";
     }
 
+    @GetMapping("/summary")
+    public String getSummary(HttpSession session,Model model){
+        int uid= (int) session.getAttribute("userid");
+        int bookSum=userService.getBookSumByTimeByUser(uid);
+        int checkinSum=userService.getCheckinSumByTimeByUser(uid);
+        int consumption=userService.getConsumptionByTimeByUser(uid);
+        model.addAttribute("bookSum",bookSum);
+        model.addAttribute("checkinSum",checkinSum);
+        model.addAttribute("consumption",consumption);
+        return "users/summary";
+    }
+
     @RequestMapping("/json")
     public @ResponseBody Object json() {
         List<User> list = new ArrayList<User>();

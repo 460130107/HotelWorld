@@ -39,4 +39,10 @@ public interface CheckinRepository extends JpaRepository<Checkin, Integer> {
 
     @Query("select sum (ck.price) from Checkin ck where ck.creatTime>=?2 and ck.creatTime<?1 and ck.roomTypeByRoomTypeId.hotelByHotelId.id=?3")
     Integer getEarningByDayByHotel(Date date, Date date1, int hotelid);
+
+    @Query("select sum (ck.price) from Checkin ck where ck.creatTime>=?2 and ck.creatTime<?1 and ck.userByUserId.id=?3")
+    Integer getConsumptionByTimeByUser(Date today, Date dayBefore, int uid);
+
+    @Query("select count (ck.id) from Checkin ck where ck.creatTime>=?2 and ck.creatTime<?1 and ck.userByUserId.id=?3")
+    Integer getTotalCheckinByTimeByUser(Date today, Date dayBefore, int uid);
 }

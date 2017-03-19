@@ -167,6 +167,36 @@ public class UserServiceImpl implements UserService {
         return bookNum;
     }
 
+    @Override
+    public int getConsumptionByTimeByUser(int uid) {
+        Date today=new Date();
+        Date dayBefore=getDateBefore(30);
+        Integer bookNum=checkinRepository.getConsumptionByTimeByUser(today,dayBefore,uid);
+        if (bookNum==null)
+            return 0;
+        return bookNum;
+    }
+
+    @Override
+    public int getCheckinSumByTimeByUser(int uid) {
+        Date today=new Date();
+        Date dayBefore=getDateBefore(30);
+        Integer bookNum=checkinRepository.getTotalCheckinByTimeByUser(today,dayBefore,uid);
+        if (bookNum==null)
+            return 0;
+        return bookNum;
+    }
+
+    @Override
+    public int getBookSumByTimeByUser(int uid) {
+        Date today=new Date();
+        Date dayBefore=getDateBefore(30);
+        Integer bookNum=bookingRepository.getTotalBookByTimeByUser(today,dayBefore,uid);
+        if (bookNum==null)
+            return 0;
+        return bookNum;
+    }
+
 
     /**
      * 自动生成用户id

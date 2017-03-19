@@ -41,4 +41,10 @@ public interface UserService {
     int getConsumeSum();
 
     int getBookSumByTime();
+
+    int getConsumptionByTimeByUser(int uid);
+
+    int getCheckinSumByTimeByUser(int uid);
+
+    int getBookSumByTimeByUser(int uid);
 }
