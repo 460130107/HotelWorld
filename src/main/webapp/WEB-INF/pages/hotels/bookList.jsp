@@ -112,7 +112,7 @@
         $('.idCardInput input').each(function(index,item){
             idCards.push(item.value);
         });
-        $('#'+id).text("已入住");
+
         $.ajax({
             type:"POST",
             url:"checkinPost",

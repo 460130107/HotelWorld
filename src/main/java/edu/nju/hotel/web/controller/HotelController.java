@@ -24,10 +24,11 @@ import java.util.List;
 @RequestMapping("/hotels")
 public class HotelController {
     @Autowired
-    HotelService hotelService;
+    private HotelService hotelService;
+
     @RequestMapping("/logout")
     public String logout(HttpSession session){
-        session.removeAttribute("hotel");
+        session.removeAttribute("hotelid");
         return "redirect:/";
     }
 

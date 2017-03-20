@@ -20,7 +20,7 @@ public class CheckinVO {
     private int payType;
     private String user;
     private int userId;
-    private int bookingId;
+    private int bookingId=0;
     private int payed;
 
 

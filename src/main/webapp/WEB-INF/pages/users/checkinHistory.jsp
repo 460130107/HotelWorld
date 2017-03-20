@@ -30,7 +30,6 @@
             <th>入住时间</th>
             <th>离店时间</th>
             <th>房间类型</th>
-            <th>房间号</th>
             <th>住客1姓名</th>
             <th>住客1身份证号</th>
             <th>住客2姓名</th>
@@ -39,45 +38,20 @@
             <th>支付</th>
             <th>总价</th>
         </tr>
-        <tr>
-            <td>2017-01-14</td>
-            <td>2017-01-14</td>
-            <td>单人间</td>
-            <td>202</td>
-            <td>张三</td>
-            <td>321122780654798765</td>
-            <td>张三</td>
-            <td>321122780654798765</td>
-            <td>否</td>
-            <td>现金</td>
-            <td>¥1230</td>
-        </tr>
-        <tr>
-            <td>2017-01-14</td>
-            <td>2017-01-14</td>
-            <td>单人间</td>
-            <td>202</td>
-            <td>张三</td>
-            <td>321122780654798765</td>
-            <td>张三</td>
-            <td>321122780654798765</td>
-            <td>否</td>
-            <td>现金</td>
-            <td>¥1230</td>
-        </tr>
-        <tr>
-            <td>2017-01-14</td>
-            <td>2017-01-14</td>
-            <td>单人间</td>
-            <td>202</td>
-            <td>张三</td>
-            <td>321122780654798765</td>
-            <td>张三</td>
-            <td>321122780654798765</td>
-            <td>否</td>
-            <td>现金</td>
-            <td>¥1230</td>
-        </tr>
+        <c:forEach items="${checkinList}" var="checkin">
+            <tr>
+                <td>${checkin.inTime.substring(0,10)}</td>
+                <td>${checkin.outTime.substring(0,10)}</td>
+                <td>${checkin.roomTypeName}</td>
+                <td>${checkin.user1}</td>
+                <td>${checkin.idcard1}</td>
+                <td>${checkin.user2}</td>
+                <td>${checkin.idcard2}</td>
+                <td>${checkin.bookingId==0?"否":"是"}</td>
+                <td>${checkin.payType==0?"现金":"会员卡"}</td>
+                <td>${checkin.price}</td>
+            </tr>
+        </c:forEach>
     </table>
 </div>
 

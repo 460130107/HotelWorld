@@ -80,7 +80,7 @@ public class UserJsonController {
                                              @RequestParam("start") String start,
                                              @RequestParam("end") String end){
 
-        ModelMap rooms=hotelService.getSpareRoom(id,start,end);
+        ModelMap rooms=hotelService.getEmptyRoom(id,start,end);
         ModelMap model=new ModelMap();
 
         model.addAttribute("rooms",rooms);

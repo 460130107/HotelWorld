@@ -16,6 +16,7 @@ public class Checkout {
     private Checkin checkinByCheckinId;
 
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     public int getId() {
         return id;

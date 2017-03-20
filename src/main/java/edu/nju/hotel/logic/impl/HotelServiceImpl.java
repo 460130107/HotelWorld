@@ -117,6 +117,7 @@ public class HotelServiceImpl implements HotelService {
         update.setDescription(vo.getDescription());
         update.setName(vo.getName());
         update.setPsw(vo.getRealPsw());
+        update.setBank(vo.getBank());
         update.setHotelByHotelId(hotel);
         return update;
     }
@@ -192,7 +193,7 @@ public class HotelServiceImpl implements HotelService {
 
     private Date getDate(String dataString){
         int year=parseInt(dataString.substring(0,4))-1900;
-        int month=parseInt(dataString.substring(5,7));
+        int month=parseInt(dataString.substring(5,7))-1;
         int day=parseInt(dataString.substring(8,10));
         return new Date(year,month,day);
     }
@@ -276,13 +277,13 @@ public class HotelServiceImpl implements HotelService {
             Checkin checkin=creatCheckin(booking);
             checkin.setIdcard1(idCardList[index]);
             checkin.setUser1(userNameList[index]);
-            userName+=idCardList[index]+" ";
+            userName+=userNameList[index]+" ";
             index++;
             //一间房2个人的情况
             if(userNum/roomNum==2||i<userNum%roomNum){
                 checkin.setIdcard2(idCardList[index]);
                 checkin.setUser2(userNameList[index]);
-                userName+=idCardList[index]+" ";
+                userName+=userNameList[index]+" ";
                 index++;
             }
             checkin.setPayType(payType);
@@ -649,7 +650,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public ModelMap getSpareRoom(int hotelid, String start, String end) {
+    public ModelMap getEmptyRoom(int hotelid, String start, String end) {
         List<RoomType> roomTypeList=roomTypeRepository.getRoomTypeListById(hotelid);
         ModelMap map=new ModelMap();
         for (RoomType roomType:roomTypeList){

@@ -129,8 +129,7 @@ body.plan main .panel-collapse > .panel-body {
     display: flex;
     flex-direction: column; }
     .roomDetail h5 {
-      margin-top: 7px;
-      width: 60px;
+      margin: 7px 10px 0 0;
       font-size: 16px;
       color: #9A9A9A; }
     .roomDetail > div {

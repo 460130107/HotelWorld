@@ -71,7 +71,7 @@ public class UserController {
         int userid= (int) session.getAttribute("userid");
         bookingVO.setUserId(userid);
 
-//        hotelService.bookHotel(bookingVO);
+        hotelService.bookHotel(bookingVO);
         return "redirect:/users/success";
     }
 

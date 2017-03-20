@@ -179,6 +179,7 @@
                  success:function (mes) {
                      var data=JSON.parse(mes);
                      console.log(data);
+                     $roomDetail.empty();
                      mountRooms(data);
                  },
                  error:function () {
@@ -254,6 +255,7 @@
                  url:"json/addRoom",
                  data:data,
                  success:function (msg) {
+                     $addRoomForm.find('input').val('');
                      $roomDetail.empty();
                      getRooms();
                  }

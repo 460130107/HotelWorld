@@ -74,7 +74,7 @@
 
                     </div>
                 </form:form>
-                <a href="/addHotel" class="right">注册客栈</a>
+                <a href="/addHotel" class="right">客栈申请</a>
             </div>
             <div class="tab-pane fade ${manager!=null?"in active ":""}" id="manager">
                 <div class="error-tips">${manager!=null?manager.errorMsg:""}</div>

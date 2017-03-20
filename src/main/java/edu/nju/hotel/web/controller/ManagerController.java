@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,6 +119,12 @@ public class ManagerController {
     public @ResponseBody Object getFinanc(){
         ArrayList<ArrayList> lists=hotelService.getEarningEachDay();
         return lists;
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.removeAttribute("hotel");
+        return "redirect:/";
     }
 
 }

@@ -86,10 +86,11 @@ public class MainController {
     }
 
     @PostMapping("/addHotel")
-    public String addHotel(@ModelAttribute Hotel hotel, HttpSession session) {
+    public String addHotel(@ModelAttribute Hotel hotel, HttpSession session,Model model) {
         if(testHotel(hotel)){
             HotelVO hotelVO=hotelService.addHotel(hotel);
             session.setAttribute("hotelid",hotelVO.getId());
+            model.addAttribute("id",hotelVO.getId());
         }
 
         return "/hotels/registerSuccess";

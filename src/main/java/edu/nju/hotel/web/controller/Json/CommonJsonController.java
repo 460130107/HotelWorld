@@ -27,7 +27,7 @@ public class CommonJsonController {
         if (id==-1){
             id= (int) session.getAttribute("hotelid");
         }
-        ModelMap rooms=hotelService.getSpareRoom(id,start,end);
+        ModelMap rooms=hotelService.getEmptyRoom(id,start,end);
         ModelMap model=new ModelMap();
 
         model.addAttribute("rooms",rooms);

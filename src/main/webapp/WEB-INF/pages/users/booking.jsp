@@ -23,7 +23,7 @@
 <body>
 <%@ include file="navi.jsp"%>
 <div class="container booking">
-    <h1>七天连锁客栈</h1>
+    <h1></h1>
     <div>
         <form class="form-horizontal" action="${pageContext.request.contextPath}/users/submitbooking" method="post">
             <div class="form-group">

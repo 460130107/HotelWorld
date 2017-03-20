@@ -41,7 +41,7 @@ public interface HotelService {
 
     List<HotelVO> getHotelList();
 
-    ModelMap getSpareRoom(int id, String start, String end);
+    ModelMap getEmptyRoom(int id, String start, String end);
 
     void bookHotel(BookingVO bookingVO);
 
