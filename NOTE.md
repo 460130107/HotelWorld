@@ -84,3 +84,9 @@ https://www.w3.org/TR/html5/grouping-content.html#the-p-element
 - Heading content：h1 h2 h3 h4 h5 h6
 - Embedded content：audio canvas embed iframe img math object svg video
 - 关于java到底怎么得到是分秒为0的日期还是不知道，最后用js解决问题了。
+
+"0 0 12 * * ?" 每天中午12点触发 
+http://www.jianshu.com/p/49626fb09035
+
+预订以后积分没变,钱也没扣
+定时

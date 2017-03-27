@@ -230,20 +230,12 @@
                 url:"json/addRoomType",
                 data:data,
                 success:function (msg) {
-                    $roomType.val("");
-                    mountRoomType(data);
-                    getRooms();
+                    window.location.reload();
                 }
             });
         }
 
-        function mountRoomType(data) {
-            var $roomtype=$('#room-type ul');
-            var $li=$('<li/>');
-            $li.text(data.roomType);
-            $roomtype.append($li);
-        }
-         
+
          function addRoom(e) {
              e.preventDefault();
              var $addRoomForm=$('.addRoomForm');

@@ -107,7 +107,7 @@
         var id=e.target.parentNode.parentNode.dataset.id;
         var payTypeName=e.target.id;
         var payType=0;
-        if(payTypeName=="cardPay")payType=1;
+        if(payTypeName=="cardpay")payType=1;
         var idCards=[];
         $('.idCardInput input').each(function(index,item){
             idCards.push(item.value);

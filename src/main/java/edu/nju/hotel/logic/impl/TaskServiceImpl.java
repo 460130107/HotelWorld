@@ -23,7 +23,7 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private UserPauseRepository userPauseRepository;
 
-    @Scheduled(cron="0 0/2 *  * * ? ")   //每1 min执行一次
+    @Scheduled(cron="0 0 2 * * ? ")   //每天2点执行
     @Override
     public void job1() {
 

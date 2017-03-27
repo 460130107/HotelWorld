@@ -60,10 +60,7 @@
 <body>
 <%@ include file="navi.jsp"%>
 <h1>近30天会员统计信息</h1>
-会员入住情况
-一年内，29%的入住比例
-23%的预订比例
-总消费2142134元
+
 <div class="container index">
 
 

@@ -263,6 +263,7 @@ public class HotelServiceImpl implements HotelService {
             }
         }
         user.setLevel(user.getLevel()+booking.getPrice());
+        user.setPoints(user.getLevel()+booking.getPrice());
         userRepository.saveAndFlush(user);
         //获取之前分配的房间
         List<RoomAsign> roomAsigns=roomAsignRepository.findByBookingId(bookingId);
